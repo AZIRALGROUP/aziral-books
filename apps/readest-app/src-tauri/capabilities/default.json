@@ -95,7 +95,7 @@
       "identifier": "http:default",
       "allow": [
         {
-          "url": "https://*.readest.com"
+          "url": "https://*.books.aziral.com"
         },
         {
           "url": "https://github.com/readest/*"

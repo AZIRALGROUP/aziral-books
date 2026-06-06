@@ -1,4 +1,4 @@
-package com.readest.native_bridge
+package com.aziral.books.native_bridge
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.readest.native_bridge", appContext.packageName)
+        assertEquals("com.aziral.books.native_bridge", appContext.packageName)
     }
 }

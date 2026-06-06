@@ -762,10 +762,10 @@ export const CJK_FONTS_PATTENS = new RegExp(
 
 export const BOOK_IDS_SEPARATOR = '+';
 
-export const DOWNLOAD_READEST_URL = 'https://readest.com?utm_source=readest_web';
+export const DOWNLOAD_READEST_URL = 'https://books.aziral.com?utm_source=readest_web';
 
-export const READEST_WEB_BASE_URL = 'https://web.readest.com';
-export const READEST_NODE_BASE_URL = 'https://node.readest.com';
+export const READEST_WEB_BASE_URL = 'https://books.aziral.com';
+export const READEST_NODE_BASE_URL = 'https://api.books.aziral.com';
 
 export const SHARE_BASE_URL = `${READEST_WEB_BASE_URL}/s`;
 export const SHARE_EXPIRATION_DAYS = [1, 3, 7] as const;
@@ -773,7 +773,7 @@ export const SHARE_EXPIRATION_DAYS = [1, 3, 7] as const;
 // Send to Readest — the domain inbound capture emails are addressed to, the
 // R2 bucket holding raw inbound payloads, and the per-user cap on undrained
 // inbox items (defense against a leaked address).
-export const SEND_EMAIL_DOMAIN = 'readest.com';
+export const SEND_EMAIL_DOMAIN = 'aziral.com';
 export const SEND_INBOX_BUCKET = 'readest-send-inbox';
 export const SEND_INBOX_PENDING_LIMIT = 50;
 // Hard cap on the size of a single uploaded EPUB the browser extension can
@@ -788,13 +788,13 @@ export const SHARE_TOKEN_LENGTH = 22;
 export const SHARE_PRESIGN_TTL_SECONDS = 300;
 export const SHARE_CFI_MAX_LENGTH = 512;
 
-const LATEST_DOWNLOAD_BASE_URL = 'https://download.readest.com/releases';
+const LATEST_DOWNLOAD_BASE_URL = 'https://download.books.aziral.com/releases';
 
 export const READEST_UPDATER_FILE = `${LATEST_DOWNLOAD_BASE_URL}/latest.json`;
 
 export const READEST_CHANGELOG_FILE = `${LATEST_DOWNLOAD_BASE_URL}/release-notes.json`;
 
-export const READEST_PUBLIC_STORAGE_BASE_URL = 'https://storage.readest.com';
+export const READEST_PUBLIC_STORAGE_BASE_URL = 'https://storage.books.aziral.com';
 
 export const READEST_OPDS_USER_AGENT = 'Readest/1.0 (OPDS Browser)';
 

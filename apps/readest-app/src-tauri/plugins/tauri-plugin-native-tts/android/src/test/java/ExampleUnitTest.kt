@@ -1,4 +1,4 @@
-package com.readest.native-tts
+package com.aziral.books.native-tts
 
 import org.junit.Test
 

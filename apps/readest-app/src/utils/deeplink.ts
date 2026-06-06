@@ -16,7 +16,7 @@ const ANNOTATION_PATH_PREFIX = '/o/book/';
 
 /**
  * Build the canonical HTTPS URL for an annotation. Used in markdown export
- * and Readwise sync. Mobile App Links (web.readest.com) intercept this URL
+ * and Readwise sync. Mobile App Links (books.aziral.com) intercept this URL
  * and open the native app; on desktop browsers it resolves to the smart
  * landing page at /o/book/{hash}/annotation/{id}.
  */
@@ -44,7 +44,7 @@ export const buildAnnotationUrl = (
 ): string => (linkType === 'app' ? buildAnnotationAppUrl(link) : buildAnnotationWebUrl(link));
 
 /**
- * Parse an incoming readest:// or https://web.readest.com annotation URL.
+ * Parse an incoming readest:// or https://books.aziral.com annotation URL.
  * Accepts the new hierarchical form (book/{hash}/annotation/{id}) and the
  * legacy flat form (annotation/{hash}/{id}) emitted by older Readwise syncs.
  * Returns null if the URL doesn't match.
@@ -60,7 +60,7 @@ export const parseAnnotationDeepLink = (url: string): AnnotationDeepLink | null 
   const isCustomScheme = parsed.protocol === 'readest:';
   const isWebHost =
     (parsed.protocol === 'https:' || parsed.protocol === 'http:') &&
-    parsed.host === 'web.readest.com';
+    parsed.host === 'books.aziral.com';
   if (!isCustomScheme && !isWebHost) return null;
 
   // For readest:// URLs the URL parser stores the first path segment in the

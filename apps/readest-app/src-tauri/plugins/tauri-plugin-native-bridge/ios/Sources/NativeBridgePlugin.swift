@@ -557,7 +557,7 @@ class NativeBridgePlugin: Plugin {
 
   /// Bridge between the Readest Share Extension (separate process) and
   /// the host app's JS, via the App Group container at
-  /// `group.com.bilingify.readest`. Two directions on every activation:
+  /// `group.com.aziral.books`. Two directions on every activation:
   ///
   ///   1. Groups (host → extension). Read the current library group list
   ///      from JS (`window.__readestGetGroups`) and persist it so the
@@ -771,7 +771,7 @@ class NativeBridgePlugin: Plugin {
     let args = try invoke.parseArgs(SafariAuthRequestArgs.self)
     let authUrl = URL(string: args.authUrl)!
 
-    authSession = ASWebAuthenticationSession(url: authUrl, callbackURLScheme: "readest") {
+    authSession = ASWebAuthenticationSession(url: authUrl, callbackURLScheme: "aziral-books") {
       [weak self] callbackURL, error in
       guard let strongSelf = self else { return }
 
@@ -1161,7 +1161,7 @@ class NativeBridgePlugin: Plugin {
   // CryptoSession reads/writes via these commands so the user's sync
   // passphrase persists across app launches.
 
-  private static let syncKeychainService = "com.bilingify.readest.sync-passphrase"
+  private static let syncKeychainService = "com.aziral.books.sync-passphrase"
   private static let syncKeychainAccount = "default"
 
   private func syncKeychainBaseQuery() -> [String: Any] {

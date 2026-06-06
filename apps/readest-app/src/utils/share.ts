@@ -17,7 +17,7 @@ export const buildShareUrl = (token: string): string => `${SHARE_BASE_URL}/${tok
 
 // Parses both the custom-scheme and HTTPS forms used by the deeplink ingress.
 //   readest://share/{token}
-//   https://web.readest.com/s/{token}
+//   https://books.aziral.com/s/{token}
 // Returns null on invalid input so callers can fall through to other parsers.
 export const parseShareDeepLink = (url: string): ShareDeepLink | null => {
   if (!url) return null;
@@ -46,8 +46,8 @@ export const parseShareDeepLink = (url: string): ShareDeepLink | null => {
 
 const isWebReadestHost = (host: string): boolean => {
   // Matches the production host and any preview domain Readest may serve from.
-  // Conservative: accepts only the exact production host or a *.readest.com
+  // Conservative: accepts only the exact production host or a *.books.aziral.com
   // subdomain so a third-party site cannot impersonate a share URL.
   if (host === new URL(READEST_WEB_BASE_URL).host) return true;
-  return host.endsWith('.readest.com');
+  return host.endsWith('.books.aziral.com');
 };

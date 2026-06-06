@@ -1,4 +1,4 @@
-package com.readest.native_bridge
+package com.aziral.books.native_bridge
 
 import android.app.Activity
 import android.util.Log

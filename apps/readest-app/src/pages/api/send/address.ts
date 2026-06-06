@@ -26,7 +26,7 @@ const fullAddress = (localPart: string) => `${localPart}@${SEND_EMAIL_DOMAIN}`;
  * GET  — return the caller's inbound address, lazily creating one on first call.
  * POST — rotate the address (issue a fresh random local part).
  *
- * The address is the local part only in the DB; the `@send.readest.com` host
+ * The address is the local part only in the DB; the `@send.aziral.com` host
  * is appended here so the domain can change without a migration.
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

@@ -31,7 +31,7 @@ const DESKTOP_FALLBACK_DELAY_MS = 1000;
 
 const buildIntentUrl = (path: string, fallbackUrl: string) => {
   const cleanPath = path.replace(/^\//, '');
-  return `intent://${cleanPath}#Intent;scheme=readest;package=${ANDROID_PACKAGE};S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end`;
+  return `intent://${cleanPath}#Intent;scheme=aziral-books;package=${ANDROID_PACKAGE};S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end`;
 };
 
 const buildWebReaderUrl = (bookHash: string, cfi: string | null): string => {
@@ -129,7 +129,11 @@ const OpenAnnotationLanding = () => {
                 'The annotation link is missing required information. The original link may have been truncated.',
               )}
             </p>
-            <a href='https://readest.com' className='btn btn-ghost btn-block mt-6' rel='noopener'>
+            <a
+              href='https://books.aziral.com'
+              className='btn btn-ghost btn-block mt-6'
+              rel='noopener'
+            >
               {_('Go to Readest')}
             </a>
           </div>

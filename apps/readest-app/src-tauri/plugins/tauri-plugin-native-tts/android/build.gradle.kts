@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.readest.native_tts"
+    namespace = "com.aziral.books.native_tts"
     compileSdk = 36
 
     defaultConfig {

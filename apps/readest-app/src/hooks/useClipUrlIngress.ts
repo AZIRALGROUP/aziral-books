@@ -124,7 +124,7 @@ export function useClipUrlIngress() {
       // we can share the http(s) clip path with the Android side:
       //
       //   - Universal Link (primary):
-      //       https://web.readest.com/clip?url=<encoded>
+      //       https://books.aziral.com/clip?url=<encoded>
       //   - Custom URL scheme (fallback):
       //       readest://clip?url=<encoded>
       const isClipUrl =
@@ -146,7 +146,7 @@ export function useClipUrlIngress() {
       // Only act on http(s). file://, content://, blob: and data: belong
       // to other consumers (or aren't shareable URLs).
       if (!/^https?:\/\//i.test(url)) return;
-      // Annotation deep links can come over https (web.readest.com).
+      // Annotation deep links can come over https (books.aziral.com).
       // Skip them — useOpenAnnotationLink owns that path.
       if (parseAnnotationDeepLink(url)) return;
       void clipAndImport(url);

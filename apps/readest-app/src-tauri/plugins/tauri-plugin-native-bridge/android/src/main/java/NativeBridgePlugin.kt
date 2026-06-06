@@ -1,4 +1,4 @@
-package com.readest.native_bridge
+package com.aziral.books.native_bridge
 
 import android.Manifest
 import android.app.Activity
@@ -133,7 +133,7 @@ interface KeyDownInterceptor {
 )
 class NativeBridgePlugin(private val activity: Activity): Plugin(activity) {
     private val implementation = NativeBridge()
-    private var redirectScheme = "readest"
+    private var redirectScheme = "aziral-books"
     private var redirectHost = "auth-callback"
     private val billingManager by lazy {
         BillingManager(activity)
@@ -165,7 +165,7 @@ class NativeBridgePlugin(private val activity: Activity): Plugin(activity) {
         // OAuth callback uses a custom scheme on intent.data and is handled
         // separately from any user-shared content.
         intent.data?.let { uri ->
-            if (uri.scheme == "readest" && uri.host == "auth-callback") {
+            if (uri.scheme == "aziral-books" && uri.host == "auth-callback") {
                 val result = JSObject().apply {
                     put("redirectUrl", uri.toString())
                 }
