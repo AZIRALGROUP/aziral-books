@@ -45,6 +45,10 @@ COPY --from=dependencies /app/apps/readest-app/public/vendor /app/apps/readest-a
 COPY --from=dependencies /app/packages/foliate-js/node_modules /app/packages/foliate-js/node_modules
 COPY . .
 WORKDIR /app/apps/readest-app
+# Next.js build (foliate-js + js-mdict + pdf.js + react-pdf) blows past
+# Node's default ~2GB heap on multi-arch builders. Give it 6GB so it
+# doesn't OOM mid-bundle.
+ENV NODE_OPTIONS=--max-old-space-size=6144
 RUN pnpm build-web
 
 FROM docker.io/library/node:24-slim@sha256:24dc26ef1e3c3690f27ebc4136c9c186c3133b25563ae4d7f0692e4d1fe5db0e AS production-stage
