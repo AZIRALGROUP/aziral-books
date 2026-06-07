@@ -31,8 +31,15 @@ jobs:
           - platform: linux/arm64
             runner: ubuntu-24.04-arm
     env:
+      # Public build-time defaults for the Aziral Books web bundle. These end up
+      # baked into the Next.js bundle, so anything sensitive (service_role, R2
+      # secrets, etc.) must NOT live here — it stays as runtime env on the
+      # docker-compose entry on the server.
       BUILD_ARGS: |
         NEXT_PUBLIC_APP_PLATFORM=web
+        NEXT_PUBLIC_API_BASE_URL=https://books.aziral.com
+        NEXT_PUBLIC_SUPABASE_URL=${{ secrets.AZIRAL_BOOKS_SUPABASE_URL }}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.AZIRAL_BOOKS_SUPABASE_ANON_KEY }}
     steps:
       - name: Prepare platform pair
         run: |
@@ -57,7 +64,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@80c7e94dd9b9319bd5eb7a0e0fe9291e23a2a2e9 # v6.1.0
         with:
-          images: ghcr.io/${{ github.repository_owner }}/readest
+          images: ghcr.io/${{ github.repository_owner }}/aziral-books
 
       - name: Build and push by digest
         id: build
@@ -69,9 +76,9 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: ${{ env.BUILD_ARGS }}
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/readest:buildcache-${{ env.PLATFORM_PAIR }}
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/readest:buildcache-${{ env.PLATFORM_PAIR }},mode=max
-          outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/readest,push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/aziral-books:buildcache-${{ env.PLATFORM_PAIR }}
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/aziral-books:buildcache-${{ env.PLATFORM_PAIR }},mode=max
+          outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/aziral-books,push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
         run: |
@@ -132,7 +139,7 @@ jobs:
         if: steps.dockerhub.outputs.enabled != 'true'
         uses: docker/metadata-action@80c7e94dd9b9319bd5eb7a0e0fe9291e23a2a2e9 # v6.1.0
         with:
-          images: ghcr.io/${{ github.repository_owner }}/readest
+          images: ghcr.io/${{ github.repository_owner }}/aziral-books
           tags: |
             type=raw,value=main,enable={{is_default_branch}}
             type=raw,value=latest,enable={{is_default_branch}}
@@ -147,8 +154,8 @@ jobs:
         uses: docker/metadata-action@80c7e94dd9b9319bd5eb7a0e0fe9291e23a2a2e9 # v6.1.0
         with:
           images: |
-            ghcr.io/${{ github.repository_owner }}/readest
-            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/readest
+            ghcr.io/${{ github.repository_owner }}/aziral-books
+            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/aziral-books
           tags: |
             type=raw,value=main,enable={{is_default_branch}}
             type=raw,value=latest,enable={{is_default_branch}}
@@ -165,7 +172,7 @@ jobs:
         run: |
           docker buildx imagetools create \
             $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf 'ghcr.io/${{ github.repository_owner }}/readest@sha256:%s ' *)
+            $(printf 'ghcr.io/${{ github.repository_owner }}/aziral-books@sha256:%s ' *)
 
       - name: Create manifest list and push (GHCR + Docker Hub)
         if: steps.dockerhub.outputs.enabled == 'true'
@@ -175,7 +182,7 @@ jobs:
         run: |
           docker buildx imagetools create \
             $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf 'ghcr.io/${{ github.repository_owner }}/readest@sha256:%s ' *)
+            $(printf 'ghcr.io/${{ github.repository_owner }}/aziral-books@sha256:%s ' *)
 
       - name: Published image summary
         run: |
