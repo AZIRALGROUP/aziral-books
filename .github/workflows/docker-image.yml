@@ -64,7 +64,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@80c7e94dd9b9319bd5eb7a0e0fe9291e23a2a2e9 # v6.1.0
         with:
-          images: ghcr.io/${{ github.repository_owner }}/aziral-books
+          images: ghcr.io/aziralgroup/aziral-books
 
       - name: Build and push by digest
         id: build
@@ -76,9 +76,9 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: ${{ env.BUILD_ARGS }}
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/aziral-books:buildcache-${{ env.PLATFORM_PAIR }}
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/aziral-books:buildcache-${{ env.PLATFORM_PAIR }},mode=max
-          outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/aziral-books,push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=registry,ref=ghcr.io/aziralgroup/aziral-books:buildcache-${{ env.PLATFORM_PAIR }}
+          cache-to: type=registry,ref=ghcr.io/aziralgroup/aziral-books:buildcache-${{ env.PLATFORM_PAIR }},mode=max
+          outputs: type=image,name=ghcr.io/aziralgroup/aziral-books,push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
         run: |
@@ -139,7 +139,7 @@ jobs:
         if: steps.dockerhub.outputs.enabled != 'true'
         uses: docker/metadata-action@80c7e94dd9b9319bd5eb7a0e0fe9291e23a2a2e9 # v6.1.0
         with:
-          images: ghcr.io/${{ github.repository_owner }}/aziral-books
+          images: ghcr.io/aziralgroup/aziral-books
           tags: |
             type=raw,value=main,enable={{is_default_branch}}
             type=raw,value=latest,enable={{is_default_branch}}
@@ -154,7 +154,7 @@ jobs:
         uses: docker/metadata-action@80c7e94dd9b9319bd5eb7a0e0fe9291e23a2a2e9 # v6.1.0
         with:
           images: |
-            ghcr.io/${{ github.repository_owner }}/aziral-books
+            ghcr.io/aziralgroup/aziral-books
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/aziral-books
           tags: |
             type=raw,value=main,enable={{is_default_branch}}
@@ -172,7 +172,7 @@ jobs:
         run: |
           docker buildx imagetools create \
             $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf 'ghcr.io/${{ github.repository_owner }}/aziral-books@sha256:%s ' *)
+            $(printf 'ghcr.io/aziralgroup/aziral-books@sha256:%s ' *)
 
       - name: Create manifest list and push (GHCR + Docker Hub)
         if: steps.dockerhub.outputs.enabled == 'true'
@@ -182,7 +182,7 @@ jobs:
         run: |
           docker buildx imagetools create \
             $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf 'ghcr.io/${{ github.repository_owner }}/aziral-books@sha256:%s ' *)
+            $(printf 'ghcr.io/aziralgroup/aziral-books@sha256:%s ' *)
 
       - name: Published image summary
         run: |
