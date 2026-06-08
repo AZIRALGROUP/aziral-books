@@ -1,10 +1,10 @@
 {
-  "name": "Readest",
-  "short_name": "Readest",
+  "name": "Aziral Books",
+  "short_name": "Aziral Books",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "description": "Readest is an open-source eBook reader supporting EPUB, PDF, and sync across devices.",
+  "description": "Aziral Books — online ebook reader on top of a curated public-domain catalogue (Gutenberg, Open Library) with sync across devices.",
   "icons": [
     {
       "src": "/icon.png",
