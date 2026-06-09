@@ -9,7 +9,7 @@ const LegalLinks = () => {
   const termsUrl =
     appService?.isIOSApp || appService?.isMacOSApp
       ? 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/'
-      : 'https://books.aziral.com/terms-of-service';
+      : 'https://books.aziral.com/legal/terms';
 
   return (
     <div className='my-2 flex flex-wrap justify-center gap-4 text-sm sm:text-xs'>
@@ -17,7 +17,7 @@ const LegalLinks = () => {
         {_('Terms of Service')}
       </Link>
       <Link
-        href='https://books.aziral.com/privacy-policy'
+        href='https://books.aziral.com/legal/privacy'
         className='text-blue-500 underline hover:text-blue-600'
       >
         {_('Privacy Policy')}
