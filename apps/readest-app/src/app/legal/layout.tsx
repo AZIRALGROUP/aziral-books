@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import LegalLangToggle from './LegalLangToggle';
 
 export default function LegalLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,7 +12,7 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
             <Image src='/icon.png' alt='Aziral Books' width={32} height={32} className='rounded' />
             <span className='font-semibold'>Aziral Books</span>
           </Link>
-          <nav className='flex gap-4 text-sm text-gray-600'>
+          <nav className='flex items-center gap-4 text-sm text-gray-600'>
             <Link href='/legal/terms' className='hover:text-gray-900'>
               Terms
             </Link>
@@ -21,6 +22,7 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
             <Link href='/legal/about' className='hover:text-gray-900'>
               About
             </Link>
+            <LegalLangToggle />
           </nav>
         </div>
       </header>

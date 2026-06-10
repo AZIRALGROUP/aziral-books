@@ -14,7 +14,10 @@ const description =
   'catalogue from Gutenberg and Open Library, sync your library across devices, ' +
   'and read with highlights, bookmarks, and notes in a focused interface built ' +
   'for deep reading.';
-const previewImage = 'https://cdn.books.aziral.com/images/open_graph_preview_read_now.png';
+// 1200×630 OG card served from /public. The old cdn.books.aziral.com host
+// never existed, so every share preview (Telegram, WhatsApp, Twitter,
+// Slack…) rendered a broken image. Self-host the brand card instead.
+const previewImage = 'https://books.aziral.com/og.png';
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
