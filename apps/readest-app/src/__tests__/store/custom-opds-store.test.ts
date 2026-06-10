@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, vi } from 'vitest';
-import { useCustomOPDSStore } from '@/store/customOPDSStore';
+import { AZIRAL_OPDS_CATALOG_ID, useCustomOPDSStore } from '@/store/customOPDSStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { computeOpdsCatalogContentId } from '@/services/sync/adapters/opdsCatalog';
 import type { OPDSCatalog } from '@/types/opds';
@@ -245,6 +245,36 @@ describe('customOPDSStore', () => {
       // Strict descending — first entry strictly newer than next.
       expect(ordered[0]!.addedAt!).toBeGreaterThan(ordered[1]!.addedAt!);
       expect(ordered[1]!.addedAt!).toBeGreaterThan(ordered[2]!.addedAt!);
+    });
+
+    test('seeds the built-in Aziral catalogue on a fresh (empty) install', async () => {
+      useSettingsStore.setState({
+        settings: makeSettings({ opdsCatalogs: [] }),
+      } as unknown as ReturnType<typeof useSettingsStore.getState>);
+      await useCustomOPDSStore.getState().loadCustomOPDSCatalogs(makeEnvConfig());
+      const catalogs = useCustomOPDSStore.getState().getAvailableCatalogs();
+      expect(catalogs).toHaveLength(1);
+      expect(catalogs[0]!.id).toBe(AZIRAL_OPDS_CATALOG_ID);
+      expect(catalogs[0]!.url).toBe('https://books.aziral.com/api/v1/opds');
+      // Seeded entry gets a contentId via backfill and is published for sync.
+      expect(catalogs[0]!.contentId).toBeTruthy();
+      expect(publishReplicaUpsert).toHaveBeenCalledTimes(1);
+    });
+
+    test('does not re-seed when the user already has catalogs', async () => {
+      useSettingsStore.setState({
+        settings: makeSettings({
+          opdsCatalogs: [
+            { id: 'mine', contentId: 'mine', name: 'Mine', url: 'https://x/opds', addedAt: 1 },
+          ],
+        }),
+      } as unknown as ReturnType<typeof useSettingsStore.getState>);
+      await useCustomOPDSStore.getState().loadCustomOPDSCatalogs(makeEnvConfig());
+      const ids = useCustomOPDSStore
+        .getState()
+        .getAvailableCatalogs()
+        .map((c) => c.id);
+      expect(ids).not.toContain(AZIRAL_OPDS_CATALOG_ID);
     });
 
     test('hydrates without backfilling when entries already carry contentId', async () => {

@@ -9,6 +9,21 @@ import {
   OPDS_CATALOG_KIND,
 } from '@/services/sync/adapters/opdsCatalog';
 
+/**
+ * The built-in Aziral Books catalogue. Seeded into every fresh install so
+ * the public-domain catalogue (Gutenberg + Open Library, served from our own
+ * OPDS endpoint) is discoverable from the OPDS browser without the user
+ * having to paste a URL. Identified by a stable id so we can detect whether
+ * it's already present and avoid re-seeding it after the user deletes it.
+ */
+export const AZIRAL_OPDS_CATALOG_ID = 'aziral-books-builtin';
+const AZIRAL_OPDS_CATALOG: OPDSCatalog = {
+  id: AZIRAL_OPDS_CATALOG_ID,
+  name: 'Aziral Books Catalogue',
+  url: 'https://books.aziral.com/api/v1/opds',
+  description: 'Public-domain books from Project Gutenberg and Open Library, curated by Aziral.',
+};
+
 const publishOpdsUpsert = (catalog: OPDSCatalog): void => {
   if (!catalog.contentId) return;
   void publishReplicaUpsert(OPDS_CATALOG_KIND, catalog, catalog.contentId, catalog.reincarnation);
@@ -213,10 +228,16 @@ export const useCustomOPDSStore = create<OPDSStoreState>((set, get) => ({
     try {
       const { settings } = useSettingsStore.getState();
       const persisted = settings?.opdsCatalogs ?? [];
-      const backfilled = backfillSyncFields(persisted);
+      // Seed the built-in Aziral catalogue on a fresh install (empty list)
+      // so the public-domain catalogue is reachable from the OPDS browser
+      // out of the box. We only seed when the list is empty — once the user
+      // has any catalogs (including after deleting ours), we never re-inject,
+      // so a deliberate removal sticks.
+      const seeded = persisted.length === 0 ? [AZIRAL_OPDS_CATALOG] : persisted;
+      const backfilled = backfillSyncFields(seeded);
       set({ catalogs: backfilled });
-      // If backfill mutated anything, persist + publish the fresh
-      // contentIds so existing catalogs start syncing on next push.
+      // If we seeded or backfill mutated anything, persist + publish the
+      // fresh contentIds so existing catalogs start syncing on next push.
       if (backfilled !== persisted) {
         await get().saveCustomOPDSCatalogs(_envConfig);
         for (const c of backfilled) {
