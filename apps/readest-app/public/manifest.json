@@ -3,7 +3,8 @@
   "short_name": "Aziral Books",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#f7f1e6",
+  "theme_color": "#c98a3c",
   "description": "Aziral Books — online ebook reader on top of a curated public-domain catalogue (Gutenberg, Open Library) with sync across devices.",
   "icons": [
     {

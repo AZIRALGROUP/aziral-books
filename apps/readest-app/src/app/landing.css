@@ -1,0 +1,112 @@
+/* ===========================================================
+   Aziral Books — marketing landing brand tokens (scoped).
+   Warm, literary, cozy. Cream/paper neutrals + ochre accent.
+   Newsreader (serif display) + Hanken Grotesk (humanist sans).
+   Scoped to .azb-landing so the rest of the app keeps its theme.
+   =========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+
+.azb-landing {
+  /* --- Light (Paper) --- */
+  --paper: oklch(0.973 0.011 84);
+  --paper-card: oklch(0.988 0.008 86);
+  --paper-sunk: oklch(0.945 0.015 82);
+  --ink: oklch(0.255 0.018 58);
+  --ink-soft: oklch(0.435 0.02 60);
+  --ink-faint: oklch(0.62 0.018 62);
+  --line: oklch(0.885 0.014 80);
+  --line-strong: oklch(0.82 0.018 78);
+
+  --ochre: oklch(0.66 0.118 66);
+  --ochre-deep: oklch(0.545 0.112 58);
+  --ochre-soft: oklch(0.915 0.045 78);
+
+  --bg: var(--paper);
+  --surface: var(--paper-card);
+  --text: var(--ink);
+  --text-2: var(--ink-soft);
+  --text-3: var(--ink-faint);
+  --border: var(--line);
+  --accent: var(--ochre);
+  --accent-ink: var(--ochre-deep);
+
+  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --sans: 'Hanken Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+  --shadow-sm: 0 1px 2px oklch(0.4 0.02 60 / 0.06), 0 2px 6px oklch(0.4 0.02 60 / 0.05);
+  --shadow-md: 0 4px 12px oklch(0.4 0.02 60 / 0.08), 0 10px 30px oklch(0.4 0.02 60 / 0.07);
+  --shadow-lg: 0 12px 28px oklch(0.35 0.02 60 / 0.12), 0 30px 70px oklch(0.35 0.02 60 / 0.1);
+
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  .azb-landing {
+    --paper: oklch(0.208 0.012 66);
+    --paper-card: oklch(0.248 0.013 64);
+    --paper-sunk: oklch(0.18 0.011 66);
+    --ink: oklch(0.94 0.012 84);
+    --ink-soft: oklch(0.78 0.014 80);
+    --ink-faint: oklch(0.62 0.016 72);
+    --line: oklch(0.32 0.014 66);
+    --line-strong: oklch(0.4 0.016 66);
+
+    --ochre: oklch(0.745 0.115 72);
+    --ochre-deep: oklch(0.82 0.09 80);
+    --ochre-soft: oklch(0.32 0.045 66);
+
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3), 0 2px 6px oklch(0 0 0 / 0.25);
+    --shadow-md: 0 4px 12px oklch(0 0 0 / 0.35), 0 10px 30px oklch(0 0 0 / 0.3);
+    --shadow-lg: 0 12px 28px oklch(0 0 0 / 0.45), 0 30px 70px oklch(0 0 0 / 0.4);
+  }
+}
+
+.azb-landing * {
+  box-sizing: border-box;
+}
+
+/* small monospaced-feel label */
+.azb-landing .mono-lab {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.azb-landing a {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    color 0.15s ease;
+}
+
+/* responsive: stack the two-column hero + language sections on narrow viewports */
+@media (max-width: 860px) {
+  .azb-landing .azb-hero,
+  .azb-landing .azb-lang-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* paper texture overlay */
+.azb-paper-texture {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    118deg,
+    transparent 0 26px,
+    oklch(0.6 0.04 70 / 0.035) 26px 27px
+  );
+}
