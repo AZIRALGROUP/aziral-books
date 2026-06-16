@@ -13,6 +13,13 @@ interface CatalogueMeta {
 
 const GITHUB_URL = 'https://github.com/AZIRALGROUP/aziral-books';
 
+// Opens the built-in Aziral OPDS catalogue in the in-app browser. Mirrors the
+// link CatalogManager builds (url + stable id) so anonymous visitors land on
+// the ~hundreds of public-domain books, not their empty personal library.
+const CATALOGUE_HREF = `/opds?url=${encodeURIComponent(
+  'https://books.aziral.com/api/v1/opds',
+)}&id=aziral-books-builtin`;
+
 interface Copy {
   navFeatures: string;
   navFormats: string;
@@ -576,7 +583,7 @@ export default function Landing() {
               {t.heroSub}
             </p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-              <Link href='/library' style={primaryStyle()}>
+              <Link href={CATALOGUE_HREF} style={primaryStyle()}>
                 {t.heroPrimary}
               </Link>
               <Link href='/auth?screen=signup' style={ghostStyle()}>
@@ -754,7 +761,7 @@ export default function Landing() {
           <div
             style={{ display: 'inline-flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center' }}
           >
-            <Link href='/library' style={primaryStyle()}>
+            <Link href={CATALOGUE_HREF} style={primaryStyle()}>
               {t.ctaPrimary}
             </Link>
             <a href={GITHUB_URL} target='_blank' rel='noopener noreferrer' style={ghostStyle()}>
