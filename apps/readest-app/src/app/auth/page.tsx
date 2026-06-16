@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { FcGoogle } from 'react-icons/fc';
-import { FaApple, FaGithub, FaDiscord } from 'react-icons/fa';
+import { FaApple } from 'react-icons/fa';
 import { IoArrowBack } from 'react-icons/io5';
 
 import { useAuth } from '@/context/AuthContext';
@@ -404,18 +404,6 @@ export default function AuthPage() {
             Icon={FaApple}
             label={_('Sign in with {{provider}}', { provider: 'Apple' })}
           />
-          <ProviderLogin
-            provider='github'
-            handleSignIn={tauriSignIn}
-            Icon={FaGithub}
-            label={_('Sign in with {{provider}}', { provider: 'GitHub' })}
-          />
-          <ProviderLogin
-            provider='discord'
-            handleSignIn={tauriSignIn}
-            Icon={FaDiscord}
-            label={_('Sign in with {{provider}}', { provider: 'Discord' })}
-          />
           <hr aria-hidden='true' className='border-base-300 my-3 mt-6 w-64 border-t' />
           <div className='w-full'>
             <Auth
@@ -444,7 +432,7 @@ export default function AuthPage() {
         appearance={{ theme: ThemeSupa }}
         theme={isDarkMode ? 'dark' : 'light'}
         magicLink={true}
-        providers={['google', 'apple', 'github', 'discord']}
+        providers={['google', 'apple']}
         redirectTo={getWebRedirectTo()}
         localization={getAuthLocalization()}
       />
