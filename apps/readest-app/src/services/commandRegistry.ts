@@ -656,12 +656,12 @@ const actionItems = [
   },
   {
     id: 'action.about',
-    labelKey: _('About Readest'),
+    labelKey: _('About Aziral Books'),
     keywords: ['about', 'readest', 'version', 'info'],
   },
   {
     id: 'action.telemetry',
-    labelKey: _('Help improve Readest'),
+    labelKey: _('Help improve Aziral Books'),
     keywords: ['telemetry', 'analytics', 'improve', 'statistics'],
   },
 ];

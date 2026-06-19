@@ -169,7 +169,7 @@ const IntegrationsPanel: React.FC = () => {
       <div className='w-full px-4'>
         <h2 className='mb-1.5 text-lg font-semibold tracking-tight'>{_('Integrations')}</h2>
         <p className='text-base-content/70 text-sm leading-relaxed'>
-          {_('Connect Readest to external services for sync, highlights, and catalogs.')}
+          {_('Connect Aziral Books to external services for sync, highlights, and catalogs.')}
         </p>
       </div>
 
@@ -217,7 +217,7 @@ const IntegrationsPanel: React.FC = () => {
             />
             <IntegrationRow
               icon={RiSendPlaneLine}
-              title={_('Send to Readest')}
+              title={_('Send to Aziral Books')}
               status={_('Email books to your library')}
               onClick={() => setSubPage('send')}
             />
