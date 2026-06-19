@@ -13,12 +13,9 @@ interface CatalogueMeta {
 
 const GITHUB_URL = 'https://github.com/AZIRALGROUP/aziral-books';
 
-// Opens the built-in Aziral OPDS catalogue in the in-app browser. Mirrors the
-// link CatalogManager builds (url + stable id) so anonymous visitors land on
-// the ~hundreds of public-domain books, not their empty personal library.
-const CATALOGUE_HREF = `/opds?url=${encodeURIComponent(
-  'https://books.aziral.com/api/v1/opds',
-)}&id=aziral-books-builtin`;
+// The branded catalogue ("store") screen — public, backed by the Aziral search
+// API. (Reading a book deep-links into the proven /opds browser flow.)
+const CATALOGUE_HREF = '/catalog';
 
 interface Copy {
   navFeatures: string;
