@@ -357,24 +357,23 @@ function Hero({ book, onOpen }: { book: CatalogBook; onOpen: (b: CatalogBook) =>
             {book.author}
             {book.year ? ` · ${book.year}` : ''}
           </div>
-          {book.blurb && (
-            <p
-              style={{
-                margin: '0 0 24px',
-                maxWidth: 560,
-                fontFamily: 'var(--serif)',
-                fontSize: 17,
-                lineHeight: 1.6,
-                color: 'var(--text-2)',
-                display: '-webkit-box',
-                WebkitLineClamp: 4,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              }}
-            >
-              {book.blurb}
-            </p>
-          )}
+          <p
+            style={{
+              margin: '0 0 24px',
+              maxWidth: 560,
+              fontFamily: 'var(--serif)',
+              fontSize: 17,
+              lineHeight: 1.6,
+              color: 'var(--text-2)',
+              display: '-webkit-box',
+              WebkitLineClamp: 4,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
+            {book.blurb ||
+              'Из коллекции общественного достояния. Откройте, чтобы читать в Aziral Books — с заметками, закладками и настройкой шрифта под себя.'}
+          </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
             <Link href={readHref(book)} style={{ ...ctaBtn, background: 'var(--accent)', color: '#fff' }}>
               Читать сейчас

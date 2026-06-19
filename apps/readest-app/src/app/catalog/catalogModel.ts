@@ -147,8 +147,16 @@ export async function loadCatalog(): Promise<CatalogShelves> {
   ]);
   const pool = dedup(pages.flat());
 
-  const withBlurb = pool.filter((b) => b.blurb.length > 40);
-  const featured = withBlurb[0] || pool[0] || null;
+  // Pick a "book of the week" that reads as a real headline: fiction-ish, a
+  // short standalone title (skip "Volume 3 (of 3)" academic tomes), near the
+  // top of the popularity pool. (Search results carry no description, so we
+  // can't rank on blurb here.)
+  const FICTION = new Set(['classic', 'scifi', 'fantasy', 'mystery', 'poetry', 'kids']);
+  const isHeadline = (b: CatalogBook) =>
+    b.title.length <= 42 &&
+    FICTION.has(b.genreId) &&
+    !/(volume|vol\.|\(of\s|complete works|part \d)/i.test(b.title);
+  const featured = pool.find(isHeadline) || pool[0] || null;
 
   const popular = pool.filter((b) => b.id !== featured?.id).slice(0, 18);
   const gutenberg = pool.filter((b) => b.source === 'Project Gutenberg').slice(0, 18);
