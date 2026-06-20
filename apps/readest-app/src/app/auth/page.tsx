@@ -27,6 +27,7 @@ import { getUserProfilePlan } from '@/utils/access';
 import { getAppleIdAuth, Scope } from './utils/appleIdAuth';
 import { authWithCustomTab, authWithSafari } from './utils/nativeAuth';
 import WindowButtons from '@/components/WindowButtons';
+import SignInForm from './SignInForm';
 
 type OAuthProvider = 'google' | 'apple' | 'azure' | 'github' | 'discord';
 
@@ -420,22 +421,6 @@ export default function AuthPage() {
       </div>
     </div>
   ) : (
-    <div style={{ maxWidth: '420px', margin: 'auto', padding: '2rem', paddingTop: '4rem' }}>
-      <button
-        onClick={handleGoBack}
-        className='btn btn-ghost fixed left-6 top-6 h-8 min-h-8 w-8 p-0'
-      >
-        <IoArrowBack className='text-base-content' />
-      </button>
-      <Auth
-        supabaseClient={supabase}
-        appearance={{ theme: ThemeSupa }}
-        theme={isDarkMode ? 'dark' : 'light'}
-        magicLink={true}
-        providers={['google', 'apple']}
-        redirectTo={getWebRedirectTo()}
-        localization={getAuthLocalization()}
-      />
-    </div>
+    <SignInForm redirectTo={getWebRedirectTo()} onGoBack={handleGoBack} />
   );
 }
