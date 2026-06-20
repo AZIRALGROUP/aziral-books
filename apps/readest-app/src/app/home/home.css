@@ -1,0 +1,312 @@
+/* Discovery home — layered on top of catalog.css (which provides the brand
+   design tokens under .azb-catalog). Only home-specific composition lives here. */
+
+.azb-home {
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+/* ── Top bar ─────────────────────────────────────────────────────────────── */
+.azb-home-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px clamp(16px, 5vw, 56px);
+  background: color-mix(in oklch, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.azb-home-brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.azb-home-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 28px);
+}
+.azb-home-nav a {
+  font-family: var(--sans);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.azb-home-nav a:hover {
+  color: var(--text);
+}
+.azb-home-avatar {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 99px;
+  background: var(--accent);
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* ── Main column ─────────────────────────────────────────────────────────── */
+.azb-home-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 64px) clamp(16px, 5vw, 56px) 80px;
+}
+
+/* ── Greeting ────────────────────────────────────────────────────────────── */
+.azb-greeting {
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+.azb-greeting-kicker {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent-ink);
+  margin-bottom: 8px;
+}
+.azb-greeting-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(2rem, 1rem + 4vw, 3.4rem);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.azb-greeting-title span {
+  font-style: italic;
+  color: var(--accent-ink);
+}
+.azb-greeting-sub {
+  margin-top: 12px;
+  font-family: var(--sans);
+  font-size: clamp(15px, 0.9rem + 0.3vw, 17px);
+  color: var(--text-2);
+  max-width: 46ch;
+}
+
+/* ── Shelves ─────────────────────────────────────────────────────────────── */
+.azb-shelf {
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+.azb-shelf-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.azb-shelf-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 0.9rem + 1vw, 1.7rem);
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.azb-shelf-sub {
+  margin-top: 3px;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  color: var(--text-2);
+}
+.azb-shelf-nav {
+  display: flex;
+  gap: 8px;
+}
+.azb-shelf-nav button {
+  all: unset;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 99px;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.azb-shelf-nav button:hover {
+  background: var(--accent);
+  color: #fff;
+}
+.azb-shelf-row {
+  display: flex;
+  gap: clamp(16px, 1.6vw, 24px);
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  scroll-snap-type: x proximity;
+}
+
+/* ── Cards (shared by catalog + user books) ──────────────────────────────── */
+.azb-card {
+  all: unset;
+  cursor: pointer;
+  flex: 0 0 auto;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  scroll-snap-align: start;
+  transition: transform 0.18s ease;
+}
+.azb-card-cover {
+  position: relative;
+  border-radius: 8px;
+  transition: box-shadow 0.18s;
+}
+.azb-card-title {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.azb-card-author {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* user-book real cover */
+.azb-usercover {
+  width: 150px;
+  height: 222px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.azb-usercover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.azb-usercover-fallback {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--text-2);
+  background: linear-gradient(
+    160deg,
+    var(--surface),
+    color-mix(in oklch, var(--accent) 14%, var(--surface))
+  );
+}
+.azb-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.28);
+}
+.azb-progress-fill {
+  height: 100%;
+  background: var(--accent);
+}
+
+/* ── Genres ──────────────────────────────────────────────────────────────── */
+.azb-genres {
+  margin-top: clamp(20px, 3vw, 36px);
+}
+.azb-genre-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+.azb-genre-tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s,
+    border-color 0.15s;
+}
+.azb-genre-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: color-mix(in oklch, var(--g, var(--accent)) 50%, var(--border));
+}
+.azb-genre-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  font-size: 18px;
+  color: #fff;
+  background: var(--g, var(--accent));
+}
+.azb-genre-name {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text);
+}
+
+/* ── Footer CTA ──────────────────────────────────────────────────────────── */
+.azb-home-foot {
+  margin-top: clamp(40px, 6vw, 72px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+}
+.azb-home-cta {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  background: var(--accent);
+  padding: 14px 28px;
+  border-radius: 99px;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+.azb-home-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.azb-home-link {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--text-2);
+  text-decoration: none;
+}
+.azb-home-link:hover {
+  color: var(--text);
+}
