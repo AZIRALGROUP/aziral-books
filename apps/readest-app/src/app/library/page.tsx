@@ -83,6 +83,7 @@ import LibraryHeader from './components/LibraryHeader';
 import Bookshelf from './components/Bookshelf';
 import LibraryEmptyState from './components/LibraryEmptyState';
 import LibraryDiscovery from './components/LibraryDiscovery';
+import LibraryHero from './components/LibraryHero';
 import GroupHeader from './components/GroupHeader';
 import FailedImportsDialog, { FailedImport } from './components/FailedImportsDialog';
 import ImportFromFolderDialog, {
@@ -1419,6 +1420,13 @@ const LibraryPageContent = ({ searchParams }: { searchParams: ReadonlyURLSearchP
       {showBookshelf &&
         (libraryBooks.some((book) => !book.deletedAt) ? (
           <div aria-label={_('Your Bookshelf')} className='flex min-h-0 flex-grow flex-col'>
+            {!currentGroupPath && !isSelectMode && (
+              <LibraryHero
+                count={libraryBooks.filter((book) => !book.deletedAt).length}
+                cloudUnavailable
+                onRetrySync={() => pullLibrary()}
+              />
+            )}
             <div
               ref={containerRef}
               className={clsx(

@@ -1,0 +1,158 @@
+/* Branded library hero band — sits above the existing bookshelf grid.
+   Self-contained brand tokens scoped to .azb-libhero (mirrors brand.css). */
+
+.azb-libhero {
+  --paper: oklch(0.973 0.011 84);
+  --paper-card: oklch(0.988 0.008 86);
+  --ink: oklch(0.255 0.018 58);
+  --ink-soft: oklch(0.435 0.02 60);
+  --ink-faint: oklch(0.62 0.018 62);
+  --line: oklch(0.885 0.014 80);
+  --line-strong: oklch(0.82 0.018 78);
+  --ochre: oklch(0.66 0.118 66);
+  --ochre-deep: oklch(0.545 0.112 58);
+  --clay: oklch(0.62 0.11 45);
+
+  --surface: var(--paper-card);
+  --text: var(--ink);
+  --text-2: var(--ink-soft);
+  --text-3: var(--ink-faint);
+  --border: var(--line);
+  --accent: var(--ochre);
+  --accent-ink: var(--ochre-deep);
+  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --sans: 'Hanken Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --r-md: 14px;
+
+  flex: 0 0 auto;
+  padding: clamp(20px, 3vw, 34px) clamp(16px, 5vw, 40px) 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .azb-libhero {
+    --paper: oklch(0.208 0.012 66);
+    --paper-card: oklch(0.248 0.013 64);
+    --ink: oklch(0.94 0.012 84);
+    --ink-soft: oklch(0.78 0.014 80);
+    --ink-faint: oklch(0.62 0.016 72);
+    --line: oklch(0.32 0.014 66);
+    --line-strong: oklch(0.4 0.016 66);
+    --ochre: oklch(0.745 0.115 72);
+    --ochre-deep: oklch(0.82 0.09 80);
+    --clay: oklch(0.69 0.11 48);
+  }
+}
+
+.azb-libhero-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.azb-libhero-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+.azb-libhero-titles {
+  flex: 1;
+  min-width: 200px;
+}
+.azb-libhero-title {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(26px, 1.4rem + 1.6vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+.azb-libhero-sub {
+  margin-top: 2px;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  color: var(--text-3);
+}
+
+.azb-libhero-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 13px 16px;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: inset 3px 0 0 var(--clay);
+}
+.azb-libhero-banner-ico {
+  display: grid;
+  place-items: center;
+  color: var(--clay);
+  flex: 0 0 auto;
+}
+.azb-libhero-banner-text {
+  flex: 1;
+  min-width: 0;
+}
+.azb-libhero-banner-title {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+.azb-libhero-banner-sub {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+.azb-libhero-retry {
+  all: unset;
+  cursor: pointer;
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-2);
+  border: 1px solid var(--line-strong);
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.azb-libhero-retry:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.azb-libhero-bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.azb-libhero-count {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  white-space: nowrap;
+}
+.azb-libhero-count span {
+  color: var(--text-3);
+  font-weight: 400;
+}
+.azb-libhero-sort {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-3);
+}
+.azb-libhero-sort b {
+  color: var(--text-2);
+  font-weight: 700;
+}
