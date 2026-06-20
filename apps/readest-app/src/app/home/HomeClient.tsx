@@ -12,39 +12,10 @@ import { formatAuthors, formatTitle } from '@/utils/book';
 import type { Book } from '@/types/book';
 
 import { AziralWordmark } from '@/components/brand/AziralMark';
-import { BookCover } from '../catalog/BookCover';
-import {
-  GENRES,
-  loadCatalog,
-  readHref,
-  type CatalogBook,
-  type CatalogShelves,
-} from '../catalog/catalogModel';
+import { GENRES, loadCatalog, type CatalogShelves } from '../catalog/catalogModel';
+import { CatalogCard } from './CatalogCard';
 import '../catalog/catalog.css';
 import './home.css';
-
-// ── Catalog card (procedural cover) ────────────────────────────────────────
-function CatalogCard({ book }: { book: CatalogBook }) {
-  const [hov, setHov] = useState(false);
-  return (
-    <Link
-      href={readHref(book)}
-      className='azb-card'
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{ transform: hov ? 'translateY(-4px)' : 'none' }}
-    >
-      <div
-        className='azb-card-cover'
-        style={{ boxShadow: hov ? 'var(--shadow-lg)' : 'var(--shadow-md)' }}
-      >
-        <BookCover book={book} w={150} radius={8} />
-      </div>
-      <div className='azb-card-title'>{book.title}</div>
-      <div className='azb-card-author'>{book.author}</div>
-    </Link>
-  );
-}
 
 // ── User book card (real cover + reading progress) ──────────────────────────
 function UserBookCard({ book, onOpen }: { book: Book; onOpen: (b: Book) => void }) {

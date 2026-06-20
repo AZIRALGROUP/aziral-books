@@ -82,6 +82,7 @@ import Spinner from '@/components/Spinner';
 import LibraryHeader from './components/LibraryHeader';
 import Bookshelf from './components/Bookshelf';
 import LibraryEmptyState from './components/LibraryEmptyState';
+import LibraryDiscovery from './components/LibraryDiscovery';
 import GroupHeader from './components/GroupHeader';
 import FailedImportsDialog, { FailedImport } from './components/FailedImportsDialog';
 import ImportFromFolderDialog, {
@@ -1447,6 +1448,9 @@ const LibraryPageContent = ({ searchParams }: { searchParams: ReadonlyURLSearchP
                 handlePushLibrary={pushLibrary}
               />
             </div>
+            {!currentGroupPath &&
+              !isSelectMode &&
+              libraryBooks.filter((book) => !book.deletedAt).length < 8 && <LibraryDiscovery />}
           </div>
         ) : (
           <div className='hero drop-zone h-screen items-center justify-center'>
