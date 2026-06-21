@@ -32,7 +32,6 @@ import {
   getSubscriptionSuccessUrl as getStripeSubscriptionSuccessUrl,
   type StripeAvailablePlan,
 } from '@/libs/payment/stripe/client';
-import { PiArrowsClockwise, PiHardDrives, PiLinkSimple } from 'react-icons/pi';
 import Spinner from '@/components/Spinner';
 import Link from '@/components/Link';
 import { AziralWordmark } from '@/components/brand/AziralMark';
@@ -40,11 +39,7 @@ import ProfileHeader from './components/Header';
 import AccountHero from './components/AccountHero';
 import PlanGrid from './components/PlanGrid';
 import AccountManagement from './components/AccountManagement';
-import { AccountModal } from './components/AccountModal';
-import StorageManager from './components/StorageManager';
-import SharedLinksSection from './components/SharedLinksSection';
-import { SyncPassphraseSection } from './components/SyncPassphraseSection';
-import { SyncCategoriesSection } from './components/SyncCategoriesSection';
+import { StorageModal, SyncModal, ServicesModal } from './components/AccountFeatureModals';
 import Checkout from './components/Checkout';
 import './user.css';
 
@@ -405,47 +400,11 @@ const ProfilePage = () => {
           )}
         </div>
 
-        {showStorageManager && (
-          <AccountModal
-            icon={<PiHardDrives size={21} />}
-            title='Хранилище'
-            sub='Управление файлами и резервными копиями в облаке.'
-            width={620}
-            onClose={() => {
-              setShowStorageManager(false);
-              refresh();
-            }}
-          >
-            <StorageManager />
-          </AccountModal>
-        )}
-
+        {showStorageManager && <StorageModal onClose={() => setShowStorageManager(false)} />}
         {showSharedLinksManager && (
-          <AccountModal
-            icon={<PiLinkSimple size={21} />}
-            title='Привязанные сервисы'
-            sub='Общие ссылки и подключённые переводчики.'
-            width={620}
-            onClose={() => setShowSharedLinksManager(false)}
-          >
-            <SharedLinksSection />
-          </AccountModal>
+          <ServicesModal onClose={() => setShowSharedLinksManager(false)} />
         )}
-
-        {showSyncManager && (
-          <AccountModal
-            icon={<PiArrowsClockwise size={21} />}
-            title='Синхронизация'
-            sub='Библиотека, прогресс, заметки и выделения на всех устройствах.'
-            width={620}
-            onClose={() => setShowSyncManager(false)}
-          >
-            <div className='flex flex-col gap-y-6'>
-              <SyncCategoriesSection />
-              <SyncPassphraseSection />
-            </div>
-          </AccountModal>
-        )}
+        {showSyncManager && <SyncModal onClose={() => setShowSyncManager(false)} />}
 
         <Toast />
       </div>
