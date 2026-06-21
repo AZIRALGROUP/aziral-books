@@ -66,7 +66,8 @@ function deriveGenre(subjects: string[] = []): string {
   if (/poetry|poems|verse/.test(s)) return 'poetry';
   if (/biograph|autobiograph|memoir|correspondence/.test(s)) return 'bio';
   if (/juvenile|children|nursery/.test(s)) return 'kids';
-  if (/philosophy|history|essay|science|economic|politic|religion|psycholog/.test(s)) return 'nonfic';
+  if (/philosophy|history|essay|science|economic|politic|religion|psycholog/.test(s))
+    return 'nonfic';
   return 'classic';
 }
 

@@ -60,10 +60,13 @@ function Stars({ r, size = 13 }: { r: number; size?: number }) {
 
 function SourceTag({ s }: { s: string }) {
   const short =
-    ({ 'Project Gutenberg': 'Gutenberg', 'Open Library': 'Open Library', 'Internet Archive': 'Archive' } as Record<
-      string,
-      string
-    >)[s] || s;
+    (
+      {
+        'Project Gutenberg': 'Gutenberg',
+        'Open Library': 'Open Library',
+        'Internet Archive': 'Archive',
+      } as Record<string, string>
+    )[s] || s;
   return (
     <span
       style={{
@@ -172,7 +175,14 @@ function BookCard({
         >
           {book.author}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: 2,
+          }}
+        >
           <Stars r={book.rating} />
           <SourceTag s={book.source} />
         </div>
@@ -265,7 +275,13 @@ function Shelf({
       <div
         ref={ref}
         className='shelf-scroll'
-        style={{ display: 'flex', gap: 22, overflowX: 'auto', paddingBottom: 8, scrollSnapType: 'x proximity' }}
+        style={{
+          display: 'flex',
+          gap: 22,
+          overflowX: 'auto',
+          paddingBottom: 8,
+          scrollSnapType: 'x proximity',
+        }}
       >
         {books.map((b) => (
           <div key={b.id} style={{ scrollSnapAlign: 'start' }}>
@@ -308,7 +324,9 @@ function Hero({ book, onOpen }: { book: CatalogBook; onOpen: (b: CatalogBook) =>
           alignItems: 'center',
         }}
       >
-        <div style={{ filter: 'drop-shadow(0 20px 40px rgba(0,0,0,.32))', transform: 'rotate(-3deg)' }}>
+        <div
+          style={{ filter: 'drop-shadow(0 20px 40px rgba(0,0,0,.32))', transform: 'rotate(-3deg)' }}
+        >
           <BookCover book={book} w={208} h={308} radius={10} />
         </div>
         <div>
@@ -375,12 +393,20 @@ function Hero({ book, onOpen }: { book: CatalogBook; onOpen: (b: CatalogBook) =>
               'Из коллекции общественного достояния. Откройте, чтобы читать в Aziral Books — с заметками, закладками и настройкой шрифта под себя.'}
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
-            <Link href={readHref(book)} style={{ ...ctaBtn, background: 'var(--accent)', color: '#fff' }}>
+            <Link
+              href={readHref(book)}
+              style={{ ...ctaBtn, background: 'var(--accent)', color: '#fff' }}
+            >
               Читать сейчас
             </Link>
             <button
               onClick={() => onOpen(book)}
-              style={{ ...ctaBtn, background: 'transparent', color: 'var(--text)', border: '1px solid var(--line-strong)' }}
+              style={{
+                ...ctaBtn,
+                background: 'transparent',
+                color: 'var(--text)',
+                border: '1px solid var(--line-strong)',
+              }}
             >
               Подробнее
             </button>
@@ -409,7 +435,13 @@ function GenreGrid({ active, onPick }: { active: string; onPick: (id: string) =>
       >
         Жанры
       </h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(184px, 1fr))', gap: 16 }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(184px, 1fr))',
+          gap: 16,
+        }}
+      >
         {GENRES.map((g) => {
           const on = active === g.id;
           return (
@@ -435,7 +467,14 @@ function GenreGrid({ active, onPick }: { active: string; onPick: (id: string) =>
               }}
             >
               <span
-                style={{ position: 'absolute', right: -8, bottom: -16, fontSize: 78, opacity: 0.18, lineHeight: 1 }}
+                style={{
+                  position: 'absolute',
+                  right: -8,
+                  bottom: -16,
+                  fontSize: 78,
+                  opacity: 0.18,
+                  lineHeight: 1,
+                }}
                 aria-hidden='true'
               >
                 {g.icon}
@@ -452,7 +491,9 @@ function GenreGrid({ active, onPick }: { active: string; onPick: (id: string) =>
               >
                 {g.en}
               </span>
-              <span style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 600 }}>{g.name}</span>
+              <span style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 600 }}>
+                {g.name}
+              </span>
             </button>
           );
         })}
@@ -497,7 +538,13 @@ function ResultsGrid({
           Ничего не найдено. Попробуйте другой запрос.
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(152px, 1fr))', gap: '30px 22px' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(152px, 1fr))',
+            gap: '30px 22px',
+          }}
+        >
           {books.map((b) => (
             <BookCard key={b.id} book={b} onOpen={onOpen} w='100%' />
           ))}
@@ -558,7 +605,11 @@ function Drawer({ book, onClose }: { book: CatalogBook | null; onClose: () => vo
         }}
       >
         <div style={{ position: 'relative', padding: '40px 36px 0' }}>
-          <button onClick={onClose} style={{ ...navBtn, position: 'absolute', right: 24, top: 24 }} aria-label='Закрыть'>
+          <button
+            onClick={onClose}
+            style={{ ...navBtn, position: 'absolute', right: 24, top: 24 }}
+            aria-label='Закрыть'
+          >
             ✕
           </button>
           <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
@@ -607,7 +658,10 @@ function Drawer({ book, onClose }: { book: CatalogBook | null; onClose: () => vo
             </div>
           </div>
           <div style={{ display: 'flex', gap: 12, margin: '28px 0' }}>
-            <Link href={readHref(book)} style={{ ...ctaBtn, flex: 1, background: 'var(--accent)', color: '#fff' }}>
+            <Link
+              href={readHref(book)}
+              style={{ ...ctaBtn, flex: 1, background: 'var(--accent)', color: '#fff' }}
+            >
               Читать
             </Link>
             <button
@@ -652,7 +706,9 @@ function Drawer({ book, onClose }: { book: CatalogBook | null; onClose: () => vo
                 >
                   {k}
                 </div>
-                <div style={{ fontFamily: 'var(--serif)', fontSize: 16, color: 'var(--text)' }}>{v}</div>
+                <div style={{ fontFamily: 'var(--serif)', fontSize: 16, color: 'var(--text)' }}>
+                  {v}
+                </div>
               </div>
             ))}
           </div>
@@ -742,7 +798,15 @@ function Toolbar({ query, setQuery }: { query: string; setQuery: (v: string) => 
   );
 }
 
-function Chip({ active, children, onClick }: { active: boolean; children: React.ReactNode; onClick: () => void }) {
+function Chip({
+  active,
+  children,
+  onClick,
+}: {
+  active: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
   return (
     <button
       onClick={onClick}
@@ -816,7 +880,10 @@ export default function CatalogClient() {
   const onOpen = (b: CatalogBook) => setSel(b);
 
   return (
-    <div className='azb-catalog' style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg)' }}>
+    <div
+      className='azb-catalog'
+      style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg)' }}
+    >
       <Toolbar query={query} setQuery={setQuery} />
 
       <div
@@ -830,7 +897,14 @@ export default function CatalogClient() {
         }}
       >
         <div
-          style={{ maxWidth: 1180, margin: '0 auto', padding: '0 40px', display: 'flex', gap: 10, overflowX: 'auto' }}
+          style={{
+            maxWidth: 1180,
+            margin: '0 auto',
+            padding: '0 40px',
+            display: 'flex',
+            gap: 10,
+            overflowX: 'auto',
+          }}
           className='shelf-scroll'
         >
           {CHIPS.map((c) => (
@@ -865,19 +939,53 @@ export default function CatalogClient() {
           </div>
 
           {!shelves ? (
-            <div style={{ padding: '80px 0', textAlign: 'center', fontFamily: 'var(--serif)', fontSize: 18, color: 'var(--text-3)' }}>
+            <div
+              style={{
+                padding: '80px 0',
+                textAlign: 'center',
+                fontFamily: 'var(--serif)',
+                fontSize: 18,
+                color: 'var(--text-3)',
+              }}
+            >
               Загружаем каталог…
             </div>
           ) : browsing ? (
-            <ResultsGrid books={filtered} onOpen={onOpen} title={q.length >= 2 ? `Результаты «${query}»` : genreName || ''} />
+            <ResultsGrid
+              books={filtered}
+              onOpen={onOpen}
+              title={q.length >= 2 ? `Результаты «${query}»` : genreName || ''}
+            />
           ) : (
             <>
               {shelves.featured && <Hero book={shelves.featured} onOpen={onOpen} />}
-              <Shelf title='Популярное' subtitle='Самые читаемые во всех источниках' books={shelves.popular} onOpen={onOpen} badge='Топ' />
-              <Shelf title='Рекомендуем вам' subtitle='Подборка из каталога' books={shelves.recommended} onOpen={onOpen} />
+              <Shelf
+                title='Популярное'
+                subtitle='Самые читаемые во всех источниках'
+                books={shelves.popular}
+                onOpen={onOpen}
+                badge='Топ'
+              />
+              <Shelf
+                title='Рекомендуем вам'
+                subtitle='Подборка из каталога'
+                books={shelves.recommended}
+                onOpen={onOpen}
+              />
               <GenreGrid active={genre} onPick={setGenre} />
-              <Shelf title='Ещё из каталога' subtitle='Загляните глубже в коллекцию' books={shelves.more} onOpen={onOpen} />
-              <Shelf title='Классика в общественном достоянии' subtitle='Бесплатно · Project Gutenberg' books={shelves.gutenberg} onOpen={onOpen} badge='Free' />
+              <Shelf
+                title='Ещё из каталога'
+                subtitle='Загляните глубже в коллекцию'
+                books={shelves.more}
+                onOpen={onOpen}
+              />
+              <Shelf
+                title='Классика в общественном достоянии'
+                subtitle='Бесплатно · Project Gutenberg'
+                books={shelves.gutenberg}
+                onOpen={onOpen}
+                badge='Free'
+              />
             </>
           )}
         </div>
