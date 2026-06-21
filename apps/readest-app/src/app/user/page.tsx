@@ -15,7 +15,6 @@ import type { PlanType } from '@/types/quota';
 import { navigateToLibrary } from '@/utils/nav';
 import { eventDispatcher } from '@/utils/event';
 import { isTauriAppPlatform } from '@/services/environment';
-import { getPlanDetails } from './utils/plan';
 import { Toast } from '@/components/Toast';
 import {
   purchaseIAPProduct,
@@ -23,6 +22,7 @@ import {
   getSubscriptionSuccessUrl as getIAPSubscriptionSuccessUrl,
 } from '@/libs/payment/iap/client';
 import { isPurchaseProduct } from '@/libs/payment/iap/utils';
+// getPlanDetails is consumed inside PlanGrid; the page only needs labels.
 import {
   createStripeCheckoutSession,
   redirectToStripeCheckout,
@@ -32,19 +32,48 @@ import {
   getSubscriptionSuccessUrl as getStripeSubscriptionSuccessUrl,
   type StripeAvailablePlan,
 } from '@/libs/payment/stripe/client';
-import LegalLinks from '@/components/LegalLinks';
 import Spinner from '@/components/Spinner';
+import Link from '@/components/Link';
+import { AziralWordmark } from '@/components/brand/AziralMark';
 import ProfileHeader from './components/Header';
-import UserInfo from './components/UserInfo';
-import UsageStats from './components/UsageStats';
-import PlansComparison from './components/PlansComparison';
-import AccountActions from './components/AccountActions';
+import AccountHero from './components/AccountHero';
+import PlanGrid from './components/PlanGrid';
+import AccountManagement from './components/AccountManagement';
 import StorageManager from './components/StorageManager';
 import SharedLinksSection from './components/SharedLinksSection';
 import { SyncPassphraseSection } from './components/SyncPassphraseSection';
 import { SyncCategoriesSection } from './components/SyncCategoriesSection';
 import Checkout from './components/Checkout';
 import './user.css';
+
+const PLAN_LABEL: Record<string, string> = {
+  free: 'Бесплатный план',
+  plus: 'План Plus',
+  pro: 'План Pro',
+  purchase: 'Пожизненный план',
+};
+
+const MONTHS_GEN = [
+  'января',
+  'февраля',
+  'марта',
+  'апреля',
+  'мая',
+  'июня',
+  'июля',
+  'августа',
+  'сентября',
+  'октября',
+  'ноября',
+  'декабря',
+];
+
+const joinedLabel = (createdAt?: string): string | undefined => {
+  if (!createdAt) return undefined;
+  const d = new Date(createdAt);
+  if (Number.isNaN(d.getTime())) return undefined;
+  return `В Aziral с ${MONTHS_GEN[d.getMonth()]} ${d.getFullYear()}`;
+};
 
 type CheckoutState = {
   clientSecret: string;
@@ -269,31 +298,48 @@ const ProfilePage = () => {
   const avatarUrl = user?.user_metadata?.['picture'] || user?.user_metadata?.['avatar_url'];
   const userFullName = user?.user_metadata?.['full_name'] || '-';
   const userEmail = user?.email || '';
-  const userPlanDetails =
-    getPlanDetails(userProfilePlan, availablePlans) || getPlanDetails('free', availablePlans);
+  const planLabel = PLAN_LABEL[userProfilePlan] ?? PLAN_LABEL['free']!;
+  const joined = joinedLabel(user?.created_at);
+  const showSubViews = showStorageManager || showSharedLinksManager || showSyncManager;
+  const termsUrl =
+    appService?.isIOSApp || appService?.isMacOSApp
+      ? 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/'
+      : 'https://books.aziral.com/legal/terms';
 
   return (
     <div
       className={clsx(
-        'azb-user bg-base-100 full-height inset-0 select-none overflow-hidden',
+        'azb-user full-height inset-0 select-none overflow-hidden',
         appService?.hasRoundedWindow && isRoundedWindow && 'window-border rounded-window',
       )}
     >
       <div
-        className={clsx('flex h-full w-full flex-col items-center overflow-y-auto')}
-        style={{
-          paddingTop: `${safeAreaInsets?.top || 0}px`,
-        }}
+        className='flex h-full w-full flex-col overflow-y-auto'
+        style={{ paddingTop: `${safeAreaInsets?.top || 0}px` }}
       >
         <ProfileHeader onGoBack={handleGoBack} />
-        <div className='w-full min-w-60 max-w-4xl py-10'>
-          {loading && (
-            <div className='fixed inset-0 z-50 flex items-center justify-center'>
-              <Spinner loading className='text-gray-900' />
-            </div>
-          )}
+
+        {loading && (
+          <div className='fixed inset-0 z-50 flex items-center justify-center'>
+            <Spinner loading className='text-gray-900' />
+          </div>
+        )}
+
+        {/* Centered wordmark just below the toolbar back/window controls */}
+        <div className='flex w-full justify-center pb-2 pt-1'>
+          <AziralWordmark size={19} mark={26} color='var(--text)' />
+        </div>
+
+        <div className='mx-auto w-full' style={{ maxWidth: 1080, padding: '20px 28px 72px' }}>
           {showEmbeddedCheckout ? (
-            <div className='bg-base-100 rounded-lg p-4'>
+            <div
+              style={{
+                borderRadius: 'var(--r-lg)',
+                background: 'var(--surface)',
+                border: '1px solid var(--border)',
+                padding: 16,
+              }}
+            >
               <Checkout
                 clientSecret={checkoutState.clientSecret}
                 sessionId={checkoutState.sessionId}
@@ -302,68 +348,73 @@ const ProfilePage = () => {
               />
             </div>
           ) : (
-            <div className='sm:bg-base-200 overflow-hidden rounded-lg sm:p-6 sm:shadow-md'>
-              <div className='flex flex-col gap-y-8'>
-                <div className='flex flex-col gap-y-8 px-6'>
-                  <UserInfo
-                    avatarUrl={avatarUrl}
-                    userFullName={userFullName}
+            <>
+              <AccountHero
+                avatarUrl={avatarUrl}
+                userFullName={userFullName}
+                userEmail={userEmail}
+                planLabel={planLabel}
+                joinedLabel={joined}
+                quotas={showSubViews ? [] : quotas}
+              />
+
+              {showStorageManager ? (
+                <StorageManager />
+              ) : showSharedLinksManager ? (
+                <SharedLinksSection />
+              ) : showSyncManager ? (
+                <div className='flex flex-col gap-y-8'>
+                  <SyncCategoriesSection />
+                  <SyncPassphraseSection />
+                </div>
+              ) : (
+                <>
+                  <PlanGrid
+                    availablePlans={availablePlans}
+                    userPlan={userProfilePlan}
+                    onSubscribe={
+                      appService.hasIAP && iapAvailable ? handleIAPSubscribe : handleStripeSubscribe
+                    }
+                  />
+                  <AccountManagement
+                    userPlan={userProfilePlan}
+                    iapAvailable={iapAvailable}
                     userEmail={userEmail}
-                    planDetails={userPlanDetails}
+                    onManageSync={handleManageSync}
+                    onManageStorage={handleManageStorage}
+                    onManageSharedLinks={handleManageSharedLinks}
+                    onResetPassword={handleResetPassword}
+                    onUpdateEmail={handleUpdateEmail}
+                    onLogout={handleLogout}
+                    onConfirmDelete={handleDeleteWithMessage}
+                    onManageSubscription={handleManageSubscription}
+                    onRestorePurchase={handleIAPRestorePurchase}
                   />
 
-                  {!showStorageManager && !showSharedLinksManager && !showSyncManager && (
-                    <UsageStats quotas={quotas} />
-                  )}
-                </div>
-
-                {showStorageManager ? (
-                  <div className='flex flex-col gap-y-8 px-6'>
-                    <StorageManager />
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      flexWrap: 'wrap',
+                      fontSize: 13,
+                      color: 'var(--text-3)',
+                    }}
+                  >
+                    <Link href={termsUrl} className='acc-link'>
+                      Условия использования
+                    </Link>
+                    <span style={{ opacity: 0.5 }}>·</span>
+                    <Link href='https://books.aziral.com/legal/privacy' className='acc-link'>
+                      Политика конфиденциальности
+                    </Link>
+                    <span style={{ opacity: 0.5 }}>·</span>
+                    <span>Aziral Books</span>
                   </div>
-                ) : showSharedLinksManager ? (
-                  <div className='flex flex-col gap-y-8 px-6'>
-                    <SharedLinksSection />
-                  </div>
-                ) : showSyncManager ? (
-                  <div className='flex flex-col gap-y-8 px-6'>
-                    <SyncCategoriesSection />
-                    <SyncPassphraseSection />
-                  </div>
-                ) : (
-                  <>
-                    <div className='flex flex-col gap-y-8 sm:px-6'>
-                      <PlansComparison
-                        availablePlans={availablePlans}
-                        userPlan={userProfilePlan}
-                        onSubscribe={
-                          appService.hasIAP && iapAvailable
-                            ? handleIAPSubscribe
-                            : handleStripeSubscribe
-                        }
-                      />
-                    </div>
-                    <div className='flex flex-col gap-y-8 px-6'>
-                      <AccountActions
-                        userPlan={userProfilePlan}
-                        iapAvailable={iapAvailable}
-                        onLogout={handleLogout}
-                        onResetPassword={handleResetPassword}
-                        onUpdateEmail={handleUpdateEmail}
-                        onConfirmDelete={handleDeleteWithMessage}
-                        onRestorePurchase={handleIAPRestorePurchase}
-                        onManageSubscription={handleManageSubscription}
-                        onManageStorage={handleManageStorage}
-                        onManageSharedLinks={handleManageSharedLinks}
-                        onManageSync={handleManageSync}
-                      />
-                    </div>
-                  </>
-                )}
-
-                <LegalLinks />
-              </div>
-            </div>
+                </>
+              )}
+            </>
           )}
         </div>
         <Toast />
