@@ -98,7 +98,7 @@ const AccountActions: React.FC<AccountActionsProps> = ({
         {appService?.hasIAP && iapAvailable ? (
           <button
             onClick={onRestorePurchase}
-            className='w-full rounded-lg bg-blue-100 px-6 py-3 font-medium text-blue-600 transition-colors hover:bg-blue-200 md:w-auto'
+            className='azb-act-accent w-full rounded-lg px-6 py-3 font-medium transition-colors md:w-auto'
           >
             {_('Restore Purchase')}
           </button>
@@ -106,7 +106,7 @@ const AccountActions: React.FC<AccountActionsProps> = ({
           userPlan !== 'free' && (
             <button
               onClick={onManageSubscription}
-              className='w-full rounded-lg bg-blue-100 px-6 py-3 font-medium text-blue-600 transition-colors hover:bg-blue-200 md:w-auto'
+              className='azb-act-accent w-full rounded-lg px-6 py-3 font-medium transition-colors md:w-auto'
             >
               {_('Manage Subscription')}
             </button>
@@ -115,7 +115,7 @@ const AccountActions: React.FC<AccountActionsProps> = ({
         {onManageSync && (
           <button
             onClick={onManageSync}
-            className='w-full rounded-lg bg-blue-100 px-6 py-3 font-medium text-blue-600 transition-colors hover:bg-blue-200 md:w-auto'
+            className='azb-act-accent w-full rounded-lg px-6 py-3 font-medium transition-colors md:w-auto'
           >
             {_('Manage Sync')}
           </button>
@@ -123,7 +123,7 @@ const AccountActions: React.FC<AccountActionsProps> = ({
         {onManageStorage && (
           <button
             onClick={onManageStorage}
-            className='w-full rounded-lg bg-purple-100 px-6 py-3 font-medium text-purple-600 transition-colors hover:bg-purple-200 md:w-auto'
+            className='azb-act-accent w-full rounded-lg px-6 py-3 font-medium transition-colors md:w-auto'
           >
             {_('Manage Storage')}
           </button>
@@ -131,32 +131,32 @@ const AccountActions: React.FC<AccountActionsProps> = ({
         {onManageSharedLinks && (
           <button
             onClick={onManageSharedLinks}
-            className='w-full rounded-lg bg-purple-100 px-6 py-3 font-medium text-purple-600 transition-colors hover:bg-purple-200 md:w-auto'
+            className='azb-act-accent w-full rounded-lg px-6 py-3 font-medium transition-colors md:w-auto'
           >
             {_('Manage Shared Links')}
           </button>
         )}
         <button
           onClick={onResetPassword}
-          className='w-full rounded-lg bg-gray-200 px-6 py-3 font-medium text-gray-800 transition-colors hover:bg-gray-300 md:w-auto'
+          className='azb-act-neutral w-full rounded-lg px-6 py-3 font-medium transition-colors md:w-auto'
         >
           {_('Reset Password')}
         </button>
         <button
           onClick={onUpdateEmail}
-          className='w-full rounded-lg bg-gray-200 px-6 py-3 font-medium text-gray-800 transition-colors hover:bg-gray-300 md:w-auto'
+          className='azb-act-neutral w-full rounded-lg px-6 py-3 font-medium transition-colors md:w-auto'
         >
           {_('Update Email')}
         </button>
         <button
           onClick={onLogout}
-          className='w-full rounded-lg bg-gray-200 px-6 py-3 font-medium text-gray-800 transition-colors hover:bg-gray-300 md:w-auto'
+          className='azb-act-neutral w-full rounded-lg px-6 py-3 font-medium transition-colors md:w-auto'
         >
           {_('Sign Out')}
         </button>
         <button
           onClick={handleDeleteRequest}
-          className='w-full rounded-lg bg-red-100 px-6 py-3 font-medium text-red-600 transition-colors hover:bg-red-200 md:w-auto'
+          className='azb-act-danger w-full rounded-lg px-6 py-3 font-medium transition-colors md:w-auto'
         >
           {_('Delete Account')}
         </button>

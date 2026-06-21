@@ -41,7 +41,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
       style={{ scrollSnapAlign: 'start' }}
     >
       <div
-        className={`rounded-xl border-2 p-4 ${plan.color} ${index === currentPlanIndex ? 'ring-2 ring-blue-500' : ''}`}
+        className={`rounded-xl border-2 p-4 ${plan.color} ${index === currentPlanIndex ? 'azb-ring-active' : ''}`}
       >
         <div className='mb-6 text-center'>
           <h4 className='mb-2 text-2xl font-bold'>{_(plan.name)}</h4>
@@ -61,7 +61,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
           {plan.features.map((feature, featureIndex) => (
             <div key={featureIndex} className='flex flex-col'>
               <div className='flex items-center gap-2'>
-                <IoCheckmark className='h-5 w-5 flex-shrink-0 text-green-500' />
+                <IoCheckmark className='azb-check h-5 w-5 flex-shrink-0' />
                 <span>{_(feature.label)}</span>
               </div>
               {feature.description && (

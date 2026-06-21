@@ -34,7 +34,7 @@ const PlanActionButton: React.FC<PlanActionButtonProps> = ({
     return (
       <button
         onClick={() => onSubscribe(plan.productId)}
-        className='w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700'
+        className='azb-cta w-full rounded-lg px-6 py-3 font-semibold transition-colors'
       >
         {_('Upgrade to {{plan}}', { plan: _(plan.name) })}
       </button>
@@ -45,7 +45,7 @@ const PlanActionButton: React.FC<PlanActionButtonProps> = ({
     return (
       <button
         onClick={() => onSelectPlan(1)}
-        className='w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700'
+        className='azb-cta w-full rounded-lg px-6 py-3 font-semibold transition-colors'
       >
         {_('Upgrade to Plus or Pro')}
       </button>
@@ -56,7 +56,7 @@ const PlanActionButton: React.FC<PlanActionButtonProps> = ({
     return (
       <button
         disabled
-        className='w-full cursor-default rounded-lg bg-green-100 px-6 py-3 font-semibold text-green-700'
+        className='azb-cta-current w-full cursor-default rounded-lg px-6 py-3 font-semibold'
       >
         {_('Current Plan')}
       </button>

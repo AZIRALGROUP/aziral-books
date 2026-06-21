@@ -37,10 +37,10 @@ const PurchaseCallToActions: React.FC<PurchaseCallToActionsProps> = ({ plan, onS
               <button
                 key={product.id}
                 onClick={() => onSubscribe(product.id, 'purchase')}
-                className='flex w-full flex-col items-center justify-center rounded-lg bg-green-200 p-2 transition-colors hover:bg-green-300'
+                className='azb-buy flex w-full flex-col items-center justify-center rounded-lg p-2 transition-colors'
               >
-                <span className='text-base font-semibold text-green-800'>{_(product.name)}</span>
-                <span className='text-sm font-bold text-green-600'>{productPrice}</span>
+                <span className='text-base font-semibold'>{_(product.name)}</span>
+                <span className='azb-buy-price text-sm font-bold'>{productPrice}</span>
               </button>
             );
           })}
@@ -55,18 +55,18 @@ const PurchaseCallToActions: React.FC<PurchaseCallToActionsProps> = ({ plan, onS
               <button
                 key={product.id}
                 onClick={() => onSubscribe(product.id, 'purchase')}
-                className='flex w-full flex-col items-center justify-center rounded-lg bg-green-200 p-2 transition-colors hover:bg-green-300'
+                className='azb-buy flex w-full flex-col items-center justify-center rounded-lg p-2 transition-colors'
               >
-                <span className='text-base font-semibold text-green-700'>{_(product.name)}</span>
-                <span className='text-sm font-bold text-green-600'>{productPrice}</span>
+                <span className='text-base font-semibold'>{_(product.name)}</span>
+                <span className='azb-buy-price text-sm font-bold'>{productPrice}</span>
               </button>
             );
           })}
         </div>
       ) : (
         <div className='grid grid-cols-1 gap-2'>
-          <button className='flex min-h-[3.5rem] w-full flex-col items-center justify-center rounded-lg bg-green-200 p-2'>
-            <span className='text-base font-semibold text-green-700'>
+          <button className='azb-buy flex min-h-[3.5rem] w-full flex-col items-center justify-center rounded-lg p-2'>
+            <span className='text-base font-semibold'>
               {_('Full Customization')} ({_('Coming Soon')})
             </span>
           </button>

@@ -44,6 +44,7 @@ import SharedLinksSection from './components/SharedLinksSection';
 import { SyncPassphraseSection } from './components/SyncPassphraseSection';
 import { SyncCategoriesSection } from './components/SyncCategoriesSection';
 import Checkout from './components/Checkout';
+import './user.css';
 
 type CheckoutState = {
   clientSecret: string;
@@ -274,7 +275,7 @@ const ProfilePage = () => {
   return (
     <div
       className={clsx(
-        'bg-base-100 full-height inset-0 select-none overflow-hidden',
+        'azb-user bg-base-100 full-height inset-0 select-none overflow-hidden',
         appService?.hasRoundedWindow && isRoundedWindow && 'window-border rounded-window',
       )}
     >

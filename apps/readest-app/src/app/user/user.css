@@ -1,0 +1,214 @@
+/* Branded profile / plans screen (web). Self-contained brand tokens scoped to
+   .azb-user so the page doesn't depend on landing/auth scope. Mirrors auth.css.
+   The strategy is reskin-in-place: we remap the daisyUI surface utilities the
+   existing markup already uses (bg-base-*, text-base-content, border-base-*) to
+   the paper/ochre palette, then retune the few hard-coded blue/purple/green
+   accents to ochre via dedicated azb-* helpers. */
+
+.azb-user {
+  --paper: oklch(0.973 0.011 84);
+  --paper-card: oklch(0.988 0.008 86);
+  --paper-sunk: oklch(0.945 0.015 82);
+  --ink: oklch(0.255 0.018 58);
+  --ink-soft: oklch(0.435 0.02 60);
+  --ink-faint: oklch(0.62 0.018 62);
+  --line: oklch(0.885 0.014 80);
+  --line-strong: oklch(0.82 0.018 78);
+  --ochre: oklch(0.66 0.118 66);
+  --ochre-deep: oklch(0.545 0.112 58);
+  --ochre-soft: oklch(0.915 0.045 78);
+
+  --bg: var(--paper);
+  --surface: var(--paper-card);
+  --text: var(--ink);
+  --text-2: var(--ink-soft);
+  --text-3: var(--ink-faint);
+  --border: var(--line);
+  --accent: var(--ochre);
+  --accent-ink: var(--ochre-deep);
+
+  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --sans: 'Hanken Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --shadow-sm: 0 1px 2px oklch(0.4 0.02 60 / 0.06), 0 2px 6px oklch(0.4 0.02 60 / 0.05);
+  --shadow-md: 0 4px 12px oklch(0.4 0.02 60 / 0.08), 0 10px 30px oklch(0.4 0.02 60 / 0.07);
+
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+}
+
+@media (prefers-color-scheme: dark) {
+  .azb-user {
+    --paper: oklch(0.208 0.012 66);
+    --paper-card: oklch(0.248 0.013 64);
+    --paper-sunk: oklch(0.18 0.011 66);
+    --ink: oklch(0.94 0.012 84);
+    --ink-soft: oklch(0.78 0.014 80);
+    --ink-faint: oklch(0.62 0.016 72);
+    --line: oklch(0.32 0.014 66);
+    --line-strong: oklch(0.4 0.016 66);
+    --ochre: oklch(0.745 0.115 72);
+    --ochre-deep: oklch(0.82 0.09 80);
+    --ochre-soft: oklch(0.32 0.045 66);
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3), 0 2px 6px oklch(0 0 0 / 0.25);
+    --shadow-md: 0 4px 12px oklch(0 0 0 / 0.35), 0 10px 30px oklch(0 0 0 / 0.3);
+  }
+}
+
+/* --- Surface remap: redirect the daisyUI utilities the markup already uses --- */
+.azb-user.bg-base-100,
+.azb-user .bg-base-100 {
+  background-color: var(--bg) !important;
+}
+.azb-user .bg-base-200,
+.azb-user .bg-base-200\/50 {
+  background-color: var(--surface) !important;
+}
+.azb-user .bg-base-300 {
+  background-color: var(--paper-sunk) !important;
+}
+.azb-user .text-base-content {
+  color: var(--text) !important;
+}
+.azb-user .text-base-content\/60,
+.azb-user .text-base-content\/75 {
+  color: var(--text-2) !important;
+}
+.azb-user .border-base-200,
+.azb-user .border-base-300 {
+  border-color: var(--border) !important;
+}
+
+/* The plans card chassis (PlansComparison wrapper) + section card */
+.azb-user .sm\:bg-base-200 {
+  border: 1px solid var(--border);
+}
+
+/* --- Plan tiers: replace the pastel blue/purple/green with a warm hierarchy.
+   These class names come from plan.ts (PlanDetails.color / .hintColor) and are
+   applied to the plan card, the active nav tab, and the profile plan badge. --- */
+.azb-user .azb-tier-free {
+  background-color: var(--paper-sunk);
+  color: var(--text-2);
+  border-color: var(--line-strong) !important;
+}
+.azb-user .azb-tier-plus {
+  background-color: var(--ochre-soft);
+  color: var(--accent-ink);
+  border-color: var(--ochre) !important;
+}
+.azb-user .azb-tier-pro {
+  background-color: var(--ochre-soft);
+  color: var(--accent-ink);
+  border-color: var(--accent-ink) !important;
+  box-shadow: inset 0 0 0 1px var(--ochre);
+}
+.azb-user .azb-tier-life {
+  background-color: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink) !important;
+}
+.azb-user .azb-tier-life .azb-hint-life,
+.azb-user .azb-hint-free {
+  color: var(--text-3);
+}
+.azb-user .azb-hint-plus,
+.azb-user .azb-hint-pro {
+  color: var(--accent-ink);
+  opacity: 0.78;
+}
+.azb-user .azb-hint-life {
+  color: var(--paper);
+  opacity: 0.7;
+}
+
+/* Limits box inside a plan card — keep it readable on any tier surface */
+.azb-user .azb-tier-life .bg-white\/50 {
+  background-color: oklch(1 0 0 / 0.08) !important;
+}
+.azb-user .bg-white\/50 {
+  background-color: oklch(1 0 0 / 0.45) !important;
+}
+
+/* --- Accent retune: ochre instead of blue --- */
+.azb-user .azb-ring-active {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.azb-user .azb-cta {
+  background-color: var(--accent-ink);
+  color: var(--paper);
+  transition: filter 150ms ease;
+}
+.azb-user .azb-cta:hover {
+  filter: brightness(1.08);
+}
+.azb-user .azb-cta-current {
+  background-color: var(--ochre-soft);
+  color: var(--accent-ink);
+}
+.azb-user .azb-dot {
+  background-color: var(--line-strong);
+}
+.azb-user .azb-dot-active {
+  background-color: var(--accent);
+}
+
+/* Lifetime purchase chips — paper chips on the dark ink tier card */
+.azb-user .azb-buy {
+  background-color: var(--paper);
+  color: var(--ink);
+  transition: filter 150ms ease;
+}
+.azb-user .azb-buy:hover {
+  filter: brightness(0.96);
+}
+.azb-user .azb-buy-price {
+  color: var(--accent-ink);
+}
+
+/* Feature checkmarks use the brand accent; inherit on the dark life tier */
+.azb-user .azb-check {
+  color: var(--accent-ink);
+}
+.azb-user .azb-tier-life .azb-check {
+  color: var(--ochre);
+}
+
+/* Account action buttons — unified branded chips */
+.azb-user .azb-act-accent {
+  background-color: var(--ochre-soft);
+  color: var(--accent-ink);
+}
+.azb-user .azb-act-accent:hover {
+  filter: brightness(0.97);
+}
+.azb-user .azb-act-neutral {
+  background-color: var(--paper-sunk);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.azb-user .azb-act-neutral:hover {
+  background-color: var(--surface);
+}
+.azb-user .azb-act-danger {
+  background-color: oklch(0.6 0.2 27 / 0.12);
+  color: oklch(0.55 0.2 27);
+}
+.azb-user .azb-act-danger:hover {
+  background-color: oklch(0.6 0.2 27 / 0.2);
+}
+@media (prefers-color-scheme: dark) {
+  .azb-user .azb-act-danger {
+    color: oklch(0.74 0.16 27);
+  }
+}
+
+/* Headings pick up the editorial serif */
+.azb-user h2,
+.azb-user h4 {
+  font-family: var(--serif);
+  letter-spacing: -0.01em;
+}
