@@ -11,6 +11,7 @@ import {
 } from 'react-icons/pi';
 import { useEnv } from '@/context/EnvContext';
 import type { UserPlan } from '@/types/quota';
+import { AccountModal, ModalButton } from './AccountModal';
 
 interface AccountManagementProps {
   userPlan: UserPlan;
@@ -126,90 +127,93 @@ const ActionGroup: React.FC<{ title: string; children: React.ReactNode }> = ({
   </div>
 );
 
-const DeleteModal: React.FC<{ onCancel: () => void; onConfirm: () => void }> = ({
-  onCancel,
+const LogoutModal: React.FC<{ onClose: () => void; onConfirm: () => void }> = ({
+  onClose,
   onConfirm,
 }) => (
-  <div
-    style={{
-      position: 'fixed',
-      inset: 0,
-      zIndex: 50,
-      display: 'grid',
-      placeItems: 'center',
-      padding: 16,
-      background: 'oklch(0 0 0 / 0.5)',
-    }}
-    onClick={onCancel}
+  <AccountModal
+    icon={<PiSignOut size={21} />}
+    title='Выйти из аккаунта?'
+    sub='Локальный кэш сохранится. Вы сможете войти снова в любой момент.'
+    width={420}
+    onClose={onClose}
+    footer={
+      <>
+        <ModalButton kind='ghost' onClick={onClose}>
+          Остаться
+        </ModalButton>
+        <ModalButton onClick={onConfirm}>Выйти</ModalButton>
+      </>
+    }
   >
-    <div
-      onClick={(e) => e.stopPropagation()}
-      style={{
-        width: '100%',
-        maxWidth: 420,
-        borderRadius: 'var(--r-lg)',
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        boxShadow: 'var(--shadow-lg)',
-        padding: 26,
-      }}
+    <div style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--text-2)' }}>
+      Сеанс на этом устройстве будет завершён.
+    </div>
+  </AccountModal>
+);
+
+const DeleteModal: React.FC<{ onClose: () => void; onConfirm: () => void }> = ({
+  onClose,
+  onConfirm,
+}) => {
+  const [text, setText] = useState('');
+  const confirmed = text.trim().toUpperCase() === 'УДАЛИТЬ';
+  return (
+    <AccountModal
+      icon={<PiTrash size={21} />}
+      danger
+      title='Удалить аккаунт'
+      sub='Это действие необратимо. Профиль, библиотека, заметки и выделения будут удалены навсегда.'
+      width={460}
+      onClose={onClose}
+      footer={
+        <>
+          <ModalButton kind='ghost' onClick={onClose}>
+            Отмена
+          </ModalButton>
+          <ModalButton kind='danger' disabled={!confirmed} onClick={onConfirm}>
+            Удалить навсегда
+          </ModalButton>
+        </>
+      }
     >
-      <h3
+      <ul
         style={{
-          margin: '0 0 10px',
-          fontFamily: 'var(--serif)',
-          fontSize: 22,
-          fontWeight: 600,
-          color: 'var(--text)',
+          margin: '0 0 18px',
+          paddingLeft: 18,
+          fontSize: 13.5,
+          lineHeight: 1.7,
+          color: 'var(--text-2)',
         }}
       >
-        Удалить аккаунт?
-      </h3>
-      <p style={{ margin: '0 0 20px', fontSize: 14, lineHeight: 1.5, color: 'var(--text-2)' }}>
-        Это действие необратимо. Профиль, библиотека и заметки в облаке будут удалены навсегда.
-      </p>
-      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-        <button
-          type='button'
-          onClick={onCancel}
+        <li>Все книги и документы в библиотеке</li>
+        <li>Все заметки, закладки и выделения</li>
+        <li>История чтения и синхронизация</li>
+      </ul>
+      <label style={{ display: 'block' }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-2)', marginBottom: 7 }}>
+          Введите «УДАЛИТЬ», чтобы подтвердить
+        </div>
+        <input
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder='УДАЛИТЬ'
           style={{
-            all: 'unset',
-            flex: 1,
-            textAlign: 'center',
-            cursor: 'pointer',
-            padding: '11px 16px',
-            borderRadius: 99,
-            fontSize: 14,
-            fontWeight: 700,
-            color: 'var(--text)',
+            width: '100%',
+            boxSizing: 'border-box',
+            padding: '12px 14px',
+            borderRadius: 'var(--r-md)',
             background: 'var(--paper-sunk)',
-            border: '1px solid var(--line-strong)',
+            fontSize: 15,
+            color: 'var(--text)',
+            outline: 'none',
+            border: '1px solid var(--border)',
           }}
-        >
-          Отмена
-        </button>
-        <button
-          type='button'
-          onClick={onConfirm}
-          style={{
-            all: 'unset',
-            flex: 1,
-            textAlign: 'center',
-            cursor: 'pointer',
-            padding: '11px 16px',
-            borderRadius: 99,
-            fontSize: 14,
-            fontWeight: 700,
-            color: '#fff',
-            background: 'var(--clay)',
-          }}
-        >
-          Удалить навсегда
-        </button>
-      </div>
-    </div>
-  </div>
-);
+        />
+      </label>
+    </AccountModal>
+  );
+};
 
 const AccountManagement: React.FC<AccountManagementProps> = ({
   userPlan,
@@ -226,7 +230,7 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
   onRestorePurchase,
 }) => {
   const { appService } = useEnv();
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirm, setConfirm] = useState<'logout' | 'delete' | null>(null);
   const isIAP = !!(appService?.hasIAP && iapAvailable);
   const showSubscription = isIAP || userPlan !== 'free';
 
@@ -263,11 +267,20 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
 
   return (
     <>
-      {confirmDelete && (
-        <DeleteModal
-          onCancel={() => setConfirmDelete(false)}
+      {confirm === 'logout' && (
+        <LogoutModal
+          onClose={() => setConfirm(null)}
           onConfirm={() => {
-            setConfirmDelete(false);
+            setConfirm(null);
+            onLogout();
+          }}
+        />
+      )}
+      {confirm === 'delete' && (
+        <DeleteModal
+          onClose={() => setConfirm(null)}
+          onConfirm={() => {
+            setConfirm(null);
             onConfirmDelete();
           }}
         />
@@ -297,7 +310,7 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
             icon={<PiSignOut size={19} />}
             label='Выйти'
             desc='Завершить сеанс на этом устройстве'
-            onClick={onLogout}
+            onClick={() => setConfirm('logout')}
             last
           />
         </ActionGroup>
@@ -318,7 +331,7 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
           desc='Безвозвратно удалить профиль, библиотеку и заметки'
           danger
           last
-          onClick={() => setConfirmDelete(true)}
+          onClick={() => setConfirm('delete')}
         />
       </div>
     </>

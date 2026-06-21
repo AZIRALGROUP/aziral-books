@@ -32,6 +32,7 @@ import {
   getSubscriptionSuccessUrl as getStripeSubscriptionSuccessUrl,
   type StripeAvailablePlan,
 } from '@/libs/payment/stripe/client';
+import { PiArrowsClockwise, PiHardDrives, PiLinkSimple } from 'react-icons/pi';
 import Spinner from '@/components/Spinner';
 import Link from '@/components/Link';
 import { AziralWordmark } from '@/components/brand/AziralMark';
@@ -39,6 +40,7 @@ import ProfileHeader from './components/Header';
 import AccountHero from './components/AccountHero';
 import PlanGrid from './components/PlanGrid';
 import AccountManagement from './components/AccountManagement';
+import { AccountModal } from './components/AccountModal';
 import StorageManager from './components/StorageManager';
 import SharedLinksSection from './components/SharedLinksSection';
 import { SyncPassphraseSection } from './components/SyncPassphraseSection';
@@ -300,7 +302,6 @@ const ProfilePage = () => {
   const userEmail = user?.email || '';
   const planLabel = PLAN_LABEL[userProfilePlan] ?? PLAN_LABEL['free']!;
   const joined = joinedLabel(user?.created_at);
-  const showSubViews = showStorageManager || showSharedLinksManager || showSyncManager;
   const termsUrl =
     appService?.isIOSApp || appService?.isMacOSApp
       ? 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/'
@@ -355,68 +356,97 @@ const ProfilePage = () => {
                 userEmail={userEmail}
                 planLabel={planLabel}
                 joinedLabel={joined}
-                quotas={showSubViews ? [] : quotas}
+                quotas={quotas}
+              />
+              <PlanGrid
+                availablePlans={availablePlans}
+                userPlan={userProfilePlan}
+                onSubscribe={
+                  appService.hasIAP && iapAvailable ? handleIAPSubscribe : handleStripeSubscribe
+                }
+              />
+              <AccountManagement
+                userPlan={userProfilePlan}
+                iapAvailable={iapAvailable}
+                userEmail={userEmail}
+                onManageSync={handleManageSync}
+                onManageStorage={handleManageStorage}
+                onManageSharedLinks={handleManageSharedLinks}
+                onResetPassword={handleResetPassword}
+                onUpdateEmail={handleUpdateEmail}
+                onLogout={handleLogout}
+                onConfirmDelete={handleDeleteWithMessage}
+                onManageSubscription={handleManageSubscription}
+                onRestorePurchase={handleIAPRestorePurchase}
               />
 
-              {showStorageManager ? (
-                <StorageManager />
-              ) : showSharedLinksManager ? (
-                <SharedLinksSection />
-              ) : showSyncManager ? (
-                <div className='flex flex-col gap-y-8'>
-                  <SyncCategoriesSection />
-                  <SyncPassphraseSection />
-                </div>
-              ) : (
-                <>
-                  <PlanGrid
-                    availablePlans={availablePlans}
-                    userPlan={userProfilePlan}
-                    onSubscribe={
-                      appService.hasIAP && iapAvailable ? handleIAPSubscribe : handleStripeSubscribe
-                    }
-                  />
-                  <AccountManagement
-                    userPlan={userProfilePlan}
-                    iapAvailable={iapAvailable}
-                    userEmail={userEmail}
-                    onManageSync={handleManageSync}
-                    onManageStorage={handleManageStorage}
-                    onManageSharedLinks={handleManageSharedLinks}
-                    onResetPassword={handleResetPassword}
-                    onUpdateEmail={handleUpdateEmail}
-                    onLogout={handleLogout}
-                    onConfirmDelete={handleDeleteWithMessage}
-                    onManageSubscription={handleManageSubscription}
-                    onRestorePurchase={handleIAPRestorePurchase}
-                  />
-
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 8,
-                      flexWrap: 'wrap',
-                      fontSize: 13,
-                      color: 'var(--text-3)',
-                    }}
-                  >
-                    <Link href={termsUrl} className='acc-link'>
-                      Условия использования
-                    </Link>
-                    <span style={{ opacity: 0.5 }}>·</span>
-                    <Link href='https://books.aziral.com/legal/privacy' className='acc-link'>
-                      Политика конфиденциальности
-                    </Link>
-                    <span style={{ opacity: 0.5 }}>·</span>
-                    <span>Aziral Books</span>
-                  </div>
-                </>
-              )}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  flexWrap: 'wrap',
+                  fontSize: 13,
+                  color: 'var(--text-3)',
+                }}
+              >
+                <Link href={termsUrl} className='acc-link'>
+                  Условия использования
+                </Link>
+                <span style={{ opacity: 0.5 }}>·</span>
+                <Link href='https://books.aziral.com/legal/privacy' className='acc-link'>
+                  Политика конфиденциальности
+                </Link>
+                <span style={{ opacity: 0.5 }}>·</span>
+                <span>Aziral Books</span>
+              </div>
             </>
           )}
         </div>
+
+        {showStorageManager && (
+          <AccountModal
+            icon={<PiHardDrives size={21} />}
+            title='Хранилище'
+            sub='Управление файлами и резервными копиями в облаке.'
+            width={620}
+            onClose={() => {
+              setShowStorageManager(false);
+              refresh();
+            }}
+          >
+            <StorageManager />
+          </AccountModal>
+        )}
+
+        {showSharedLinksManager && (
+          <AccountModal
+            icon={<PiLinkSimple size={21} />}
+            title='Привязанные сервисы'
+            sub='Общие ссылки и подключённые переводчики.'
+            width={620}
+            onClose={() => setShowSharedLinksManager(false)}
+          >
+            <SharedLinksSection />
+          </AccountModal>
+        )}
+
+        {showSyncManager && (
+          <AccountModal
+            icon={<PiArrowsClockwise size={21} />}
+            title='Синхронизация'
+            sub='Библиотека, прогресс, заметки и выделения на всех устройствах.'
+            width={620}
+            onClose={() => setShowSyncManager(false)}
+          >
+            <div className='flex flex-col gap-y-6'>
+              <SyncCategoriesSection />
+              <SyncPassphraseSection />
+            </div>
+          </AccountModal>
+        )}
+
         <Toast />
       </div>
     </div>
