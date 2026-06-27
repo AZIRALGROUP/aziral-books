@@ -34,16 +34,18 @@ afterEach(() => {
   useAuthMock.mockReset();
   navigateToLoginMock.mockReset();
   useEnvMock.mockReset();
+  routerStub.push.mockReset();
 });
 
 describe('LibraryEmptyState', () => {
-  it('renders title, desktop description, and both CTAs when logged out on desktop', () => {
+  it('renders title, desktop description, and all CTAs when logged out on desktop', () => {
     useEnvMock.mockReturnValue({ appService: { isMobile: false } });
     useAuthMock.mockReturnValue({ user: null });
     render(<LibraryEmptyState onImport={vi.fn()} />);
 
     expect(screen.getByRole('heading', { name: 'Start your library' })).toBeTruthy();
-    expect(screen.getByText(/drop a book anywhere on this window/i)).toBeTruthy();
+    expect(screen.getByText(/add your own from your computer/i)).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Browse the catalog' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Import Books' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Sign in to sync your library' })).toBeTruthy();
   });
@@ -53,8 +55,18 @@ describe('LibraryEmptyState', () => {
     useAuthMock.mockReturnValue({ user: null });
     render(<LibraryEmptyState onImport={vi.fn()} />);
 
-    expect(screen.getByText(/pick a book from your device/i)).toBeTruthy();
-    expect(screen.queryByText(/drop a book anywhere on this window/i)).toBeNull();
+    expect(screen.getByText(/add your own from your device/i)).toBeTruthy();
+    expect(screen.queryByText(/add your own from your computer/i)).toBeNull();
+  });
+
+  it('navigates to the catalog when the Browse the catalog button is clicked', () => {
+    useEnvMock.mockReturnValue({ appService: { isMobile: false } });
+    useAuthMock.mockReturnValue({ user: null });
+    render(<LibraryEmptyState onImport={vi.fn()} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Browse the catalog' }));
+
+    expect(routerStub.push).toHaveBeenCalledWith('/catalog');
   });
 
   it('hides the sync button when the user is logged in', () => {

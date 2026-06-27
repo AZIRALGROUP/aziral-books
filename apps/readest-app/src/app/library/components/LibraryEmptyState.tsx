@@ -31,15 +31,16 @@ const LibraryEmptyState: React.FC<LibraryEmptyStateProps> = ({ onImport }) => {
         <h1 className='azb-empty-title'>{_('Start your library')}</h1>
         <p className='azb-empty-sub'>
           {isMobile
-            ? _('Pick a book from your device to add it to your library.')
-            : _('Drop a book anywhere on this window, or pick one from your computer.')}
+            ? _('Browse our catalog of free books, or add your own from your device.')
+            : _('Browse our catalog of free books, or add your own from your computer.')}
         </p>
         <div className='azb-empty-actions'>
-          <button type='button' className='azb-empty-cta' onClick={onImport}>
+          <button type='button' className='azb-empty-cta' onClick={() => router.push('/catalog')}>
+            {_('Browse the catalog')}
+          </button>
+          <button type='button' className='azb-empty-cta-secondary' onClick={onImport}>
             {_('Import Books')}
           </button>
-          {/* TODO: add a 'Browse free catalogs' secondary action that opens the
-              OPDS dialog (handleShowOPDSDialog) once we settle on placement. */}
           {!user && (
             <button
               type='button'

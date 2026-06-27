@@ -94,6 +94,32 @@
   outline: 2px solid var(--ochre);
   outline-offset: 2px;
 }
+.azb-empty-cta-secondary {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 99px;
+  border: 1.5px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.azb-empty-cta-secondary:hover {
+  border-color: var(--ochre);
+  color: var(--ochre-deep);
+}
+.azb-empty-cta-secondary:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+}
 .azb-empty-link {
   all: unset;
   cursor: pointer;
@@ -115,4 +141,7 @@
 [data-eink='true'] .azb-empty-cta {
   box-shadow: none;
   border: 1px solid var(--ochre-deep);
+}
+[data-eink='true'] .azb-empty-cta-secondary {
+  border-color: var(--ink);
 }
