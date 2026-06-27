@@ -1,17 +1,20 @@
 import * as React from 'react';
-import clsx from 'clsx';
-import { PiBooks } from 'react-icons/pi';
 
 import { useEnv } from '@/context/EnvContext';
 import { useAuth } from '@/context/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useAppRouter } from '@/hooks/useAppRouter';
 import { navigateToLogin } from '@/utils/nav';
+import { AziralMark } from '@/components/brand/AziralMark';
+import './library-empty.css';
 
 interface LibraryEmptyStateProps {
   onImport: () => void;
 }
 
+// Branded empty-library state — first thing a new user sees with zero books.
+// Matches the Aziral Books brand (mark, serif heading, ochre CTA) instead of
+// the generic daisyUI default.
 const LibraryEmptyState: React.FC<LibraryEmptyStateProps> = ({ onImport }) => {
   const _ = useTranslation();
   const { appService } = useEnv();
@@ -20,23 +23,19 @@ const LibraryEmptyState: React.FC<LibraryEmptyStateProps> = ({ onImport }) => {
   const isMobile = appService?.isMobile ?? false;
 
   return (
-    <div className='hero-content text-neutral-content text-center'>
-      <div className='flex max-w-md flex-col items-center'>
-        <PiBooks aria-hidden className='text-base-content/60 mb-10 size-16' />
-        <h1 className='mb-5 text-balance text-4xl font-semibold leading-tight tracking-tight'>
-          {_('Start your library')}
-        </h1>
-        <p className='text-base-content/70 mb-12 text-pretty text-base leading-relaxed'>
+    <div className='azb-empty'>
+      <div className='azb-empty-inner'>
+        <span className='azb-empty-mark'>
+          <AziralMark size={56} />
+        </span>
+        <h1 className='azb-empty-title'>{_('Start your library')}</h1>
+        <p className='azb-empty-sub'>
           {isMobile
             ? _('Pick a book from your device to add it to your library.')
             : _('Drop a book anywhere on this window, or pick one from your computer.')}
         </p>
-        <div className='flex w-full max-w-xs flex-col gap-3'>
-          <button
-            type='button'
-            className='btn btn-primary h-11 min-h-11 rounded-lg'
-            onClick={onImport}
-          >
+        <div className='azb-empty-actions'>
+          <button type='button' className='azb-empty-cta' onClick={onImport}>
             {_('Import Books')}
           </button>
           {/* TODO: add a 'Browse free catalogs' secondary action that opens the
@@ -44,11 +43,7 @@ const LibraryEmptyState: React.FC<LibraryEmptyStateProps> = ({ onImport }) => {
           {!user && (
             <button
               type='button'
-              className={clsx(
-                'text-base-content/70 hover:text-base-content mt-1 py-2 text-sm font-medium',
-                'underline underline-offset-4',
-                'focus-visible:text-base-content focus-visible:outline-none',
-              )}
+              className='azb-empty-link'
               onClick={() => navigateToLogin(router)}
             >
               {_('Sign in to sync your library')}
