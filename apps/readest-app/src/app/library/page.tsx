@@ -84,6 +84,7 @@ import Bookshelf from './components/Bookshelf';
 import LibraryEmptyState from './components/LibraryEmptyState';
 import LibraryDiscovery from './components/LibraryDiscovery';
 import LibraryHero from './components/LibraryHero';
+import ContinueReading from './components/ContinueReading';
 import GroupHeader from './components/GroupHeader';
 import FailedImportsDialog, { FailedImport } from './components/FailedImportsDialog';
 import ImportFromFolderDialog, {
@@ -1427,6 +1428,25 @@ const LibraryPageContent = ({ searchParams }: { searchParams: ReadonlyURLSearchP
                 onRetrySync={() => pullLibrary()}
               />
             )}
+            {!currentGroupPath &&
+              !isSelectMode &&
+              (() => {
+                const inProgress = libraryBooks.find(
+                  (book) =>
+                    !book.deletedAt &&
+                    book.readingStatus !== 'finished' &&
+                    book.progress &&
+                    book.progress[1] > 1 &&
+                    book.progress[0] > 0 &&
+                    book.progress[0] < book.progress[1],
+                );
+                return inProgress ? (
+                  <ContinueReading
+                    book={inProgress}
+                    onOpen={(book) => navigateToReader(router, [book.hash])}
+                  />
+                ) : null;
+              })()}
             <div
               ref={containerRef}
               className={clsx(

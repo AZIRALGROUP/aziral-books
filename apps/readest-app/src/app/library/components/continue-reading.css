@@ -1,0 +1,206 @@
+/* "Продолжаете читать" hero band — sits between LibraryHero and the grid.
+   Self-contained brand tokens scoped to .azb-continue-wrap (mirrors brand.css
+   / library-hero.css). Imports the brand fonts so the serif title renders even
+   though the bookshelf page itself doesn't pull them in. */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap');
+
+.azb-continue-wrap {
+  --paper-card: oklch(0.988 0.008 86);
+  --paper-sunk: oklch(0.952 0.012 84);
+  --ink: oklch(0.255 0.018 58);
+  --ink-soft: oklch(0.435 0.02 60);
+  --ink-faint: oklch(0.62 0.018 62);
+  --line: oklch(0.885 0.014 80);
+  --ochre: oklch(0.66 0.118 66);
+  --ochre-deep: oklch(0.545 0.112 58);
+  --ochre-soft: oklch(0.915 0.045 78);
+
+  --surface: var(--paper-card);
+  --text: var(--ink);
+  --text-2: var(--ink-soft);
+  --text-3: var(--ink-faint);
+  --border: var(--line);
+  --accent: var(--ochre);
+  --accent-ink: var(--ochre-deep);
+  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --sans: 'Hanken Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  flex: 0 0 auto;
+  padding: 0 clamp(16px, 5vw, 40px);
+  margin-bottom: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .azb-continue-wrap {
+    --paper-card: oklch(0.248 0.013 64);
+    --paper-sunk: oklch(0.22 0.012 64);
+    --ink: oklch(0.94 0.012 84);
+    --ink-soft: oklch(0.78 0.014 80);
+    --ink-faint: oklch(0.62 0.016 72);
+    --line: oklch(0.32 0.014 66);
+    --ochre: oklch(0.745 0.115 72);
+    --ochre-deep: oklch(0.82 0.09 80);
+    --ochre-soft: oklch(0.33 0.045 66);
+  }
+}
+
+.azb-continue {
+  all: unset;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 24px 28px;
+  box-shadow: 0 1px 2px rgba(60, 46, 30, 0.06);
+  transition:
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+.azb-continue:hover {
+  box-shadow: 0 14px 34px rgba(60, 46, 30, 0.14);
+}
+.azb-continue:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.azb-continue-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(90% 140% at 92% 10%, var(--ochre-soft), transparent 58%);
+  opacity: 0.85;
+}
+
+.azb-continue-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.azb-continue-cover {
+  display: block;
+  width: 84px;
+  flex: 0 0 auto;
+  aspect-ratio: 28 / 41;
+  border-radius: 8px;
+  overflow: hidden;
+  transform: rotate(-2deg);
+  filter: drop-shadow(0 12px 24px rgba(60, 46, 30, 0.26));
+  transition: transform 0.18s ease;
+}
+.azb-continue:hover .azb-continue-cover {
+  transform: translateY(-3px) rotate(-2deg);
+}
+
+.azb-continue-body {
+  flex: 1;
+  min-width: 0;
+  display: block;
+}
+.azb-continue-label {
+  display: block;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin-bottom: 8px;
+}
+.azb-continue-title {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(19px, 1rem + 0.7vw, 24px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.azb-continue-meta {
+  display: block;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-3);
+  margin: 4px 0 14px;
+}
+.azb-continue-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 440px;
+}
+.azb-continue-track {
+  flex: 1;
+  height: 6px;
+  border-radius: 99px;
+  background: var(--paper-sunk);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.azb-continue-fill {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: var(--accent);
+}
+.azb-continue-pct {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent-ink);
+  flex: 0 0 auto;
+}
+
+.azb-continue-cta {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 24px;
+  border-radius: 99px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 15px;
+  box-shadow: 0 1px 2px rgba(60, 46, 30, 0.18);
+  transition: transform 0.15s ease;
+}
+.azb-continue:hover .azb-continue-cta {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 720px) {
+  .azb-continue-row {
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  .azb-continue-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* E-ink: flatten gradients/shadows, keep crisp borders. */
+[data-eink='true'] .azb-continue,
+[data-eink='true'] .azb-continue-cta {
+  box-shadow: none;
+}
+[data-eink='true'] .azb-continue-glow {
+  display: none;
+}
+[data-eink='true'] .azb-continue-cover {
+  filter: none;
+}

@@ -4,6 +4,7 @@ import type { Book } from '@/types/book';
 import { useTranslation } from '@/hooks/useTranslation';
 import { SHOW_UNREAD_STATUS_BADGE } from '@/services/constants';
 import StatusBadge from './StatusBadge';
+import './library-cards.css';
 
 interface ReadingProgressProps {
   book: Book;
@@ -50,12 +51,11 @@ const ReadingProgress: React.FC<ReadingProgressProps> = memo(
     }
 
     return (
-      <div
-        className='text-neutral-content/70 flex justify-between text-xs'
-        role='status'
-        aria-label={`${progressPercentage}%`}
-      >
-        <span>{progressPercentage}%</span>
+      <div className='azb-cardprog' role='status' aria-label={`${progressPercentage}%`}>
+        <span className='azb-cardprog-track'>
+          <span className='azb-cardprog-fill' style={{ width: `${progressPercentage}%` }} />
+        </span>
+        <span className='azb-cardprog-pct'>{progressPercentage}%</span>
       </div>
     );
   },

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
-import { MdUploadFile, MdCheckCircle, MdError, MdLink, MdExtension } from 'react-icons/md';
+import { MdUploadFile, MdCheckCircle, MdError, MdLink } from 'react-icons/md';
 import { useEnv } from '@/context/EnvContext';
 import { useAuth } from '@/context/AuthContext';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -38,8 +38,8 @@ export default function SendPage() {
   // Direct client fetch only works without CORS, i.e. inside the Tauri
   // webview. On the pure web build the URL flow has no reliable way to scrape
   // the full article (server-proxied fetches lose to bot detection / login
-  // walls / JS rendering), so the URL field is hidden and the user is pointed
-  // at the browser extension instead.
+  // walls / JS rendering), so the URL field is hidden entirely. File drop
+  // still works everywhere.
   const canClipFromUrl = isTauriAppPlatform();
 
   const [items, setItems] = useState<SendItem[]>([]);
@@ -170,7 +170,7 @@ export default function SendPage() {
         }}
       />
 
-      {canClipFromUrl ? (
+      {canClipFromUrl && (
         <div className='flex gap-2'>
           <input
             type='url'
@@ -187,18 +187,6 @@ export default function SendPage() {
             {_('Add')}
           </button>
         </div>
-      ) : (
-        <section className='card eink-bordered border-base-200 bg-base-100 flex flex-col gap-2 border p-5'>
-          <div className='flex items-center gap-2'>
-            <MdExtension className='text-base-content/70 h-5 w-5 flex-shrink-0' />
-            <h2 className='text-sm font-medium'>{_('Send a web article')}</h2>
-          </div>
-          <p className='text-base-content/70 text-xs leading-relaxed'>
-            {_(
-              'Install the Aziral Books browser extension to send the article you are reading to your library. It clips the page from your browser so paywalled and login-only sites still work.',
-            )}
-          </p>
-        </section>
       )}
 
       {items.length > 0 && (

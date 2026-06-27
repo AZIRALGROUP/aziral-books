@@ -19,6 +19,7 @@ import { navigateToLogin } from '@/utils/nav';
 import { formatAuthors, formatDescription } from '@/utils/book';
 import ReadingProgress from './ReadingProgress';
 import BookCover from '@/components/BookCover';
+import './library-cards.css';
 
 interface BookItemProps {
   book: Book;
@@ -119,12 +120,15 @@ const BookItem: React.FC<BookItemProps> = ({
           <h4
             className={clsx(
               'overflow-hidden text-ellipsis font-semibold',
-              mode === 'grid' && 'block whitespace-nowrap text-[0.6em] text-xs',
+              mode === 'grid' && 'azb-card-title',
               mode === 'list' && 'line-clamp-2 text-base',
             )}
           >
             {book.title}
           </h4>
+          {mode === 'grid' && !!formatAuthors(book.author, book.primaryLanguage) && (
+            <p className='azb-card-author'>{formatAuthors(book.author, book.primaryLanguage)}</p>
+          )}
           {mode === 'list' && (
             <p className='text-neutral-content line-clamp-1 text-sm'>
               {formatAuthors(book.author, book.primaryLanguage) || ''}

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PiPlus } from 'react-icons/pi';
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
 import 'overlayscrollbars/overlayscrollbars.css';
+import './library-cards.css';
 import {
   Virtuoso,
   VirtuosoGrid,
@@ -683,16 +684,14 @@ const Bookshelf: React.FC<BookshelfProps> = ({
           >
             <button
               aria-label={_('Import Books')}
-              className={clsx(
-                'bookitem-main bg-base-100 hover:bg-base-300/50',
-                'flex items-center justify-center',
-                'aspect-[28/41] w-full',
-              )}
+              className={clsx('azb-import-tile', 'aspect-[28/41] w-full')}
               onClick={handleImportBooks}
             >
-              <div className='flex items-center justify-center'>
-                <PiPlus className='size-10' color='gray' />
-              </div>
+              <span className='azb-import-tile-plus'>
+                <PiPlus className='size-6' />
+              </span>
+              <span className='azb-import-tile-label'>Импортировать книгу</span>
+              <span className='azb-import-tile-formats'>EPUB · PDF · DOCX · MOBI · TXT</span>
             </button>
           </div>
         );

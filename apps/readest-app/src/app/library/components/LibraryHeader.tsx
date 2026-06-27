@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React, { useCallback, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FaSearch } from 'react-icons/fa';
-import { PiPlus } from 'react-icons/pi';
+import { PiPlus, PiCloudSlash } from 'react-icons/pi';
 import { PiSelectionAll, PiSelectionAllFill } from 'react-icons/pi';
 import { PiDotsThreeCircle } from 'react-icons/pi';
 import { MdOutlineMenu } from 'react-icons/md';
@@ -200,6 +200,15 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
           </div>
         ) : (
           <div className='flex h-full items-center gap-x-2 sm:gap-x-4'>
+            {!isMobile && (
+              <div
+                title='Облачная синхронизация недоступна'
+                className='border-base-300 text-base-content/55 flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium'
+              >
+                <PiCloudSlash className='h-4 w-4' />
+                <span className='whitespace-nowrap'>Нет синхр.</span>
+              </div>
+            )}
             <Dropdown
               label={_('View Menu')}
               className='exclude-title-bar-mousedown dropdown-bottom dropdown-end'
