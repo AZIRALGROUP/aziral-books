@@ -121,8 +121,9 @@ export const themes = [
     name: 'default',
     label: _('Default'),
     colors: {
-      light: generateLightPalette({ fg: '#171717', bg: '#ffffff', primary: '#0066cc' }),
-      dark: generateDarkPalette({ fg: '#e0e0e0', bg: '#222222', primary: '#77bbee' }),
+      // Aziral Books brand: warm paper + ochre accent (light & dark).
+      light: generateLightPalette({ fg: '#2b2620', bg: '#f7f3ea', primary: '#b07636' }),
+      dark: generateDarkPalette({ fg: '#e8e4dc', bg: '#221f1c', primary: '#cf9b56' }),
     },
   },
   {

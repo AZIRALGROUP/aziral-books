@@ -162,10 +162,10 @@ foliate-fxl {
 
 .dropdown-content {
   position: relative;
-  @apply bg-base-100;
+  @apply border border-base-300 bg-base-100;
   padding: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(40, 30, 16, 0.16);
+  border-radius: 16px;
 }
 
 .dropdown-content::before,
