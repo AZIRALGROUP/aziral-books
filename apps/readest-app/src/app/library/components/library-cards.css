@@ -28,10 +28,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-@media (prefers-color-scheme: dark) {
-  .azb-bookcard-author {
-    color: oklch(0.62 0.016 72);
-  }
+[data-theme$='-dark'] .azb-bookcard-author {
+  color: oklch(0.62 0.016 72);
 }
 
 .azb-cardprog {
@@ -46,13 +44,11 @@
   min-width: 0;
   max-width: 130px;
 }
-@media (prefers-color-scheme: dark) {
-  .azb-cardprog {
-    --accent: oklch(0.745 0.115 72);
-    --accent-ink: oklch(0.82 0.09 80);
-    --track: oklch(0.22 0.012 64);
-    --line: oklch(0.32 0.014 66);
-  }
+[data-theme$='-dark'] .azb-cardprog {
+  --accent: oklch(0.745 0.115 72);
+  --accent-ink: oklch(0.82 0.09 80);
+  --track: oklch(0.22 0.012 64);
+  --line: oklch(0.32 0.014 66);
 }
 .azb-cardprog-track {
   flex: 1;
@@ -109,16 +105,14 @@
   background: var(--ochre-soft);
   border-color: var(--accent);
 }
-@media (prefers-color-scheme: dark) {
-  .azb-import-tile {
-    --accent: oklch(0.745 0.115 72);
-    --ochre-soft: oklch(0.33 0.045 66);
-    --line-strong: oklch(0.4 0.016 66);
-    --text-2: oklch(0.78 0.014 80);
-    --text-3: oklch(0.62 0.016 72);
-    --surface: oklch(0.248 0.013 64);
-    --border: oklch(0.32 0.014 66);
-  }
+[data-theme$='-dark'] .azb-import-tile {
+  --accent: oklch(0.745 0.115 72);
+  --ochre-soft: oklch(0.33 0.045 66);
+  --line-strong: oklch(0.4 0.016 66);
+  --text-2: oklch(0.78 0.014 80);
+  --text-3: oklch(0.62 0.016 72);
+  --surface: oklch(0.248 0.013 64);
+  --border: oklch(0.32 0.014 66);
 }
 .azb-import-tile-plus {
   width: 46px;
@@ -193,11 +187,9 @@
 .azb-cover-cloud--off {
   color: oklch(0.62 0.11 45);
 }
-@media (prefers-color-scheme: dark) {
-  .azb-cover-cloud {
-    background: oklch(0.248 0.013 64);
-    border-color: oklch(0.32 0.014 66);
-  }
+[data-theme$='-dark'] .azb-cover-cloud {
+  background: oklch(0.248 0.013 64);
+  border-color: oklch(0.32 0.014 66);
 }
 [data-eink='true'] .azb-cover-cta {
   display: none;
