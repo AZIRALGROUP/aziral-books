@@ -5,7 +5,7 @@
    the stock Readest layout classes. */
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Hanken+Grotesk:wght@500;600;700&display=swap');
 
-.azb-card-title {
+.azb-bookcard-title {
   --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
   font-family: var(--serif);
   font-size: 14.5px;
@@ -18,7 +18,7 @@
   overflow: hidden;
 }
 
-.azb-card-author {
+.azb-bookcard-author {
   --sans: 'Hanken Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
   font-family: var(--sans);
   font-size: 12px;
@@ -29,7 +29,7 @@
   text-overflow: ellipsis;
 }
 @media (prefers-color-scheme: dark) {
-  .azb-card-author {
+  .azb-bookcard-author {
     color: oklch(0.62 0.016 72);
   }
 }
@@ -144,4 +144,64 @@
 }
 [data-eink='true'] .azb-import-tile:hover {
   background: transparent;
+}
+
+/* Card cover overlays (library.jsx → LibraryCard): hover CTA + cloud badge. */
+.azb-cover-cta {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+  background: linear-gradient(transparent 55%, rgba(20, 14, 8, 0.55));
+}
+.group:hover .azb-cover-cta {
+  opacity: 1;
+}
+.azb-cover-cta-pill {
+  font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+  padding: 7px 16px;
+  border-radius: 99px;
+  background: oklch(0.66 0.118 66);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+.azb-cover-cloud {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  pointer-events: none;
+  background: oklch(0.988 0.008 86);
+  border: 1px solid oklch(0.885 0.014 80);
+  box-shadow: 0 1px 2px rgba(60, 46, 30, 0.12);
+}
+.azb-cover-cloud--ok {
+  color: oklch(0.56 0.06 158);
+}
+.azb-cover-cloud--off {
+  color: oklch(0.62 0.11 45);
+}
+@media (prefers-color-scheme: dark) {
+  .azb-cover-cloud {
+    background: oklch(0.248 0.013 64);
+    border-color: oklch(0.32 0.014 66);
+  }
+}
+[data-eink='true'] .azb-cover-cta {
+  display: none;
+}
+[data-eink='true'] .azb-cover-cloud {
+  box-shadow: none;
 }

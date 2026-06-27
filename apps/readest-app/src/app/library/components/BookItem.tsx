@@ -1,11 +1,8 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { MdCheckCircle, MdCheckCircleOutline } from 'react-icons/md';
-import {
-  LiaCloudUploadAltSolid,
-  LiaCloudDownloadAltSolid,
-  LiaInfoCircleSolid,
-} from 'react-icons/lia';
+import { LiaCloudUploadAltSolid, LiaCloudDownloadAltSolid } from 'react-icons/lia';
+import { PiDotsThreeBold, PiCloudCheck, PiCloudSlash } from 'react-icons/pi';
 
 import { Book } from '@/types/book';
 import { useEnv } from '@/context/EnvContext';
@@ -66,11 +63,21 @@ const BookItem: React.FC<BookItemProps> = ({
       }
     : undefined;
 
+  // Brand card affordances (grid): hover CTA label + cloud-status badge.
+  const isReading =
+    !!book.progress &&
+    book.progress[1] > 1 &&
+    book.progress[0] > 0 &&
+    book.progress[0] < book.progress[1];
+  const ctaLabel =
+    book.readingStatus === 'finished' ? 'Перечитать' : isReading ? 'Продолжить' : 'Читать';
+  const isSynced = !!book.uploadedAt;
+
   return (
     <div
       role='none'
       className={clsx(
-        'book-item flex',
+        'book-item group flex',
         mode === 'grid' && 'h-full flex-col justify-end',
         mode === 'list' && 'h-28 flex-row gap-4 overflow-hidden',
         mode === 'list' ? 'library-list-item' : 'library-grid-item',
@@ -108,6 +115,22 @@ const BookItem: React.FC<BookItemProps> = ({
             )}
           </div>
         )}
+        {mode === 'grid' && (
+          <span
+            className={clsx(
+              'azb-cover-cloud',
+              isSynced ? 'azb-cover-cloud--ok' : 'azb-cover-cloud--off',
+            )}
+            title={isSynced ? 'Сохранено в облаке' : 'Не синхронизировано'}
+          >
+            {isSynced ? <PiCloudCheck size={16} /> : <PiCloudSlash size={16} />}
+          </span>
+        )}
+        {mode === 'grid' && !isSelectMode && (
+          <span className='azb-cover-cta'>
+            <span className='azb-cover-cta-pill'>{ctaLabel}</span>
+          </span>
+        )}
       </div>
       <div
         className={clsx(
@@ -120,14 +143,16 @@ const BookItem: React.FC<BookItemProps> = ({
           <h4
             className={clsx(
               'overflow-hidden text-ellipsis font-semibold',
-              mode === 'grid' && 'azb-card-title',
+              mode === 'grid' && 'azb-bookcard-title',
               mode === 'list' && 'line-clamp-2 text-base',
             )}
           >
             {book.title}
           </h4>
           {mode === 'grid' && !!formatAuthors(book.author, book.primaryLanguage) && (
-            <p className='azb-card-author'>{formatAuthors(book.author, book.primaryLanguage)}</p>
+            <p className='azb-bookcard-author'>
+              {formatAuthors(book.author, book.primaryLanguage)}
+            </p>
           )}
           {mode === 'list' && (
             <p className='text-neutral-content line-clamp-1 text-sm'>
@@ -162,7 +187,7 @@ const BookItem: React.FC<BookItemProps> = ({
                 }}
               >
                 <div className='pt-[2px] sm:pt-[1px]'>
-                  <LiaInfoCircleSolid size={iconSize15} />
+                  <PiDotsThreeBold size={iconSize15} />
                 </div>
               </button>
             )}
@@ -181,6 +206,7 @@ const BookItem: React.FC<BookItemProps> = ({
                 ></div>
               )
             ) : (
+              mode === 'list' &&
               (!book.uploadedAt || (book.uploadedAt && !book.downloadedAt)) && (
                 <button
                   aria-label={!book.uploadedAt ? _('Upload Book') : _('Download Book')}

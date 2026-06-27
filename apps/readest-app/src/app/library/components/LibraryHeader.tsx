@@ -110,7 +110,7 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
       }}
     >
       <div className='flex w-full items-center justify-between space-x-6 sm:space-x-12'>
-        <div className='exclude-title-bar-mousedown relative flex w-full items-center pl-4'>
+        <div className='exclude-title-bar-mousedown relative mx-auto flex w-full max-w-[680px] items-center pl-4'>
           <div className='relative flex h-9 w-full items-center sm:h-7'>
             <span className='text-base-content/50 absolute ps-3'>
               <FaSearch className='h-4 w-4' />
