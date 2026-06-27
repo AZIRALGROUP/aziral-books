@@ -21,6 +21,7 @@ import Dropdown from '@/components/Dropdown';
 import SettingsMenu from './SettingsMenu';
 import ImportMenu from './ImportMenu';
 import ViewMenu from './ViewMenu';
+import './library-header.css';
 
 interface LibraryHeaderProps {
   isSelectMode: boolean;
@@ -127,8 +128,7 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
               onChange={handleSearchChange}
               spellCheck='false'
               className={clsx(
-                'search-input input h-9 w-full rounded-full pr-[30%] ps-10 sm:h-7',
-                'bg-base-300/45 border-0',
+                'search-input input azb-search h-9 w-full rounded-full pr-[30%] ps-10 sm:h-7',
                 'font-sans text-sm font-light',
                 'placeholder:text-base-content/50 truncate',
                 'focus:outline-none focus:ring-0',
@@ -155,8 +155,13 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
               className={clsx(
                 'exclude-title-bar-mousedown dropdown-bottom dropdown-center cursor-pointer',
               )}
-              buttonClassName='p-0 h-6 min-h-6 w-6 flex touch-target items-center justify-center !bg-transparent'
-              toggleButton={<PiPlus role='none' className='m-0.5 h-5 w-5' />}
+              buttonClassName='azb-import-btn'
+              toggleButton={
+                <span className='azb-import-btn-label'>
+                  <PiPlus role='none' className='h-4 w-4' />
+                  <span className='hidden sm:inline'>Импорт</span>
+                </span>
+              }
             >
               <ImportMenu
                 onImportBooksFromFiles={onImportBooksFromFiles}
