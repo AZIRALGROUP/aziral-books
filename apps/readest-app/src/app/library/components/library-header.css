@@ -1,0 +1,59 @@
+/* Brand treatment for the library toolbar — ochre "Импорт" button + a softer
+   search pill, matching the brand mockup (library.jsx → LibToolbar) while
+   keeping the functional Readest header intact. */
+
+.azb-import-btn {
+  --ochre: oklch(0.66 0.118 66);
+  --ochre-deep: oklch(0.545 0.112 58);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  min-height: 32px;
+  padding: 0 14px;
+  border-radius: 99px;
+  border: 0;
+  background: var(--ochre);
+  color: #fff;
+  font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+.azb-import-btn:hover {
+  background: var(--ochre-deep);
+  transform: translateY(-1px);
+}
+.azb-import-btn-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.azb-search {
+  background: oklch(0.988 0.008 86);
+  border: 1px solid oklch(0.885 0.014 80);
+}
+.azb-search:focus {
+  border-color: oklch(0.66 0.118 66);
+}
+
+@media (prefers-color-scheme: dark) {
+  .azb-import-btn {
+    --ochre: oklch(0.745 0.115 72);
+    --ochre-deep: oklch(0.82 0.09 80);
+    color: oklch(0.2 0.012 66);
+  }
+  .azb-search {
+    background: oklch(0.248 0.013 64);
+    border-color: oklch(0.32 0.014 66);
+  }
+}
+
+[data-eink='true'] .azb-import-btn {
+  border: 1px solid oklch(0.545 0.112 58);
+}
