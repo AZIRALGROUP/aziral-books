@@ -1,0 +1,120 @@
+/* Branded empty-library state — shown when the shelf has zero books.
+   Mirrors library-hero.css brand tokens so the first thing a new user sees
+   matches the Aziral Books brand instead of the generic daisyUI default. */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+
+.azb-empty {
+  --paper-card: oklch(0.988 0.008 86);
+  --ink: oklch(0.255 0.018 58);
+  --ink-soft: oklch(0.435 0.02 60);
+  --ink-faint: oklch(0.62 0.018 62);
+  --line-strong: oklch(0.82 0.018 78);
+  --ochre: oklch(0.66 0.118 66);
+  --ochre-deep: oklch(0.545 0.112 58);
+  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --sans: 'Hanken Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .azb-empty {
+    --paper-card: oklch(0.248 0.013 64);
+    --ink: oklch(0.94 0.012 84);
+    --ink-soft: oklch(0.78 0.014 80);
+    --ink-faint: oklch(0.62 0.016 72);
+    --line-strong: oklch(0.4 0.016 66);
+    --ochre: oklch(0.745 0.115 72);
+    --ochre-deep: oklch(0.82 0.09 80);
+  }
+}
+
+.azb-empty-inner {
+  display: flex;
+  max-width: 30rem;
+  flex-direction: column;
+  align-items: center;
+}
+.azb-empty-mark {
+  margin-bottom: 28px;
+  opacity: 0.95;
+}
+.azb-empty-title {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-size: clamp(30px, 1.6rem + 2vw, 40px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.azb-empty-sub {
+  margin: 0 0 36px;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+.azb-empty-actions {
+  display: flex;
+  width: 100%;
+  max-width: 20rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.azb-empty-cta {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 100%;
+  padding: 13px 24px;
+  border-radius: 99px;
+  background: var(--ochre);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(60, 46, 30, 0.18);
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+.azb-empty-cta:hover {
+  transform: translateY(-1px);
+  background: var(--ochre-deep);
+}
+.azb-empty-cta:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+}
+.azb-empty-link {
+  all: unset;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.azb-empty-link:hover {
+  color: var(--ink);
+}
+.azb-empty-link:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+}
+
+[data-eink='true'] .azb-empty-cta {
+  box-shadow: none;
+  border: 1px solid var(--ochre-deep);
+}
