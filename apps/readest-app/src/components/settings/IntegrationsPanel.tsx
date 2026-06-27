@@ -8,7 +8,6 @@ import {
   RiBookReadLine,
   RiBook3Line,
   RiDiscordLine,
-  RiSendPlaneLine,
   RiCloudLine,
 } from 'react-icons/ri';
 import { useEnv } from '@/context/EnvContext';
@@ -24,12 +23,11 @@ import { navigateToLogin } from '@/utils/nav';
 import KOSyncForm from './integrations/KOSyncForm';
 import ReadwiseForm from './integrations/ReadwiseForm';
 import HardcoverForm from './integrations/HardcoverForm';
-import SendToReadestForm from './integrations/SendToReadestForm';
 import WebDAVForm from './integrations/WebDAVForm';
 import SubPageHeader from './SubPageHeader';
 import { SectionTitle, SettingLabel } from './primitives';
 
-type SubPage = 'kosync' | 'webdav' | 'readwise' | 'hardcover' | 'opds' | 'send' | null;
+type SubPage = 'kosync' | 'webdav' | 'readwise' | 'hardcover' | 'opds' | null;
 
 /**
  * Integrations panel — single point of discovery for external service config:
@@ -59,7 +57,7 @@ const IntegrationsPanel: React.FC = () => {
   const [subPage, setSubPage] = useState<SubPage>(null);
 
   // Android Back / Esc: when any integrations sub-page (KOSync, WebDAV,
-  // Readwise, Hardcover, OPDS, Send-to-Readest) is open, intercept and
+  // Readwise, Hardcover, OPDS) is open, intercept and
   // step back to the integrations list instead of letting <Dialog>'s
   // listener close the whole Settings dialog. The hook registers its
   // sync `native-key-down` listener *after* <Dialog>'s, and
@@ -91,8 +89,7 @@ const IntegrationsPanel: React.FC = () => {
       requestedSubPage === 'webdav' ||
       requestedSubPage === 'readwise' ||
       requestedSubPage === 'hardcover' ||
-      requestedSubPage === 'opds' ||
-      requestedSubPage === 'send'
+      requestedSubPage === 'opds'
     ) {
       setSubPage(requestedSubPage);
     }
@@ -137,12 +134,6 @@ const IntegrationsPanel: React.FC = () => {
           onBack={() => setSubPage(null)}
         />
         <CatalogManager inSubPage />
-      </div>
-    );
-  if (subPage === 'send')
-    return (
-      <div className='my-4 w-full'>
-        <SendToReadestForm onBack={() => setSubPage(null)} />
       </div>
     );
 
@@ -214,12 +205,6 @@ const IntegrationsPanel: React.FC = () => {
               title={_('OPDS Catalogs')}
               status={opdsStatus}
               onClick={() => setSubPage('opds')}
-            />
-            <IntegrationRow
-              icon={RiSendPlaneLine}
-              title={_('Send to Aziral Books')}
-              status={_('Email books to your library')}
-              onClick={() => setSubPage('send')}
             />
           </div>
         </div>

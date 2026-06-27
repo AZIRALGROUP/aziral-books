@@ -1,0 +1,147 @@
+/* Brand card chrome for the bookshelf grid — serif titles + an ochre progress
+   bar, matching the brand mockup (library.jsx → LibraryCard). Self-contained
+   tokens (mirrors library-hero.css); imports brand fonts so serif titles
+   render on the bookshelf page. Scoped to .azb-card* so it never leaks into
+   the stock Readest layout classes. */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Hanken+Grotesk:wght@500;600;700&display=swap');
+
+.azb-card-title {
+  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  font-family: var(--serif);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.azb-card-author {
+  --sans: 'Hanken Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: oklch(0.62 0.018 62);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (prefers-color-scheme: dark) {
+  .azb-card-author {
+    color: oklch(0.62 0.016 72);
+  }
+}
+
+.azb-cardprog {
+  --accent: oklch(0.66 0.118 66);
+  --accent-ink: oklch(0.545 0.112 58);
+  --track: oklch(0.952 0.012 84);
+  --line: oklch(0.885 0.014 80);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1;
+  min-width: 0;
+  max-width: 130px;
+}
+@media (prefers-color-scheme: dark) {
+  .azb-cardprog {
+    --accent: oklch(0.745 0.115 72);
+    --accent-ink: oklch(0.82 0.09 80);
+    --track: oklch(0.22 0.012 64);
+    --line: oklch(0.32 0.014 66);
+  }
+}
+.azb-cardprog-track {
+  flex: 1;
+  min-width: 0;
+  height: 5px;
+  border-radius: 99px;
+  background: var(--track);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.azb-cardprog-fill {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: var(--accent);
+}
+.azb-cardprog-pct {
+  font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-ink);
+  flex: 0 0 auto;
+}
+
+[data-eink='true'] .azb-cardprog-track {
+  background: transparent;
+}
+
+/* Dashed import dropzone tile in the grid (library.jsx → ImportTile). */
+.azb-import-tile {
+  --accent: oklch(0.66 0.118 66);
+  --ochre-soft: oklch(0.915 0.045 78);
+  --line-strong: oklch(0.82 0.018 78);
+  --text-2: oklch(0.435 0.02 60);
+  --text-3: oklch(0.62 0.018 62);
+  --surface: oklch(0.988 0.008 86);
+  --border: oklch(0.885 0.014 80);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px dashed var(--line-strong);
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.azb-import-tile:hover {
+  background: var(--ochre-soft);
+  border-color: var(--accent);
+}
+@media (prefers-color-scheme: dark) {
+  .azb-import-tile {
+    --accent: oklch(0.745 0.115 72);
+    --ochre-soft: oklch(0.33 0.045 66);
+    --line-strong: oklch(0.4 0.016 66);
+    --text-2: oklch(0.78 0.014 80);
+    --text-3: oklch(0.62 0.016 72);
+    --surface: oklch(0.248 0.013 64);
+    --border: oklch(0.32 0.014 66);
+  }
+}
+.azb-import-tile-plus {
+  width: 46px;
+  height: 46px;
+  border-radius: 99px;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--accent);
+}
+.azb-import-tile-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.azb-import-tile-formats {
+  font-size: 11.5px;
+  color: var(--text-3);
+  text-align: center;
+  max-width: 140px;
+  line-height: 1.4;
+}
+[data-eink='true'] .azb-import-tile:hover {
+  background: transparent;
+}
