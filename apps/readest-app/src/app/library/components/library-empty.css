@@ -22,16 +22,14 @@
   text-align: center;
 }
 
-@media (prefers-color-scheme: dark) {
-  .azb-empty {
-    --paper-card: oklch(0.248 0.013 64);
-    --ink: oklch(0.94 0.012 84);
-    --ink-soft: oklch(0.78 0.014 80);
-    --ink-faint: oklch(0.62 0.016 72);
-    --line-strong: oklch(0.4 0.016 66);
-    --ochre: oklch(0.745 0.115 72);
-    --ochre-deep: oklch(0.82 0.09 80);
-  }
+[data-theme$='-dark'] .azb-empty {
+  --paper-card: oklch(0.248 0.013 64);
+  --ink: oklch(0.94 0.012 84);
+  --ink-soft: oklch(0.78 0.014 80);
+  --ink-faint: oklch(0.62 0.016 72);
+  --line-strong: oklch(0.4 0.016 66);
+  --ochre: oklch(0.745 0.115 72);
+  --ochre-deep: oklch(0.82 0.09 80);
 }
 
 .azb-empty-inner {

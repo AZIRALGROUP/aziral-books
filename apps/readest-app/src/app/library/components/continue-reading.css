@@ -30,18 +30,16 @@
   margin-bottom: 8px;
 }
 
-@media (prefers-color-scheme: dark) {
-  .azb-continue-wrap {
-    --paper-card: oklch(0.248 0.013 64);
-    --paper-sunk: oklch(0.22 0.012 64);
-    --ink: oklch(0.94 0.012 84);
-    --ink-soft: oklch(0.78 0.014 80);
-    --ink-faint: oklch(0.62 0.016 72);
-    --line: oklch(0.32 0.014 66);
-    --ochre: oklch(0.745 0.115 72);
-    --ochre-deep: oklch(0.82 0.09 80);
-    --ochre-soft: oklch(0.33 0.045 66);
-  }
+[data-theme$='-dark'] .azb-continue-wrap {
+  --paper-card: oklch(0.248 0.013 64);
+  --paper-sunk: oklch(0.22 0.012 64);
+  --ink: oklch(0.94 0.012 84);
+  --ink-soft: oklch(0.78 0.014 80);
+  --ink-faint: oklch(0.62 0.016 72);
+  --line: oklch(0.32 0.014 66);
+  --ochre: oklch(0.745 0.115 72);
+  --ochre-deep: oklch(0.82 0.09 80);
+  --ochre-soft: oklch(0.33 0.045 66);
 }
 
 .azb-continue {

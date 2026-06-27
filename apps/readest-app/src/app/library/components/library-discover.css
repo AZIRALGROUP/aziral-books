@@ -19,18 +19,16 @@
   flex: 0 0 auto;
   padding: 0 clamp(16px, 5vw, 40px) 8px;
 }
-@media (prefers-color-scheme: dark) {
-  .azb-discover {
-    --paper-sunk: oklch(0.22 0.012 64);
-    --ink: oklch(0.94 0.012 84);
-    --ink-soft: oklch(0.78 0.014 80);
-    --line: oklch(0.32 0.014 66);
-    --line-strong: oklch(0.4 0.016 66);
-    --ochre: oklch(0.745 0.115 72);
-    --ochre-deep: oklch(0.82 0.09 80);
-    --ochre-soft: oklch(0.33 0.045 66);
-    --accent-ink: oklch(0.82 0.09 80);
-  }
+[data-theme$='-dark'] .azb-discover {
+  --paper-sunk: oklch(0.22 0.012 64);
+  --ink: oklch(0.94 0.012 84);
+  --ink-soft: oklch(0.78 0.014 80);
+  --line: oklch(0.32 0.014 66);
+  --line-strong: oklch(0.4 0.016 66);
+  --ochre: oklch(0.745 0.115 72);
+  --ochre-deep: oklch(0.82 0.09 80);
+  --ochre-soft: oklch(0.33 0.045 66);
+  --accent-ink: oklch(0.82 0.09 80);
 }
 
 .azb-discover-inner {
