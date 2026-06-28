@@ -7,7 +7,8 @@ import { useEnv } from '@/context/EnvContext';
 import { useLibraryStore } from '@/store/libraryStore';
 import { downloadFile } from '@/libs/storage';
 import { navigateToReader } from '@/utils/nav';
-import { probeFilename } from '../opds/utils/opdsReq';
+import { getProxiedURL, needsProxy, probeFilename } from '../opds/utils/opdsReq';
+import { READEST_OPDS_USER_AGENT } from '@/services/constants';
 import type { CatalogBook } from './catalogModel';
 
 const CATALOG_API = 'https://books.aziral.com/api/v1';
@@ -48,6 +49,15 @@ export function useBookOpener() {
           /* keep the opds download fallback */
         }
 
+        // On web, cross-origin downloads (Wikisource/Gutenberg) are CORS-blocked
+        // unless routed through our proxy — same as the OPDS browser does.
+        const useProxy = needsProxy(url);
+        const downloadUrl = useProxy ? getProxiedURL(url) : url;
+        const headers: Record<string, string> = {
+          'User-Agent': READEST_OPDS_USER_AGENT,
+          Accept: '*/*',
+        };
+
         const { library, setLibrary } = useLibraryStore.getState();
         const safeName = book.title.replaceAll(/[/\\:*?"<>|]/g, '_').slice(0, 120) || book.id;
         let dstFilePath = await appService.resolveFilePath(`${safeName}.epub`, 'Cache');
@@ -55,7 +65,8 @@ export function useBookOpener() {
           appService,
           dst: dstFilePath,
           cfp: '',
-          url,
+          url: downloadUrl,
+          headers,
           singleThreaded: true,
           skipSslVerification: true,
         });

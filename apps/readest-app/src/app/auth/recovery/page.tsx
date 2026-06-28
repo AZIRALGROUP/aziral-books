@@ -1,33 +1,22 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { useThemeStore } from '@/store/themeStore';
 import { useTranslation } from '@/hooks/useTranslation';
-import { ThemeSupa } from '@supabase/auth-ui-shared';
-import { Auth } from '@supabase/auth-ui-react';
 import { supabase } from '@/utils/supabase';
+import { AziralWordmark } from '@/components/brand/AziralMark';
+import '../auth.css';
 
 export default function ResetPasswordPage() {
   const _ = useTranslation();
   const router = useRouter();
   const { login } = useAuth();
-  const { isDarkMode } = useThemeStore();
 
-  const getAuthLocalization = () => {
-    return {
-      variables: {
-        update_password: {
-          password_label: _('New Password'),
-          password_input_placeholder: _('Your new password'),
-          button_label: _('Update password'),
-          loading_button_label: _('Updating password ...'),
-          confirmation_text: _('Your password has been updated'),
-        },
-      },
-    };
-  };
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
@@ -44,43 +33,67 @@ export default function ResetPasswordPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
-  return (
-    <div className='flex min-h-screen items-center justify-center'>
-      <div className='w-full max-w-md p-8'>
-        <Auth
-          supabaseClient={supabase}
-          view='update_password'
-          appearance={{ theme: ThemeSupa }}
-          theme={isDarkMode ? 'dark' : 'light'}
-          magicLink={false}
-          providers={[]}
-          localization={getAuthLocalization()}
-        />
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setMessage('');
 
-        <button
-          onClick={() => router.back()}
-          className={`mt-6 flex w-full items-center justify-center gap-2 rounded-md border px-4 py-2.5 text-sm transition-colors ${
-            isDarkMode
-              ? 'border-gray-600 text-gray-300 hover:bg-gray-800'
-              : 'border-gray-300 text-gray-700 hover:bg-gray-100'
-          }`}
-        >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            className='h-4 w-4'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth={2}
-              d='M15 19l-7-7 7-7'
-            />
-          </svg>
-          {_('Back')}
-        </button>
+    try {
+      const { error: updateError } = await supabase.auth.updateUser({ password });
+      if (updateError) throw updateError;
+      // On success Supabase emits USER_UPDATED → the listener above logs the
+      // user in and redirects. Show confirmation in case the redirect lags.
+      setMessage(_('Your password has been updated'));
+      setPassword('');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : _('Failed to update password'));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className='azb-auth'>
+      <button
+        type='button'
+        className='azb-back'
+        aria-label={_('Back')}
+        onClick={() => router.back()}
+      >
+        ‹
+      </button>
+      <div className='azb-form-col'>
+        <form className='azb-form' onSubmit={handleSubmit}>
+          <div className='azb-form-brand'>
+            <AziralWordmark size={22} mark={34} />
+          </div>
+          <h1 className='azb-form-title'>{_('Update password')}</h1>
+          <div className='azb-fields'>
+            <div>
+              <label className='azb-field-label' htmlFor='password'>
+                {_('New Password')}
+              </label>
+              <input
+                id='password'
+                className='azb-input'
+                type='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={_('Your new password')}
+                required
+                disabled={loading}
+                autoComplete='new-password'
+              />
+            </div>
+            <button className='azb-submit' type='submit' disabled={loading || !password}>
+              {loading ? _('Updating password ...') : _('Update password')}
+            </button>
+          </div>
+
+          {error && <div className='azb-msg err'>{error}</div>}
+          {message && <div className='azb-msg ok'>{message}</div>}
+        </form>
       </div>
     </div>
   );
