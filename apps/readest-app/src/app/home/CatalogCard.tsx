@@ -1,22 +1,33 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 
 import { BookCover } from '../catalog/BookCover';
-import { readHref, type CatalogBook } from '../catalog/catalogModel';
+import { useBookOpener } from '../catalog/useBookOpener';
+import { type CatalogBook } from '../catalog/catalogModel';
 
 // Compact catalog card (procedural cover) shared by the discovery home and the
-// library's "from the catalog" strip. Links straight into the OPDS read flow.
+// library's "from the catalog" strip. Tapping it downloads + imports the exact
+// book and opens it straight in the reader (no OPDS search detour).
 export function CatalogCard({ book }: { book: CatalogBook }) {
   const [hov, setHov] = useState(false);
+  const { open, openingId } = useBookOpener();
+  const opening = openingId === book.id;
   return (
-    <Link
-      href={readHref(book)}
+    <button
+      type='button'
+      onClick={() => open(book)}
+      disabled={opening}
       className='azb-card'
+      aria-busy={opening}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
-      style={{ transform: hov ? 'translateY(-4px)' : 'none' }}
+      style={{
+        transform: hov ? 'translateY(-4px)' : 'none',
+        opacity: opening ? 0.65 : 1,
+        cursor: opening ? 'default' : 'pointer',
+        textAlign: 'left',
+      }}
     >
       <div
         className='azb-card-cover'
@@ -26,6 +37,6 @@ export function CatalogCard({ book }: { book: CatalogBook }) {
       </div>
       <div className='azb-card-title'>{book.title}</div>
       <div className='azb-card-author'>{book.author}</div>
-    </Link>
+    </button>
   );
 }

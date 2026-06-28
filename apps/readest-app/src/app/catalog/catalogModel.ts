@@ -230,10 +230,3 @@ export function crossLang(book: CatalogBook): CrossLink | null {
   }
   return null;
 }
-
-// Deep-link into the existing (proven) OPDS browser pointed at this book's
-// search feed, where the Download → Read flow already works for every platform.
-export function readHref(book: CatalogBook): string {
-  const feed = `${API}/opds/search?q=${encodeURIComponent(`${book.title} ${book.author}`)}`;
-  return `/opds?url=${encodeURIComponent(feed)}&id=aziral-books-builtin`;
-}
