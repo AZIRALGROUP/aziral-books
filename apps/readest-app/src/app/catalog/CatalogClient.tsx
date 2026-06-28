@@ -8,11 +8,11 @@ import {
   type AuthorCount,
   type CatalogBook,
   type CatalogShelves,
-  fetchByAuthor,
-  fetchLang,
+  browse,
   loadAuthors,
   loadCatalog,
   readHref,
+  SECTIONS,
   searchCatalog,
 } from './catalogModel';
 import './catalog.css';
@@ -828,6 +828,7 @@ function Tab({
 export default function CatalogClient() {
   const [query, setQuery] = useState('');
   const [lang, setLang] = useState<Lang>('all');
+  const [section, setSection] = useState(''); // '' = all; else 'Проза'|'Поэзия'|'Драматургия'
   const [author, setAuthor] = useState<string | null>(null);
   const [sel, setSel] = useState<CatalogBook | null>(null);
   const [shelves, setShelves] = useState<CatalogShelves | null>(null);
@@ -836,8 +837,9 @@ export default function CatalogClient() {
 
   const q = query.trim();
   const langParam = lang === 'all' ? undefined : lang;
-  const mode: 'search' | 'author' | 'lang' | 'browse' =
-    q.length >= 2 ? 'search' : author ? 'author' : lang !== 'all' ? 'lang' : 'browse';
+  const filtering = Boolean(author) || Boolean(section) || lang !== 'all';
+  const mode: 'search' | 'results' | 'browse' =
+    q.length >= 2 ? 'search' : filtering ? 'results' : 'browse';
 
   // Default shelves (Russian-first), loaded once.
   useEffect(() => {
@@ -857,7 +859,8 @@ export default function CatalogClient() {
     };
   }, [langParam]);
 
-  // The active result set: search query → author → language. Browse uses shelves.
+  // The active result set: text search, or a server-side browse combining the
+  // language / section / author filters. Plain browse falls back to the shelves.
   useEffect(() => {
     let cancelled = false;
     const apply = (r: CatalogBook[]) => !cancelled && setResults(r);
@@ -868,18 +871,26 @@ export default function CatalogClient() {
         clearTimeout(t);
       };
     }
-    if (author) fetchByAuthor(author, langParam).then(apply);
-    else if (langParam) fetchLang(langParam).then(apply);
-    else setResults([]);
+    if (author || section || langParam) {
+      browse({ lang: langParam, author: author ?? undefined, subject: section || undefined }).then(
+        apply,
+      );
+    } else {
+      setResults([]);
+    }
     return () => {
       cancelled = true;
     };
-  }, [q, author, langParam]);
+  }, [q, author, section, langParam]);
 
   const onOpen = (b: CatalogBook) => setSel(b);
   const pickLang = (l: Lang) => {
     setLang(l);
     setAuthor(null);
+    setQuery('');
+  };
+  const pickSection = (s: string) => {
+    setSection(s);
     setQuery('');
   };
   const pickAuthor = (name: string | null) => {
@@ -889,11 +900,13 @@ export default function CatalogClient() {
 
   const resultsTitle = useMemo(() => {
     if (mode === 'search') return `Результаты «${query}»`;
-    if (mode === 'author') return author ?? '';
-    if (lang === 'ru') return 'Русская классика';
-    if (lang === 'kk') return 'Қазақ әдебиеті';
-    return '';
-  }, [mode, query, author, lang]);
+    const parts = [
+      author ?? null,
+      section || null,
+      !author && !section ? (lang === 'kk' ? 'Қазақ әдебиеті' : 'Русская классика') : null,
+    ].filter(Boolean);
+    return parts.join(' · ') || 'Каталог';
+  }, [mode, query, author, section, lang]);
 
   return (
     <div
@@ -918,6 +931,8 @@ export default function CatalogClient() {
             margin: '0 auto',
             padding: '0 40px',
             display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
             gap: 10,
             overflowX: 'auto',
           }}
@@ -926,6 +941,12 @@ export default function CatalogClient() {
           {LANGS.map((l) => (
             <Tab key={l.id} active={lang === l.id && !author} onClick={() => pickLang(l.id)}>
               {l.name}
+            </Tab>
+          ))}
+          <span style={{ width: 1, height: 22, background: 'var(--border)', margin: '0 4px' }} />
+          {SECTIONS.map((s) => (
+            <Tab key={s.id || 'all'} active={section === s.id} onClick={() => pickSection(s.id)}>
+              {s.name}
             </Tab>
           ))}
         </div>

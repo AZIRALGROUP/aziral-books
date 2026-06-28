@@ -126,13 +126,6 @@ export async function loadAuthors(lang?: string): Promise<AuthorCount[]> {
     .sort((a, b) => b.count - a.count);
 }
 
-// All works by one author (server-side filter over the whole catalogue).
-export async function fetchByAuthor(author: string, lang?: string): Promise<CatalogBook[]> {
-  const p = new URLSearchParams({ q: '*', author, limit: '50' });
-  if (lang) p.set('lang', lang);
-  return dedup(await fetchSearch(p.toString()));
-}
-
 export interface CatalogShelves {
   pool: CatalogBook[];
   featured: CatalogBook | null;
@@ -187,9 +180,25 @@ export async function searchCatalog(query: string): Promise<CatalogBook[]> {
   return dedup(await fetchSearch(`q=${encodeURIComponent(query)}&limit=50`));
 }
 
-// All books for one language (server-side), for the language tabs.
-export async function fetchLang(lang: string): Promise<CatalogBook[]> {
-  return dedup(await fetchSearch(new URLSearchParams({ q: '*', lang, limit: '50' }).toString()));
+// Literary-form sections (server-side `subject` filter; '' = all).
+export const SECTIONS: { id: string; name: string }[] = [
+  { id: '', name: 'Все разделы' },
+  { id: 'Проза', name: 'Проза' },
+  { id: 'Поэзия', name: 'Поэзия' },
+  { id: 'Драматургия', name: 'Драматургия' },
+];
+
+// Server-side browse with any combination of language / author / form filters.
+export async function browse(opts: {
+  lang?: string;
+  author?: string;
+  subject?: string;
+}): Promise<CatalogBook[]> {
+  const p = new URLSearchParams({ q: '*', limit: '50' });
+  if (opts.lang) p.set('lang', opts.lang);
+  if (opts.author) p.set('author', opts.author);
+  if (opts.subject) p.set('subject', opts.subject);
+  return dedup(await fetchSearch(p.toString()));
 }
 
 // Deep-link into the existing (proven) OPDS browser pointed at this book's
