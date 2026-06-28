@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
-import { loadCatalog, readHref, type CatalogBook } from '@/app/catalog/catalogModel';
+import { loadCatalog, type CatalogBook } from '@/app/catalog/catalogModel';
+import { useBookOpener } from '@/app/catalog/useBookOpener';
 import { BookCover } from '@/app/catalog/BookCover';
 import '@/app/catalog/catalog.css';
 import './library-discover.css';
@@ -13,7 +13,7 @@ import './library-discover.css';
 // Matches the brand mockup (library.jsx → DiscoverBlock): copy + two CTAs and
 // a fan of catalog covers.
 export default function LibraryDiscovery() {
-  const router = useRouter();
+  const { open, openingId } = useBookOpener();
   const [books, setBooks] = useState<CatalogBook[]>([]);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function LibraryDiscovery() {
   const fan = books.slice(0, 4);
   const openRandom = () => {
     const pick = books[Math.floor(Math.random() * books.length)];
-    if (pick) router.push(readHref(pick));
+    if (pick) open(pick);
   };
 
   return (
@@ -58,8 +58,10 @@ export default function LibraryDiscovery() {
                 type='button'
                 className='azb-discover-cta azb-discover-cta--ghost'
                 onClick={openRandom}
+                disabled={!!openingId}
+                aria-busy={!!openingId}
               >
-                ✦ Случайная книга
+                {openingId ? 'Открываем…' : '✦ Случайная книга'}
               </button>
             </div>
           </div>

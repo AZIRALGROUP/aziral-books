@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 import { AziralMark, AziralWordmark } from '@/components/brand/AziralMark';
 import { BookCover } from './BookCover';
+import { useBookOpener } from './useBookOpener';
 import {
   type AuthorCount,
   type CatalogBook,
@@ -12,7 +14,6 @@ import {
   crossLang,
   loadAuthors,
   loadCatalog,
-  readHref,
   SECTIONS,
   searchCatalog,
 } from './catalogModel';
@@ -309,6 +310,9 @@ function Shelf({
 }
 
 function Hero({ book, onOpen }: { book: CatalogBook; onOpen: (b: CatalogBook) => void }) {
+  const { open, openingId, errorId } = useBookOpener();
+  const opening = openingId === book.id;
+  const failed = errorId === book.id;
   return (
     <section
       style={{
@@ -408,12 +412,19 @@ function Hero({ book, onOpen }: { book: CatalogBook; onOpen: (b: CatalogBook) =>
               'Из коллекции общественного достояния. Откройте, чтобы читать в Aziral Books — с заметками, закладками и настройкой шрифта под себя.'}
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
-            <Link
-              href={readHref(book)}
-              style={{ ...ctaBtn, background: 'var(--accent)', color: '#fff' }}
+            <button
+              onClick={() => open(book)}
+              disabled={opening}
+              style={{
+                ...ctaBtn,
+                background: 'var(--accent)',
+                color: '#fff',
+                opacity: opening ? 0.7 : 1,
+                cursor: opening ? 'default' : 'pointer',
+              }}
             >
-              Читать сейчас
-            </Link>
+              {opening ? 'Открываем…' : failed ? 'Повторить' : 'Читать сейчас'}
+            </button>
             <button
               onClick={() => onOpen(book)}
               style={{
@@ -564,6 +575,9 @@ function Drawer({
   onCross: (nav: CrossNav) => void;
 }) {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const { open, openingId, errorId } = useBookOpener();
+  const opening = !!book && openingId === book.id;
+  const failed = !!book && errorId === book.id;
   useEffect(() => {
     const h = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', h);
@@ -664,12 +678,20 @@ function Drawer({
             </div>
           </div>
           <div style={{ display: 'flex', gap: 12, margin: '28px 0' }}>
-            <Link
-              href={readHref(book)}
-              style={{ ...ctaBtn, flex: 1, background: 'var(--accent)', color: '#fff' }}
+            <button
+              onClick={() => open(book)}
+              disabled={opening}
+              style={{
+                ...ctaBtn,
+                flex: 1,
+                background: 'var(--accent)',
+                color: '#fff',
+                opacity: opening ? 0.7 : 1,
+                cursor: opening ? 'default' : 'pointer',
+              }}
             >
-              Читать
-            </Link>
+              {opening ? 'Открываем…' : failed ? 'Повторить' : 'Читать'}
+            </button>
             <button
               onClick={() => downloadUrl && window.open(downloadUrl, '_blank', 'noopener')}
               style={{
@@ -767,6 +789,7 @@ function Drawer({
 }
 
 function Toolbar({ query, setQuery }: { query: string; setQuery: (v: string) => void }) {
+  const { user } = useAuth();
   return (
     <div
       style={{
@@ -817,19 +840,54 @@ function Toolbar({ query, setQuery }: { query: string; setQuery: (v: string) => 
           />
         </div>
       </div>
-      <Link
-        href='/auth'
-        style={{
-          flexShrink: 0,
-          fontFamily: 'var(--sans)',
-          fontSize: 14,
-          fontWeight: 600,
-          color: 'var(--text-2)',
-          textDecoration: 'none',
-        }}
-      >
-        Войти
-      </Link>
+      <nav style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 18 }}>
+        <Link
+          href='/library'
+          style={{
+            fontFamily: 'var(--sans)',
+            fontSize: 14,
+            fontWeight: 600,
+            color: 'var(--text-2)',
+            textDecoration: 'none',
+          }}
+        >
+          Библиотека
+        </Link>
+        {user ? (
+          <Link
+            href='/user'
+            aria-label='Аккаунт'
+            style={{
+              display: 'grid',
+              placeItems: 'center',
+              width: 32,
+              height: 32,
+              borderRadius: 99,
+              background: 'var(--accent)',
+              color: '#fff',
+              fontFamily: 'var(--sans)',
+              fontSize: 14,
+              fontWeight: 700,
+              textDecoration: 'none',
+            }}
+          >
+            {(user.email?.[0] ?? 'A').toUpperCase()}
+          </Link>
+        ) : (
+          <Link
+            href='/auth'
+            style={{
+              fontFamily: 'var(--sans)',
+              fontSize: 14,
+              fontWeight: 600,
+              color: 'var(--text-2)',
+              textDecoration: 'none',
+            }}
+          >
+            Войти
+          </Link>
+        )}
+      </nav>
     </div>
   );
 }
