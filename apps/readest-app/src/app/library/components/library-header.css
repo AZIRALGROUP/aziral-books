@@ -2,6 +2,25 @@
    search pill, matching the brand mockup (library.jsx → LibToolbar) while
    keeping the functional Readest header intact. */
 
+/* Brand wordmark in the toolbar — supplies the tokens AziralWordmark reads
+   (--accent book mark, --ink page lines, --text label, --serif). */
+.azb-lib-brand {
+  --accent: oklch(0.66 0.118 66);
+  --ink: oklch(0.255 0.018 58);
+  --text: oklch(0.255 0.018 58);
+  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+.azb-lib-brand:hover {
+  opacity: 0.82;
+}
+[data-theme$='-dark'] .azb-lib-brand {
+  --accent: oklch(0.745 0.115 72);
+  --ink: oklch(0.94 0.012 84);
+  --text: oklch(0.94 0.012 84);
+}
+
 .azb-import-btn {
   --ochre: oklch(0.66 0.118 66);
   --ochre-deep: oklch(0.545 0.112 58);
