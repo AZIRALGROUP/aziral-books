@@ -72,10 +72,13 @@ function deriveGenre(subjects: string[] = []): string {
 }
 
 // Backend search results don't carry the source; infer it from the cover host.
+// Our Wikisource books (the Russian/Kazakh catalogue) carry no cover art, so a
+// missing cover is the reliable signal for them.
 function deriveSource(coverUrl?: string | null): string {
   const u = (coverUrl || '').toLowerCase();
   if (u.includes('gutenberg')) return 'Project Gutenberg';
   if (u.includes('archive.org')) return 'Internet Archive';
+  if (!u) return 'Wikisource';
   return 'Open Library';
 }
 
@@ -124,6 +127,7 @@ export interface CatalogShelves {
   popular: CatalogBook[];
   recommended: CatalogBook[];
   more: CatalogBook[];
+  kazakh: CatalogBook[];
   gutenberg: CatalogBook[];
 }
 
@@ -137,34 +141,34 @@ function dedup(list: CatalogBook[]): CatalogBook[] {
   });
 }
 
-// The search API caps `limit` at 50 and only supports sort=popularity, so we
-// page through it (3×50) to build a ~150-book pool and derive every shelf from
-// it client-side.
+// The audience is Russian/Kazakh, so the catalogue leads with Russian works
+// (the bulk of it — Wikisource) and keeps Kazakh and English shelves alongside.
+// The search API caps `limit` at 50, so we page through ru (3×50 ≈ 150) to build
+// the main pool and derive its shelves client-side; kk and en are single pulls.
 export async function loadCatalog(): Promise<CatalogShelves> {
-  const pages = await Promise.all([
-    fetchSearch('q=*&limit=50&sort=popularity&page=1'),
-    fetchSearch('q=*&limit=50&sort=popularity&page=2'),
-    fetchSearch('q=*&limit=50&sort=popularity&page=3'),
+  const [ru1, ru2, ru3, kk, en] = await Promise.all([
+    fetchSearch('q=*&lang=ru&limit=50&page=1'),
+    fetchSearch('q=*&lang=ru&limit=50&page=2'),
+    fetchSearch('q=*&lang=ru&limit=50&page=3'),
+    fetchSearch('q=*&lang=kk&limit=24'),
+    fetchSearch('q=*&limit=24&sort=popularity'), // global popularity ⇒ English Gutenberg
   ]);
-  const pool = dedup(pages.flat());
+  const pool = dedup([...ru1, ...ru2, ...ru3]);
 
-  // Pick a "book of the week" that reads as a real headline: fiction-ish, a
-  // short standalone title (skip "Volume 3 (of 3)" academic tomes), near the
-  // top of the popularity pool. (Search results carry no description, so we
-  // can't rank on blurb here.)
-  const FICTION = new Set(['classic', 'scifi', 'fantasy', 'mystery', 'poetry', 'kids']);
+  // Pick a "book of the week" that reads as a real headline: a short, standalone
+  // title near the top of the pool (skip multi-volume / collected-works entries).
   const isHeadline = (b: CatalogBook) =>
-    b.title.length <= 42 &&
-    FICTION.has(b.genreId) &&
-    !/(volume|vol\.|\(of\s|complete works|part \d)/i.test(b.title);
+    b.title.length <= 42 && !/(том|часть|собрание|\bvol|volume|\(of\s|part \d)/i.test(b.title);
   const featured = pool.find(isHeadline) || pool[0] || null;
 
-  const popular = pool.filter((b) => b.id !== featured?.id).slice(0, 18);
-  const gutenberg = pool.filter((b) => b.source === 'Project Gutenberg').slice(0, 18);
-  const recommended = pool.slice(50, 68);
-  const more = pool.slice(100, 118);
+  const rest = pool.filter((b) => b.id !== featured?.id);
+  const popular = rest.slice(0, 18);
+  const recommended = rest.slice(40, 58);
+  const more = rest.slice(80, 98);
+  const kazakh = dedup(kk).slice(0, 18);
+  const gutenberg = dedup(en).slice(0, 18);
 
-  return { pool, featured, popular, recommended, more, gutenberg };
+  return { pool, featured, popular, recommended, more, kazakh, gutenberg };
 }
 
 export async function searchCatalog(query: string): Promise<CatalogBook[]> {
