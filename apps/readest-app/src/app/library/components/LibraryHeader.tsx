@@ -1,7 +1,9 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 import React, { useCallback, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FaSearch } from 'react-icons/fa';
+import { AziralWordmark } from '@/components/brand/AziralMark';
 import { PiPlus, PiCloudSlash } from 'react-icons/pi';
 import { PiSelectionAll, PiSelectionAllFill } from 'react-icons/pi';
 import { PiDotsThreeCircle } from 'react-icons/pi';
@@ -109,7 +111,14 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
           : '0px',
       }}
     >
-      <div className='flex w-full items-center justify-between space-x-6 sm:space-x-12'>
+      <div className='flex w-full items-center justify-between space-x-4 sm:space-x-8'>
+        <Link
+          href='/'
+          aria-label='Aziral Books'
+          className='azb-lib-brand exclude-title-bar-mousedown hidden shrink-0 items-center pl-2 sm:flex'
+        >
+          <AziralWordmark size={16} mark={26} />
+        </Link>
         <div className='exclude-title-bar-mousedown relative mx-auto flex w-full max-w-[680px] items-center pl-4'>
           <div className='relative flex h-9 w-full items-center sm:h-7'>
             <span className='text-base-content/50 absolute ps-3'>
