@@ -65,6 +65,7 @@ function SourceTag({ s }: { s: string }) {
         'Project Gutenberg': 'Gutenberg',
         'Open Library': 'Open Library',
         'Internet Archive': 'Archive',
+        Wikisource: 'Викитека',
       } as Record<string, string>
     )[s] || s;
   return (
@@ -933,7 +934,7 @@ export default function CatalogClient() {
                 Каталог
               </h1>
               <div style={{ fontFamily: 'var(--sans)', fontSize: 13.5, color: 'var(--text-3)' }}>
-                Open Library · Project Gutenberg · Internet Archive
+                Русская и казахская классика · Project Gutenberg
               </div>
             </div>
           </div>
@@ -960,8 +961,8 @@ export default function CatalogClient() {
             <>
               {shelves.featured && <Hero book={shelves.featured} onOpen={onOpen} />}
               <Shelf
-                title='Популярное'
-                subtitle='Самые читаемые во всех источниках'
+                title='Русская классика'
+                subtitle='Толстой, Достоевский, Чехов, Пушкин и другие'
                 books={shelves.popular}
                 onOpen={onOpen}
                 badge='Топ'
@@ -972,6 +973,12 @@ export default function CatalogClient() {
                 books={shelves.recommended}
                 onOpen={onOpen}
               />
+              <Shelf
+                title='Қазақ әдебиеті'
+                subtitle='Казахская классика — Абай, Шәкәрім, Жамбыл и другие'
+                books={shelves.kazakh}
+                onOpen={onOpen}
+              />
               <GenreGrid active={genre} onPick={setGenre} />
               <Shelf
                 title='Ещё из каталога'
@@ -980,7 +987,7 @@ export default function CatalogClient() {
                 onOpen={onOpen}
               />
               <Shelf
-                title='Классика в общественном достоянии'
+                title='Классика на английском'
                 subtitle='Бесплатно · Project Gutenberg'
                 books={shelves.gutenberg}
                 onOpen={onOpen}
