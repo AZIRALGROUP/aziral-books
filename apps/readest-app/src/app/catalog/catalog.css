@@ -113,3 +113,39 @@
     opacity: 1;
   }
 }
+
+/* Catalogue body: content + sticky author sidebar (mybook-style). Collapses to a
+   single column on narrow screens, where the language tabs carry navigation. */
+.azb-cat-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 264px;
+  gap: 40px;
+  align-items: start;
+}
+.azb-cat-aside {
+  position: sticky;
+  top: 16px;
+  align-self: start;
+}
+@media (max-width: 1023px) {
+  .azb-cat-body {
+    grid-template-columns: 1fr;
+  }
+  .azb-cat-aside {
+    display: none;
+  }
+}
+.azb-author-row {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  transition: background-color 0.14s;
+}
+.azb-author-row:hover {
+  background: var(--surface);
+}
