@@ -10,10 +10,14 @@ export interface CatalogBook {
   genre: string; // localized display name
   genreId: string;
   year: number | null;
-  rating: number; // derived from popularity/id — cosmetic, stable per book
-  source: string; // "Project Gutenberg" | "Open Library" | "Internet Archive"
+  source: string; // "Wikisource" | "Project Gutenberg" | "Open Library" | …
   lang: string;
   blurb: string;
+}
+
+export interface AuthorCount {
+  name: string;
+  count: number;
 }
 
 export interface Genre {
@@ -51,12 +55,6 @@ interface ApiBook {
   popularity?: number | null;
 }
 
-function hash(str: string): number {
-  let h = 0;
-  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
-  return h;
-}
-
 // Map a book's subjects[] onto one of our display genres by keyword.
 function deriveGenre(subjects: string[] = []): string {
   const s = subjects.join(' ').toLowerCase();
@@ -82,12 +80,6 @@ function deriveSource(coverUrl?: string | null): string {
   return 'Open Library';
 }
 
-// Cosmetic, stable per-book rating in 3.9–4.9 derived from id (search has no
-// rating). Public-domain classics, so a warm range reads honestly enough.
-function deriveRating(id: string): number {
-  return Math.round((3.9 + (hash(id) % 11) / 10) * 10) / 10;
-}
-
 export function mapBook(b: ApiBook): CatalogBook {
   const genreId = deriveGenre(b.subjects);
   return {
@@ -100,7 +92,6 @@ export function mapBook(b: ApiBook): CatalogBook {
     genre: GENRE_BY_ID[genreId]?.name ?? 'Классика',
     genreId,
     year: b.publishYear ?? null,
-    rating: deriveRating(b.id),
     source: deriveSource(b.coverUrl),
     lang: (b.language || 'EN').toUpperCase(),
     blurb: b.description || '',
@@ -111,7 +102,7 @@ const API = 'https://books.aziral.com/api/v1';
 
 interface SearchResponse {
   data?: ApiBook[];
-  meta?: { total?: number };
+  meta?: { total?: number; facets?: { authors?: Record<string, number> } };
 }
 
 async function fetchSearch(params: string): Promise<CatalogBook[]> {
@@ -119,6 +110,27 @@ async function fetchSearch(params: string): Promise<CatalogBook[]> {
   if (!res.ok) return [];
   const json: SearchResponse = await res.json();
   return (json.data || []).map(mapBook);
+}
+
+// Author categories with real counts (Meili facet) — powers the sidebar.
+export async function loadAuthors(lang?: string): Promise<AuthorCount[]> {
+  const p = new URLSearchParams({ q: '*', limit: '1', facets: 'authors' });
+  if (lang) p.set('lang', lang);
+  const res = await fetch(`${API}/search?${p}`, { cache: 'no-store' });
+  if (!res.ok) return [];
+  const json: SearchResponse = await res.json();
+  const dist = json.meta?.facets?.authors ?? {};
+  return Object.entries(dist)
+    .map(([name, count]) => ({ name, count }))
+    .filter((a) => a.name && a.name !== 'Неизвестный автор')
+    .sort((a, b) => b.count - a.count);
+}
+
+// All works by one author (server-side filter over the whole catalogue).
+export async function fetchByAuthor(author: string, lang?: string): Promise<CatalogBook[]> {
+  const p = new URLSearchParams({ q: '*', author, limit: '50' });
+  if (lang) p.set('lang', lang);
+  return dedup(await fetchSearch(p.toString()));
 }
 
 export interface CatalogShelves {
@@ -173,6 +185,11 @@ export async function loadCatalog(): Promise<CatalogShelves> {
 
 export async function searchCatalog(query: string): Promise<CatalogBook[]> {
   return dedup(await fetchSearch(`q=${encodeURIComponent(query)}&limit=50`));
+}
+
+// All books for one language (server-side), for the language tabs.
+export async function fetchLang(lang: string): Promise<CatalogBook[]> {
+  return dedup(await fetchSearch(new URLSearchParams({ q: '*', lang, limit: '50' }).toString()));
 }
 
 // Deep-link into the existing (proven) OPDS browser pointed at this book's

@@ -5,14 +5,33 @@ import Link from 'next/link';
 import { AziralMark, AziralWordmark } from '@/components/brand/AziralMark';
 import { BookCover } from './BookCover';
 import {
-  GENRES,
-  loadCatalog,
-  searchCatalog,
-  readHref,
+  type AuthorCount,
   type CatalogBook,
   type CatalogShelves,
+  fetchByAuthor,
+  fetchLang,
+  loadAuthors,
+  loadCatalog,
+  readHref,
+  searchCatalog,
 } from './catalogModel';
 import './catalog.css';
+
+type Lang = 'all' | 'ru' | 'kk';
+
+const LANGS: { id: Lang; name: string }[] = [
+  { id: 'all', name: 'Все' },
+  { id: 'ru', name: 'Русский' },
+  { id: 'kk', name: 'Қазақша' },
+];
+
+function langLabel(code: string): string {
+  const c = code.toLowerCase();
+  if (c === 'ru') return 'Рус';
+  if (c === 'kk') return 'Қаз';
+  if (c === 'en') return 'Eng';
+  return code.toUpperCase();
+}
 
 const navBtn: CSSProperties = {
   all: 'unset',
@@ -40,24 +59,6 @@ const ctaBtn: CSSProperties = {
   textAlign: 'center',
 };
 
-function Stars({ r, size = 13 }: { r: number; size?: number }) {
-  return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 4,
-        color: 'var(--accent)',
-        fontSize: size,
-        fontWeight: 600,
-      }}
-    >
-      <span aria-hidden='true'>★</span>
-      <span style={{ color: 'var(--text-2)', fontFamily: 'var(--sans)' }}>{r.toFixed(1)}</span>
-    </span>
-  );
-}
-
 function SourceTag({ s }: { s: string }) {
   const short =
     (
@@ -81,6 +82,16 @@ function SourceTag({ s }: { s: string }) {
     >
       {short}
     </span>
+  );
+}
+
+// Year + language on the left (only what we actually know — no fake ratings).
+function Meta({ book }: { book: CatalogBook }) {
+  const left = [book.year ? String(book.year) : null, langLabel(book.lang)]
+    .filter(Boolean)
+    .join(' · ');
+  return (
+    <span style={{ fontFamily: 'var(--sans)', fontSize: 12, color: 'var(--text-3)' }}>{left}</span>
   );
 }
 
@@ -184,7 +195,7 @@ function BookCard({
             marginTop: 2,
           }}
         >
-          <Stars r={book.rating} />
+          <Meta book={book} />
           <SourceTag s={book.source} />
         </div>
       </div>
@@ -411,93 +422,8 @@ function Hero({ book, onOpen }: { book: CatalogBook; onOpen: (b: CatalogBook) =>
             >
               Подробнее
             </button>
-            <div style={{ marginLeft: 6 }}>
-              <Stars r={book.rating} size={15} />
-            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-function GenreGrid({ active, onPick }: { active: string; onPick: (id: string) => void }) {
-  return (
-    <section style={{ marginBottom: 48 }}>
-      <h2
-        style={{
-          margin: '0 0 18px',
-          fontFamily: 'var(--serif)',
-          fontSize: 25,
-          fontWeight: 600,
-          letterSpacing: '-0.02em',
-          color: 'var(--text)',
-        }}
-      >
-        Жанры
-      </h2>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(184px, 1fr))',
-          gap: 16,
-        }}
-      >
-        {GENRES.map((g) => {
-          const on = active === g.id;
-          return (
-            <button
-              key={g.id}
-              onClick={() => onPick(g.id)}
-              style={{
-                all: 'unset',
-                cursor: 'pointer',
-                position: 'relative',
-                overflow: 'hidden',
-                height: 96,
-                borderRadius: 'var(--r-md)',
-                padding: '16px 18px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                background: g.c,
-                color: '#fff',
-                boxShadow: on ? '0 0 0 3px var(--accent), var(--shadow-md)' : 'var(--shadow-sm)',
-                transition: 'transform .15s, box-shadow .15s',
-                transform: on ? 'translateY(-2px)' : 'none',
-              }}
-            >
-              <span
-                style={{
-                  position: 'absolute',
-                  right: -8,
-                  bottom: -16,
-                  fontSize: 78,
-                  opacity: 0.18,
-                  lineHeight: 1,
-                }}
-                aria-hidden='true'
-              >
-                {g.icon}
-              </span>
-              <span
-                style={{
-                  fontFamily: 'var(--sans)',
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: '.08em',
-                  textTransform: 'uppercase',
-                  opacity: 0.85,
-                }}
-              >
-                {g.en}
-              </span>
-              <span style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 600 }}>
-                {g.name}
-              </span>
-            </button>
-          );
-        })}
       </div>
     </section>
   );
@@ -507,10 +433,12 @@ function ResultsGrid({
   books,
   onOpen,
   title,
+  count,
 }: {
   books: CatalogBook[];
   onOpen: (b: CatalogBook) => void;
   title: string;
+  count?: number;
 }) {
   return (
     <section style={{ marginBottom: 48 }}>
@@ -524,7 +452,8 @@ function ResultsGrid({
           color: 'var(--text)',
         }}
       >
-        {title} <span style={{ color: 'var(--text-3)', fontWeight: 400 }}>· {books.length}</span>
+        {title}{' '}
+        <span style={{ color: 'var(--text-3)', fontWeight: 400 }}>· {count ?? books.length}</span>
       </h2>
       {books.length === 0 ? (
         <div
@@ -552,6 +481,73 @@ function ResultsGrid({
         </div>
       )}
     </section>
+  );
+}
+
+function AuthorSidebar({
+  authors,
+  active,
+  onPick,
+}: {
+  authors: AuthorCount[];
+  active: string | null;
+  onPick: (name: string | null) => void;
+}) {
+  return (
+    <aside className='azb-cat-aside'>
+      <div
+        style={{
+          fontFamily: 'var(--serif)',
+          fontSize: 18,
+          fontWeight: 600,
+          color: 'var(--text)',
+          margin: '0 0 12px 12px',
+        }}
+      >
+        Авторы
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        {active && (
+          <button
+            type='button'
+            className='azb-author-row'
+            onClick={() => onPick(null)}
+            style={{ color: 'var(--accent-ink)', fontWeight: 700 }}
+          >
+            <span style={{ fontFamily: 'var(--sans)', fontSize: 14 }}>← Все авторы</span>
+          </button>
+        )}
+        {authors.slice(0, 40).map((a) => {
+          const on = a.name === active;
+          return (
+            <button
+              type='button'
+              key={a.name}
+              className='azb-author-row'
+              onClick={() => onPick(a.name)}
+              style={{ background: on ? 'var(--ochre-soft)' : undefined }}
+            >
+              <span
+                style={{
+                  fontFamily: 'var(--sans)',
+                  fontSize: 14,
+                  fontWeight: on ? 700 : 500,
+                  color: on ? 'var(--accent-ink)' : 'var(--text)',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {a.name}
+              </span>
+              <span style={{ fontFamily: 'var(--sans)', fontSize: 12.5, color: 'var(--text-3)' }}>
+                {a.count}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </aside>
   );
 }
 
@@ -650,12 +646,10 @@ function Drawer({ book, onClose }: { book: CatalogBook | null; onClose: () => vo
                   fontStyle: 'italic',
                   fontSize: 17,
                   color: 'var(--text-2)',
-                  marginBottom: 12,
                 }}
               >
                 {book.author}
               </div>
-              <Stars r={book.rating} size={15} />
             </div>
           </div>
           <div style={{ display: 'flex', gap: 12, margin: '28px 0' }}>
@@ -691,7 +685,7 @@ function Drawer({ book, onClose }: { book: CatalogBook | null; onClose: () => vo
           >
             {[
               ['Год', book.year ? (book.year < 0 ? `${-book.year} до н.э.` : `${book.year}`) : '—'],
-              ['Язык', book.lang],
+              ['Язык', langLabel(book.lang)],
               ['Источник', book.source.split(' ')[0]],
             ].map(([k, v]) => (
               <div key={k}>
@@ -766,7 +760,7 @@ function Toolbar({ query, setQuery }: { query: string; setQuery: (v: string) => 
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder='Поиск книг, авторов, жанров…'
+            placeholder='Поиск книг и авторов…'
             style={{
               width: '100%',
               boxSizing: 'border-box',
@@ -799,7 +793,7 @@ function Toolbar({ query, setQuery }: { query: string; setQuery: (v: string) => 
   );
 }
 
-function Chip({
+function Tab({
   active,
   children,
   onClick,
@@ -815,7 +809,7 @@ function Chip({
         all: 'unset',
         cursor: 'pointer',
         whiteSpace: 'nowrap',
-        padding: '8px 16px',
+        padding: '8px 18px',
         borderRadius: 99,
         fontFamily: 'var(--sans)',
         fontSize: 14,
@@ -831,54 +825,75 @@ function Chip({
   );
 }
 
-const CHIPS = [{ id: 'all', name: 'Все' }, ...GENRES.map((g) => ({ id: g.id, name: g.name }))];
-
 export default function CatalogClient() {
   const [query, setQuery] = useState('');
-  const [genre, setGenre] = useState('all');
+  const [lang, setLang] = useState<Lang>('all');
+  const [author, setAuthor] = useState<string | null>(null);
   const [sel, setSel] = useState<CatalogBook | null>(null);
   const [shelves, setShelves] = useState<CatalogShelves | null>(null);
-  const [searchResults, setSearchResults] = useState<CatalogBook[]>([]);
+  const [authors, setAuthors] = useState<AuthorCount[]>([]);
+  const [results, setResults] = useState<CatalogBook[]>([]);
 
+  const q = query.trim();
+  const langParam = lang === 'all' ? undefined : lang;
+  const mode: 'search' | 'author' | 'lang' | 'browse' =
+    q.length >= 2 ? 'search' : author ? 'author' : lang !== 'all' ? 'lang' : 'browse';
+
+  // Default shelves (Russian-first), loaded once.
   useEffect(() => {
     let cancelled = false;
-    loadCatalog().then((s) => {
-      if (!cancelled) setShelves(s);
-    });
+    loadCatalog().then((s) => !cancelled && setShelves(s));
     return () => {
       cancelled = true;
     };
   }, []);
 
-  const q = query.trim();
-  // Server search when there's a query; otherwise client-side genre filter on the pool.
+  // Author categories with counts, per selected language.
   useEffect(() => {
-    if (q.length < 2) {
-      setSearchResults([]);
-      return;
-    }
     let cancelled = false;
-    const t = setTimeout(() => {
-      searchCatalog(q).then((r) => {
-        if (!cancelled) setSearchResults(r);
-      });
-    }, 300);
+    loadAuthors(langParam).then((a) => !cancelled && setAuthors(a));
     return () => {
       cancelled = true;
-      clearTimeout(t);
     };
-  }, [q]);
+  }, [langParam]);
 
-  const genreName = GENRES.find((g) => g.id === genre)?.name;
-  const browsing = genre !== 'all' || q.length >= 2;
-
-  const filtered = useMemo(() => {
-    if (q.length >= 2) return searchResults;
-    if (genre !== 'all' && shelves) return shelves.pool.filter((b) => b.genreId === genre);
-    return [];
-  }, [q, searchResults, genre, shelves]);
+  // The active result set: search query → author → language. Browse uses shelves.
+  useEffect(() => {
+    let cancelled = false;
+    const apply = (r: CatalogBook[]) => !cancelled && setResults(r);
+    if (q.length >= 2) {
+      const t = setTimeout(() => searchCatalog(q).then(apply), 300);
+      return () => {
+        cancelled = true;
+        clearTimeout(t);
+      };
+    }
+    if (author) fetchByAuthor(author, langParam).then(apply);
+    else if (langParam) fetchLang(langParam).then(apply);
+    else setResults([]);
+    return () => {
+      cancelled = true;
+    };
+  }, [q, author, langParam]);
 
   const onOpen = (b: CatalogBook) => setSel(b);
+  const pickLang = (l: Lang) => {
+    setLang(l);
+    setAuthor(null);
+    setQuery('');
+  };
+  const pickAuthor = (name: string | null) => {
+    setAuthor(name);
+    setQuery('');
+  };
+
+  const resultsTitle = useMemo(() => {
+    if (mode === 'search') return `Результаты «${query}»`;
+    if (mode === 'author') return author ?? '';
+    if (lang === 'ru') return 'Русская классика';
+    if (lang === 'kk') return 'Қазақ әдебиеті';
+    return '';
+  }, [mode, query, author, lang]);
 
   return (
     <div
@@ -908,10 +923,10 @@ export default function CatalogClient() {
           }}
           className='shelf-scroll'
         >
-          {CHIPS.map((c) => (
-            <Chip key={c.id} active={genre === c.id} onClick={() => setGenre(c.id)}>
-              {c.name}
-            </Chip>
+          {LANGS.map((l) => (
+            <Tab key={l.id} active={lang === l.id && !author} onClick={() => pickLang(l.id)}>
+              {l.name}
+            </Tab>
           ))}
         </div>
       </div>
@@ -939,62 +954,63 @@ export default function CatalogClient() {
             </div>
           </div>
 
-          {!shelves ? (
-            <div
-              style={{
-                padding: '80px 0',
-                textAlign: 'center',
-                fontFamily: 'var(--serif)',
-                fontSize: 18,
-                color: 'var(--text-3)',
-              }}
-            >
-              Загружаем каталог…
+          <div className='azb-cat-body'>
+            <div style={{ minWidth: 0 }}>
+              {!shelves ? (
+                <div
+                  style={{
+                    padding: '80px 0',
+                    textAlign: 'center',
+                    fontFamily: 'var(--serif)',
+                    fontSize: 18,
+                    color: 'var(--text-3)',
+                  }}
+                >
+                  Загружаем каталог…
+                </div>
+              ) : mode === 'browse' ? (
+                <>
+                  {shelves.featured && <Hero book={shelves.featured} onOpen={onOpen} />}
+                  <Shelf
+                    title='Русская классика'
+                    subtitle='Толстой, Достоевский, Чехов, Пушкин и другие'
+                    books={shelves.popular}
+                    onOpen={onOpen}
+                    badge='Топ'
+                  />
+                  <Shelf
+                    title='Рекомендуем вам'
+                    subtitle='Подборка из каталога'
+                    books={shelves.recommended}
+                    onOpen={onOpen}
+                  />
+                  <Shelf
+                    title='Қазақ әдебиеті'
+                    subtitle='Казахская классика — Абай, Шәкәрім, Жамбыл и другие'
+                    books={shelves.kazakh}
+                    onOpen={onOpen}
+                  />
+                  <Shelf
+                    title='Ещё из каталога'
+                    subtitle='Загляните глубже в коллекцию'
+                    books={shelves.more}
+                    onOpen={onOpen}
+                  />
+                  <Shelf
+                    title='Классика на английском'
+                    subtitle='Бесплатно · Project Gutenberg'
+                    books={shelves.gutenberg}
+                    onOpen={onOpen}
+                    badge='Free'
+                  />
+                </>
+              ) : (
+                <ResultsGrid books={results} onOpen={onOpen} title={resultsTitle} />
+              )}
             </div>
-          ) : browsing ? (
-            <ResultsGrid
-              books={filtered}
-              onOpen={onOpen}
-              title={q.length >= 2 ? `Результаты «${query}»` : genreName || ''}
-            />
-          ) : (
-            <>
-              {shelves.featured && <Hero book={shelves.featured} onOpen={onOpen} />}
-              <Shelf
-                title='Русская классика'
-                subtitle='Толстой, Достоевский, Чехов, Пушкин и другие'
-                books={shelves.popular}
-                onOpen={onOpen}
-                badge='Топ'
-              />
-              <Shelf
-                title='Рекомендуем вам'
-                subtitle='Подборка из каталога'
-                books={shelves.recommended}
-                onOpen={onOpen}
-              />
-              <Shelf
-                title='Қазақ әдебиеті'
-                subtitle='Казахская классика — Абай, Шәкәрім, Жамбыл и другие'
-                books={shelves.kazakh}
-                onOpen={onOpen}
-              />
-              <GenreGrid active={genre} onPick={setGenre} />
-              <Shelf
-                title='Ещё из каталога'
-                subtitle='Загляните глубже в коллекцию'
-                books={shelves.more}
-                onOpen={onOpen}
-              />
-              <Shelf
-                title='Классика на английском'
-                subtitle='Бесплатно · Project Gutenberg'
-                books={shelves.gutenberg}
-                onOpen={onOpen}
-                badge='Free'
-              />
-            </>
-          )}
+
+            <AuthorSidebar authors={authors} active={author} onPick={pickAuthor} />
+          </div>
         </div>
       </div>
 
