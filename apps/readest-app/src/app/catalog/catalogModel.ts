@@ -189,16 +189,31 @@ export const SECTIONS: { id: string; name: string }[] = [
 ];
 
 // Server-side browse with any combination of language / author / form filters.
+// The search API caps `limit` at 50, so page through (up to MAX_BROWSE_PAGES)
+// until a short page signals the end — otherwise a filter like "Қазақша" (213
+// books) would only ever show the first 50.
+const BROWSE_PAGE_SIZE = 50;
+const MAX_BROWSE_PAGES = 12;
+
 export async function browse(opts: {
   lang?: string;
   author?: string;
   subject?: string;
 }): Promise<CatalogBook[]> {
-  const p = new URLSearchParams({ q: '*', limit: '50' });
-  if (opts.lang) p.set('lang', opts.lang);
-  if (opts.author) p.set('author', opts.author);
-  if (opts.subject) p.set('subject', opts.subject);
-  return dedup(await fetchSearch(p.toString()));
+  const base = new URLSearchParams({ q: '*', limit: `${BROWSE_PAGE_SIZE}` });
+  if (opts.lang) base.set('lang', opts.lang);
+  if (opts.author) base.set('author', opts.author);
+  if (opts.subject) base.set('subject', opts.subject);
+
+  const all: CatalogBook[] = [];
+  for (let page = 1; page <= MAX_BROWSE_PAGES; page++) {
+    const p = new URLSearchParams(base);
+    p.set('page', `${page}`);
+    const batch = await fetchSearch(p.toString());
+    all.push(...batch);
+    if (batch.length < BROWSE_PAGE_SIZE) break;
+  }
+  return dedup(all);
 }
 
 // Cross-language author link: jump between an author's Russian works (our
