@@ -201,6 +201,36 @@ export async function browse(opts: {
   return dedup(await fetchSearch(p.toString()));
 }
 
+// Cross-language author link: jump between an author's Russian works (our
+// Wikisource catalogue) and their English translations (Project Gutenberg).
+// Only authors that actually exist on BOTH sides of the catalogue are listed —
+// `en` is the Gutenberg surname, used both to match English books and as the
+// search term that surfaces them.
+export interface CrossAuthor {
+  ru: string;
+  en: string;
+}
+export const CROSS_AUTHORS: CrossAuthor[] = [
+  { ru: 'Фёдор Достоевский', en: 'Dostoyevsky' },
+  { ru: 'Лев Толстой', en: 'Tolstoy' },
+  { ru: 'Николай Гоголь', en: 'Gogol' },
+  { ru: 'Иван Тургенев', en: 'Turgenev' },
+];
+
+export type CrossLink = { dir: 'toEn' | 'toRu'; ru: string; en: string };
+
+// The counterpart-language navigation for a book, or null when none applies.
+export function crossLang(book: CatalogBook): CrossLink | null {
+  const isRu = book.lang === 'RU' || book.lang === 'KK';
+  for (const c of CROSS_AUTHORS) {
+    if (isRu && book.author === c.ru) return { dir: 'toEn', ...c };
+    if (!isRu && book.author.toLowerCase().includes(c.en.toLowerCase())) {
+      return { dir: 'toRu', ...c };
+    }
+  }
+  return null;
+}
+
 // Deep-link into the existing (proven) OPDS browser pointed at this book's
 // search feed, where the Download → Read flow already works for every platform.
 export function readHref(book: CatalogBook): string {

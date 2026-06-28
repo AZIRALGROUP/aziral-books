@@ -9,12 +9,15 @@ import {
   type CatalogBook,
   type CatalogShelves,
   browse,
+  crossLang,
   loadAuthors,
   loadCatalog,
   readHref,
   SECTIONS,
   searchCatalog,
 } from './catalogModel';
+
+type CrossNav = { query?: string; author?: string };
 import './catalog.css';
 
 type Lang = 'all' | 'ru' | 'kk';
@@ -551,7 +554,15 @@ function AuthorSidebar({
   );
 }
 
-function Drawer({ book, onClose }: { book: CatalogBook | null; onClose: () => void }) {
+function Drawer({
+  book,
+  onClose,
+  onCross,
+}: {
+  book: CatalogBook | null;
+  onClose: () => void;
+  onCross: (nav: CrossNav) => void;
+}) {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   useEffect(() => {
     const h = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
@@ -673,6 +684,36 @@ function Drawer({ book, onClose }: { book: CatalogBook | null; onClose: () => vo
               ⤓ Скачать
             </button>
           </div>
+          {(() => {
+            const cross = crossLang(book);
+            if (!cross) return null;
+            const label = cross.dir === 'toEn' ? 'Читать на английском' : 'Читать по-русски';
+            const nav: CrossNav = cross.dir === 'toEn' ? { query: cross.en } : { author: cross.ru };
+            return (
+              <button
+                type='button'
+                onClick={() => onCross(nav)}
+                style={{
+                  all: 'unset',
+                  cursor: 'pointer',
+                  display: 'block',
+                  width: '100%',
+                  boxSizing: 'border-box',
+                  textAlign: 'center',
+                  padding: '11px 16px',
+                  marginBottom: 28,
+                  borderRadius: 99,
+                  border: '1px solid var(--line-strong)',
+                  fontFamily: 'var(--sans)',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: 'var(--text-2)',
+                }}
+              >
+                ⇄ {label}
+              </button>
+            );
+          })()}
           <div
             style={{
               display: 'grid',
@@ -897,6 +938,20 @@ export default function CatalogClient() {
     setAuthor(name);
     setQuery('');
   };
+  // Jump to the counterpart-language view from a book's detail drawer.
+  const crossNavigate = (nav: CrossNav) => {
+    setSel(null);
+    setSection('');
+    if (nav.author) {
+      setLang('all');
+      setAuthor(nav.author);
+      setQuery('');
+    } else if (nav.query) {
+      setLang('all');
+      setAuthor(null);
+      setQuery(nav.query);
+    }
+  };
 
   const resultsTitle = useMemo(() => {
     if (mode === 'search') return `Результаты «${query}»`;
@@ -1035,7 +1090,7 @@ export default function CatalogClient() {
         </div>
       </div>
 
-      <Drawer book={sel} onClose={() => setSel(null)} />
+      <Drawer book={sel} onClose={() => setSel(null)} onCross={crossNavigate} />
     </div>
   );
 }
