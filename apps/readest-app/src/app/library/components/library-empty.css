@@ -138,6 +138,63 @@
   outline-offset: 2px;
 }
 
+/* "Популярное из каталога" — a live row of catalog covers so a brand-new
+   user with zero books sees real books to tap, not just an empty screen.
+   Tapping a cover downloads + opens it (via useBookOpener). */
+.azb-empty-picks {
+  margin-top: 44px;
+  width: min(90vw, 34rem);
+}
+.azb-empty-picks-label {
+  margin-bottom: 14px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.azb-empty-picks-row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.azb-empty-pick {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  flex: 0 0 auto;
+  width: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scroll-snap-align: start;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+.azb-empty-pick:hover {
+  transform: translateY(-3px);
+}
+.azb-empty-pick[aria-busy='true'] {
+  opacity: 0.6;
+  cursor: default;
+}
+.azb-empty-pick-title {
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.25;
+  text-align: left;
+  color: var(--ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 [data-eink='true'] .azb-empty-cta {
   box-shadow: none;
   border: 1px solid var(--ochre-deep);

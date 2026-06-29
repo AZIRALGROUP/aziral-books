@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import { useEnv } from '@/context/EnvContext';
 import { useAuth } from '@/context/AuthContext';
@@ -6,6 +7,9 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { useAppRouter } from '@/hooks/useAppRouter';
 import { navigateToLogin } from '@/utils/nav';
 import { AziralMark } from '@/components/brand/AziralMark';
+import { BookCover } from '@/app/catalog/BookCover';
+import { loadCatalog, type CatalogBook } from '@/app/catalog/catalogModel';
+import { useBookOpener } from '@/app/catalog/useBookOpener';
 import './library-empty.css';
 
 interface LibraryEmptyStateProps {
@@ -21,6 +25,22 @@ const LibraryEmptyState: React.FC<LibraryEmptyStateProps> = ({ onImport }) => {
   const { user } = useAuth();
   const router = useAppRouter();
   const isMobile = appService?.isMobile ?? false;
+
+  const { open, openingId } = useBookOpener();
+  const [picks, setPicks] = useState<CatalogBook[]>([]);
+  useEffect(() => {
+    let cancelled = false;
+    loadCatalog()
+      .then((shelves) => {
+        if (!cancelled) setPicks(shelves.popular.slice(0, 6));
+      })
+      .catch(() => {
+        /* leave empty — the picks row simply doesn't render */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className='azb-empty'>
@@ -51,6 +71,28 @@ const LibraryEmptyState: React.FC<LibraryEmptyStateProps> = ({ onImport }) => {
             </button>
           )}
         </div>
+
+        {picks.length > 0 && (
+          <div className='azb-empty-picks'>
+            <div className='azb-empty-picks-label'>{_('Popular in the catalog')}</div>
+            <div className='azb-empty-picks-row'>
+              {picks.map((book) => (
+                <button
+                  key={book.id}
+                  type='button'
+                  className='azb-empty-pick'
+                  onClick={() => open(book)}
+                  disabled={openingId === book.id}
+                  aria-busy={openingId === book.id}
+                  title={`${book.title} — ${book.author}`}
+                >
+                  <BookCover book={book} w={96} radius={7} />
+                  <span className='azb-empty-pick-title'>{book.title}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

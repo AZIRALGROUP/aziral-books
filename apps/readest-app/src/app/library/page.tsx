@@ -1422,11 +1422,7 @@ const LibraryPageContent = ({ searchParams }: { searchParams: ReadonlyURLSearchP
         (libraryBooks.some((book) => !book.deletedAt) ? (
           <div aria-label={_('Your Bookshelf')} className='flex min-h-0 flex-grow flex-col'>
             {!currentGroupPath && !isSelectMode && (
-              <LibraryHero
-                count={libraryBooks.filter((book) => !book.deletedAt).length}
-                cloudUnavailable
-                onRetrySync={() => pullLibrary()}
-              />
+              <LibraryHero count={libraryBooks.filter((book) => !book.deletedAt).length} />
             )}
             {!currentGroupPath &&
               !isSelectMode &&
