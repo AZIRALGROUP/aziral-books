@@ -106,10 +106,16 @@ interface SearchResponse {
 }
 
 async function fetchSearch(params: string): Promise<CatalogBook[]> {
+  return (await fetchSearchPage(params)).books;
+}
+
+// Like fetchSearch but also surfaces meta.total, so browse() can compute how
+// many pages exist up front and fetch them in parallel instead of serially.
+async function fetchSearchPage(params: string): Promise<{ books: CatalogBook[]; total: number }> {
   const res = await fetch(`${API}/search?${params}`, { cache: 'no-store' });
-  if (!res.ok) return [];
+  if (!res.ok) return { books: [], total: 0 };
   const json: SearchResponse = await res.json();
-  return (json.data || []).map(mapBook);
+  return { books: (json.data || []).map(mapBook), total: json.meta?.total ?? 0 };
 }
 
 // Author categories with real counts (Meili facet) — powers the sidebar.
@@ -189,11 +195,13 @@ export const SECTIONS: { id: string; name: string }[] = [
 ];
 
 // Server-side browse with any combination of language / author / form filters.
-// The search API caps `limit` at 50, so page through (up to MAX_BROWSE_PAGES)
-// until a short page signals the end — otherwise a filter like "Қазақша" (213
-// books) would only ever show the first 50.
+// The search API caps `limit` at 50, so a filter like "Қазақша" (226 books)
+// spans several pages. We read meta.total from page 1, then fetch the rest in
+// PARALLEL (not serially) so switching sections stays snappy, and memoize each
+// filter combination so re-visiting a section is instant.
 const BROWSE_PAGE_SIZE = 50;
 const MAX_BROWSE_PAGES = 12;
+const browseCache = new Map<string, CatalogBook[]>();
 
 export async function browse(opts: {
   lang?: string;
@@ -205,15 +213,30 @@ export async function browse(opts: {
   if (opts.author) base.set('author', opts.author);
   if (opts.subject) base.set('subject', opts.subject);
 
-  const all: CatalogBook[] = [];
-  for (let page = 1; page <= MAX_BROWSE_PAGES; page++) {
+  const cacheKey = base.toString();
+  const cached = browseCache.get(cacheKey);
+  if (cached) return cached;
+
+  const pageParams = (page: number): string => {
     const p = new URLSearchParams(base);
     p.set('page', `${page}`);
-    const batch = await fetchSearch(p.toString());
-    all.push(...batch);
-    if (batch.length < BROWSE_PAGE_SIZE) break;
-  }
-  return dedup(all);
+    return p.toString();
+  };
+
+  // Page 1 first — its meta.total tells us how many more pages to pull.
+  const firstPage = await fetchSearchPage(pageParams(1));
+  const totalPages =
+    firstPage.total > 0
+      ? Math.min(MAX_BROWSE_PAGES, Math.ceil(firstPage.total / BROWSE_PAGE_SIZE))
+      : 1;
+
+  const restPages = await Promise.all(
+    Array.from({ length: Math.max(0, totalPages - 1) }, (_v, i) => fetchSearch(pageParams(i + 2))),
+  );
+
+  const all = dedup([firstPage.books, ...restPages].flat());
+  browseCache.set(cacheKey, all);
+  return all;
 }
 
 // Cross-language author link: jump between an author's Russian works (our
