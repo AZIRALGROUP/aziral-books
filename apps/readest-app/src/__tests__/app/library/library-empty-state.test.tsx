@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import LibraryEmptyState from '@/app/library/components/LibraryEmptyState';
 
@@ -29,12 +29,31 @@ vi.mock('@/context/EnvContext', () => ({
   useEnv: () => useEnvMock(),
 }));
 
+// New catalog dependencies of the empty state's "Popular in the catalog" row.
+const loadCatalogMock = vi.fn();
+vi.mock('@/app/catalog/catalogModel', () => ({
+  loadCatalog: () => loadCatalogMock(),
+}));
+const openMock = vi.fn();
+vi.mock('@/app/catalog/useBookOpener', () => ({
+  useBookOpener: () => ({ open: openMock, openingId: null, errorId: null }),
+}));
+vi.mock('@/app/catalog/BookCover', () => ({
+  BookCover: () => null,
+}));
+
+beforeEach(() => {
+  loadCatalogMock.mockResolvedValue({ popular: [] });
+});
+
 afterEach(() => {
   cleanup();
   useAuthMock.mockReset();
   navigateToLoginMock.mockReset();
   useEnvMock.mockReset();
   routerStub.push.mockReset();
+  loadCatalogMock.mockReset();
+  openMock.mockReset();
 });
 
 describe('LibraryEmptyState', () => {
@@ -87,5 +106,19 @@ describe('LibraryEmptyState', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Import Books' }));
 
     expect(handleImport).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders catalog picks and opens one when clicked', async () => {
+    useEnvMock.mockReturnValue({ appService: { isMobile: false } });
+    useAuthMock.mockReturnValue({ user: null });
+    loadCatalogMock.mockResolvedValue({
+      popular: [{ id: 'b1', title: 'War and Peace', author: 'Tolstoy' }],
+    });
+    render(<LibraryEmptyState onImport={vi.fn()} />);
+
+    const pick = await screen.findByRole('button', { name: /War and Peace/i });
+    fireEvent.click(pick);
+
+    expect(openMock).toHaveBeenCalledWith(expect.objectContaining({ id: 'b1' }));
   });
 });
