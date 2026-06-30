@@ -448,12 +448,18 @@ function ResultsGrid({
   onOpen,
   title,
   count,
+  loading,
 }: {
   books: CatalogBook[];
   onOpen: (b: CatalogBook) => void;
   title: string;
   count?: number;
+  loading?: boolean;
 }) {
+  // Show skeletons only on a genuine first/uncached load (no books yet). When
+  // results are already on screen we keep them visible while revalidating
+  // (browse() memoizes, so cached section switches never reach this branch).
+  const showSkeleton = loading && books.length === 0;
   return (
     <section style={{ marginBottom: 48 }}>
       <h2
@@ -467,9 +473,30 @@ function ResultsGrid({
         }}
       >
         {title}{' '}
-        <span style={{ color: 'var(--text-3)', fontWeight: 400 }}>· {count ?? books.length}</span>
+        <span style={{ color: 'var(--text-3)', fontWeight: 400 }}>
+          · {showSkeleton ? '…' : (count ?? books.length)}
+        </span>
       </h2>
-      {books.length === 0 ? (
+      {showSkeleton ? (
+        <div
+          className='azb-skel-grid'
+          aria-busy='true'
+          aria-label='Загрузка каталога'
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(152px, 1fr))',
+            gap: '30px 22px',
+          }}
+        >
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className='azb-skel-card'>
+              <div className='azb-skel azb-skel-cover' />
+              <div className='azb-skel azb-skel-line' style={{ width: '85%' }} />
+              <div className='azb-skel azb-skel-line' style={{ width: '55%' }} />
+            </div>
+          ))}
+        </div>
+      ) : books.length === 0 ? (
         <div
           style={{
             padding: '60px 0',
@@ -933,6 +960,7 @@ export default function CatalogClient() {
   const [shelves, setShelves] = useState<CatalogShelves | null>(null);
   const [authors, setAuthors] = useState<AuthorCount[]>([]);
   const [results, setResults] = useState<CatalogBook[]>([]);
+  const [loadingResults, setLoadingResults] = useState(false);
 
   const q = query.trim();
   const langParam = lang === 'all' ? undefined : lang;
@@ -962,8 +990,13 @@ export default function CatalogClient() {
   // language / section / author filters. Plain browse falls back to the shelves.
   useEffect(() => {
     let cancelled = false;
-    const apply = (r: CatalogBook[]) => !cancelled && setResults(r);
+    const apply = (r: CatalogBook[]) => {
+      if (cancelled) return;
+      setResults(r);
+      setLoadingResults(false);
+    };
     if (q.length >= 2) {
+      setLoadingResults(true);
       const t = setTimeout(() => searchCatalog(q).then(apply), 300);
       return () => {
         cancelled = true;
@@ -971,11 +1004,13 @@ export default function CatalogClient() {
       };
     }
     if (author || section || langParam) {
+      setLoadingResults(true);
       browse({ lang: langParam, author: author ?? undefined, subject: section || undefined }).then(
         apply,
       );
     } else {
       setResults([]);
+      setLoadingResults(false);
     }
     return () => {
       cancelled = true;
@@ -1139,7 +1174,12 @@ export default function CatalogClient() {
                   />
                 </>
               ) : (
-                <ResultsGrid books={results} onOpen={onOpen} title={resultsTitle} />
+                <ResultsGrid
+                  books={results}
+                  onOpen={onOpen}
+                  title={resultsTitle}
+                  loading={loadingResults}
+                />
               )}
             </div>
 
