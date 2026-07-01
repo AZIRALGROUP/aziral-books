@@ -110,8 +110,15 @@ function BookCard({
 }) {
   const [hov, setHov] = useState(false);
   return (
-    <button
-      onClick={() => onOpen(book)}
+    <Link
+      href={`/catalog/${book.id}`}
+      onClick={(e) => {
+        // A real href makes each book crawlable/shareable/openable-in-a-new-tab
+        // (SEO detail page at /catalog/[id]); a plain click within the catalog
+        // still opens the existing drawer instead of a full navigation.
+        e.preventDefault();
+        onOpen(book);
+      }}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
@@ -203,7 +210,7 @@ function BookCard({
           <SourceTag s={book.source} />
         </div>
       </div>
-    </button>
+    </Link>
   );
 }
 
