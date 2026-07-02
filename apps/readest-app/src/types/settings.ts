@@ -6,6 +6,7 @@ import { OPDSCatalog } from './opds';
 import type { AISettings } from '@/services/ai/types';
 import type { NotebookTab } from '@/store/notebookStore';
 import type { DictionarySettings, ImportedDictionary } from '@/services/dictionaries/types';
+import type { ReadingStats } from '@/utils/readingStats';
 
 export type ThemeType = 'light' | 'dark' | 'auto';
 export type LibraryViewModeType = 'grid' | 'list';
@@ -341,6 +342,15 @@ export interface SystemSettings {
    * field never saw it either, so it shows for them too.
    */
   readerTutorialDismissed?: boolean;
+
+  /**
+   * Cross-device reading streak (consecutive local calendar days with at
+   * least one reader session) and cumulative time spent reading. Global —
+   * not tied to a single book. Updated via `recordReadingSession` when a
+   * reader session ends (see `ReaderContent`'s close handlers) and synced
+   * through the `settings` replica kind (see `SETTINGS_WHITELIST`).
+   */
+  readingStats?: ReadingStats;
 
   kosync: KOSyncSettings;
   readwise: ReadwiseSettings;

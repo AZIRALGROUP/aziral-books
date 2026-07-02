@@ -84,6 +84,7 @@ import Bookshelf from './components/Bookshelf';
 import LibraryEmptyState from './components/LibraryEmptyState';
 import LibraryDiscovery from './components/LibraryDiscovery';
 import LibraryHero from './components/LibraryHero';
+import { activeStreakCount } from '@/utils/readingStats';
 import ContinueReading from './components/ContinueReading';
 import GroupHeader from './components/GroupHeader';
 import FailedImportsDialog, { FailedImport } from './components/FailedImportsDialog';
@@ -1422,7 +1423,10 @@ const LibraryPageContent = ({ searchParams }: { searchParams: ReadonlyURLSearchP
         (libraryBooks.some((book) => !book.deletedAt) ? (
           <div aria-label={_('Your Bookshelf')} className='flex min-h-0 flex-grow flex-col'>
             {!currentGroupPath && !isSelectMode && (
-              <LibraryHero count={libraryBooks.filter((book) => !book.deletedAt).length} />
+              <LibraryHero
+                count={libraryBooks.filter((book) => !book.deletedAt).length}
+                streak={activeStreakCount(settings.readingStats)}
+              />
             )}
             {!currentGroupPath &&
               !isSelectMode &&
