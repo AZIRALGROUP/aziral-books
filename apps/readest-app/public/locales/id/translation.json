@@ -1666,5 +1666,12 @@
   "Book file is not available locally": "Berkas buku tidak tersedia secara lokal",
   "Failed to send book": "Gagal mengirim buku",
   "Send": "Kirim",
-  "Highlight Current Sentence": "Sorot kalimat saat ini"
+  "Highlight Current Sentence": "Sorot kalimat saat ini",
+  "Turn pages": "Membalik halaman",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Ketuk atau geser di dekat tepi kiri atau kanan halaman untuk berpindah halaman.",
+  "Show or hide controls": "Tampilkan atau sembunyikan kontrol",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Ketuk bagian tengah halaman untuk menampilkan bilah alat, ketuk lagi untuk menyembunyikannya.",
+  "Make it yours": "Sesuaikan dengan gaya Anda",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Buka Pengaturan untuk mengubah font, tema, dan tata letak sesuai selera membaca Anda.",
+  "Start reading": "Mulai membaca"
 }

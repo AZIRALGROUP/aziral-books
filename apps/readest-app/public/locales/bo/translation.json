@@ -1666,5 +1666,12 @@
   "Book file is not available locally": "དེབ་ཀྱི་ཡིག་ཆ་དེ་ས་གནས་སུ་མི་འདུག",
   "Failed to send book": "དེབ་སྐུར་གཏོང་མ་ཐུབ།",
   "Send": "སྐུར་གཏོང་།",
-  "Highlight Current Sentence": "ད་ལྟའི་ཚིག་གྲུབ་ལ་འོག་ཐིག་གཏོང་།"
+  "Highlight Current Sentence": "ད་ལྟའི་ཚིག་གྲུབ་ལ་འོག་ཐིག་གཏོང་།",
+  "Turn pages": "ཤོག་ངོས་སྒྱུར་བ།",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "ཤོག་ངོས་གཡོན་ནམ་གཡས་ཀྱི་མཐའ་སྐོར་ལ་རེག་གམ་འདྲུད་ནས་ཤོག་ངོས་སྤོ་ཆོག།",
+  "Show or hide controls": "ཚོད་འཛིན་ཆས་སྟོན་པའམ་སྦེད་པ།",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "ཤོག་ངོས་ཀྱི་དབུས་སུ་རེག་ན་ལག་ཆ་ཐོ་འཆར་གྱི་ཡོད། སླར་ཡང་རེག་ན་སྦེད་ངེས།",
+  "Make it yours": "རང་ཉིད་ལ་འཚམ་པར་སྒྲིག",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "སྒྲིག་འགོད་ཁ་ཕྱེས་ནས་ཡིག་གཟུགས་དང་བཀོད་པ་སོགས་རང་དགར་བསྒྱུར་ཆོག།",
+  "Start reading": "ཀློག་པ་འགོ་འཛུགས།"
 }

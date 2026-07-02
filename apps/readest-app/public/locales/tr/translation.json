@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "Kitap dosyası yerel olarak mevcut değil",
   "Failed to send book": "Kitap gönderilemedi",
   "Send": "Gönder",
-  "Highlight Current Sentence": "Geçerli cümleyi vurgula"
+  "Highlight Current Sentence": "Geçerli cümleyi vurgula",
+  "Turn pages": "Sayfaları çevirme",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Sayfalar arasında geçmek için sayfanın sol veya sağ kenarına yakın bir yere dokunun veya kaydırın.",
+  "Show or hide controls": "Denetimleri göster veya gizle",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Araç çubuğunu görmek için sayfanın ortasına dokunun, gizlemek için tekrar dokunun.",
+  "Make it yours": "Kendine göre ayarla",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Yazı tipini, temayı ve düzeni istediğiniz gibi değiştirmek için Ayarlar'ı açın.",
+  "Start reading": "Okumaya başla"
 }

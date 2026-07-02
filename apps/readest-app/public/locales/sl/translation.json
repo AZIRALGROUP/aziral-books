@@ -1765,5 +1765,12 @@
   "Book file is not available locally": "Datoteka knjige ni na voljo lokalno",
   "Failed to send book": "Pošiljanje knjige ni uspelo",
   "Send": "Pošlji",
-  "Highlight Current Sentence": "Označi trenutni stavek"
+  "Highlight Current Sentence": "Označi trenutni stavek",
+  "Turn pages": "Obračanje strani",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Tapnite ali povlecite blizu levega ali desnega roba strani za premikanje med stranmi.",
+  "Show or hide controls": "Prikaži ali skrij kontrolnike",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Tapnite sredino strani, da prikažete orodno vrstico, in znova, da jo skrijete.",
+  "Make it yours": "Prilagodite si ga",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Odprite Nastavitve, da spremenite pisavo, temo in postavitev po svojem okusu.",
+  "Start reading": "Začni branje"
 }

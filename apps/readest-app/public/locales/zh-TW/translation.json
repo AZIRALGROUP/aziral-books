@@ -1666,5 +1666,12 @@
   "Book file is not available locally": "本機沒有此書籍檔案",
   "Failed to send book": "傳送書籍失敗",
   "Send": "傳送",
-  "Highlight Current Sentence": "醒目標示目前句子"
+  "Highlight Current Sentence": "醒目標示目前句子",
+  "Turn pages": "翻頁",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "輕觸或滑動頁面左右邊緣即可翻頁。",
+  "Show or hide controls": "顯示或隱藏控制列",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "輕觸頁面中央即可顯示工具列，再次輕觸可隱藏。",
+  "Make it yours": "打造專屬閱讀體驗",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "開啟設定即可依喜好更改字型、主題和版面配置。",
+  "Start reading": "開始閱讀"
 }

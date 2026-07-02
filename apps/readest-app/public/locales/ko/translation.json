@@ -1666,5 +1666,12 @@
   "Book file is not available locally": "책 파일을 로컬에서 사용할 수 없습니다",
   "Failed to send book": "책 보내기에 실패했습니다",
   "Send": "보내기",
-  "Highlight Current Sentence": "현재 문장 강조"
+  "Highlight Current Sentence": "현재 문장 강조",
+  "Turn pages": "페이지 넘기기",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "페이지 왼쪽이나 오른쪽 가장자리를 탭하거나 스와이프하여 페이지를 이동하세요.",
+  "Show or hide controls": "컨트롤 표시/숨기기",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "페이지 가운데를 탭하면 도구 모음이 나타나고, 다시 탭하면 숨겨집니다.",
+  "Make it yours": "취향에 맞게 설정하기",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "설정을 열어 글꼴, 테마, 레이아웃을 원하는 대로 바꿔보세요.",
+  "Start reading": "읽기 시작"
 }

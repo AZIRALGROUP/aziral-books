@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "A könyvfájl nem érhető el helyileg",
   "Failed to send book": "A könyv küldése sikertelen",
   "Send": "Küldés",
-  "Highlight Current Sentence": "Aktuális mondat kiemelése"
+  "Highlight Current Sentence": "Aktuális mondat kiemelése",
+  "Turn pages": "Lapozás",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Koppintson vagy húzza ujját az oldal bal vagy jobb széle közelében a lapozáshoz.",
+  "Show or hide controls": "Vezérlők megjelenítése vagy elrejtése",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Koppintson az oldal közepére az eszköztár megjelenítéséhez, majd újra az elrejtéséhez.",
+  "Make it yours": "Alakítsd a saját ízlésedre",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Nyissa meg a Beállításokat a betűtípus, téma és elrendezés testreszabásához.",
+  "Start reading": "Olvasás megkezdése"
 }

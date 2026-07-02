@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "පොත් ගොනුව දේශීයව ලබා ගත නොහැක",
   "Failed to send book": "පොත යැවීමට අසමත් විය",
   "Send": "යවන්න",
-  "Highlight Current Sentence": "වර්තමාන වාක්‍යය ඉස්මතු කරන්න"
+  "Highlight Current Sentence": "වර්තමාන වාක්‍යය ඉස්මතු කරන්න",
+  "Turn pages": "පිටු පෙරළීම",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "පිටු අතර යාමට පිටුවේ වම් හෝ දකුණු කෙළවර ස්පර්ශ කරන්න හෝ ස්වයිප් කරන්න.",
+  "Show or hide controls": "පාලක පෙන්වන්න හෝ සඟවන්න",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "මෙවලම් තීරුව පෙන්වීමට පිටුවේ මැද ස්පර්ශ කරන්න, සැඟවීමට නැවත ස්පර්ශ කරන්න.",
+  "Make it yours": "ඔබට ගැලපෙන ලෙස සකසන්න",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "අකුරු, තේමාව සහ පිරිසැලසුම ඔබ කැමති ලෙස වෙනස් කිරීමට සැකසීම් විවෘත කරන්න.",
+  "Start reading": "කියවීම ආරම්භ කරන්න"
 }

@@ -30,6 +30,7 @@ import { Toast } from '@/components/Toast';
 import { getLocale } from '@/utils/misc';
 import { initDayjs } from '@/utils/time';
 import ReaderContent from './ReaderContent';
+import ReaderTutorial from './ReaderTutorial';
 
 /*
 Z-Index Layering Guide:
@@ -182,6 +183,7 @@ const Reader: React.FC<{ ids?: string }> = ({ ids }) => {
         <UpdaterWindow />
         <ProofreadRulesManager />
         <Toast />
+        <ReaderTutorial />
       </Suspense>
     </div>
   ) : (

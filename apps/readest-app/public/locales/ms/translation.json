@@ -1666,5 +1666,12 @@
   "Book file is not available locally": "Fail buku tidak tersedia secara setempat",
   "Failed to send book": "Gagal menghantar buku",
   "Send": "Hantar",
-  "Highlight Current Sentence": "Serlahkan ayat semasa"
+  "Highlight Current Sentence": "Serlahkan ayat semasa",
+  "Turn pages": "Membelek halaman",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Ketik atau leret berhampiran tepi kiri atau kanan halaman untuk bergerak antara halaman.",
+  "Show or hide controls": "Tunjuk atau sembunyikan kawalan",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Ketik bahagian tengah halaman untuk memaparkan bar alat, ketik sekali lagi untuk menyembunyikannya.",
+  "Make it yours": "Sesuaikan mengikut citarasa anda",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Buka Tetapan untuk menukar fon, tema dan susun atur mengikut citarasa bacaan anda.",
+  "Start reading": "Mula membaca"
 }

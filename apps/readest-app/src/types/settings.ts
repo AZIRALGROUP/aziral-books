@@ -334,6 +334,14 @@ export interface SystemSettings {
   pinCodeHash?: string;
   pinCodeSalt?: string;
 
+  /**
+   * Whether the reader-page onboarding tour (page-turn / tap-to-toggle-
+   * controls / settings hint cards, shown on first reader open) has been
+   * dismissed. Absent/false shows the tour; existing users without this
+   * field never saw it either, so it shows for them too.
+   */
+  readerTutorialDismissed?: boolean;
+
   kosync: KOSyncSettings;
   readwise: ReadwiseSettings;
   hardcover: HardcoverSettings;

@@ -1666,5 +1666,12 @@
   "Book file is not available locally": "本地没有该图书文件",
   "Failed to send book": "发送图书失败",
   "Send": "发送",
-  "Highlight Current Sentence": "高亮当前句子"
+  "Highlight Current Sentence": "高亮当前句子",
+  "Turn pages": "翻页",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "轻触或滑动页面左右边缘即可翻页。",
+  "Show or hide controls": "显示或隐藏控制栏",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "轻触页面中央即可显示工具栏，再次轻触可隐藏。",
+  "Make it yours": "打造专属阅读体验",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "打开设置即可按喜好更改字体、主题和版式。",
+  "Start reading": "开始阅读"
 }

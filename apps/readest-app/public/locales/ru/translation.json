@@ -1769,5 +1769,12 @@
   "Book file is not available locally": "Файл книги недоступен локально",
   "Failed to send book": "Не удалось отправить книгу",
   "Send": "Отправить",
-  "Highlight Current Sentence": "Выделять текущее предложение"
+  "Highlight Current Sentence": "Выделять текущее предложение",
+  "Turn pages": "Перелистывание страниц",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Нажмите или проведите пальцем у левого или правого края страницы, чтобы перейти к следующей.",
+  "Show or hide controls": "Показать или скрыть панели",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Нажмите в центре страницы, чтобы открыть панель инструментов, и ещё раз, чтобы скрыть её.",
+  "Make it yours": "Настройте под себя",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Откройте настройки, чтобы изменить шрифт, тему и вид страницы под свой вкус.",
+  "Start reading": "Начать чтение"
 }

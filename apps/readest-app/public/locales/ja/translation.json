@@ -1666,5 +1666,12 @@
   "Book file is not available locally": "書籍ファイルがローカルに存在しません",
   "Failed to send book": "書籍の送信に失敗しました",
   "Send": "送信",
-  "Highlight Current Sentence": "現在の文をハイライト"
+  "Highlight Current Sentence": "現在の文をハイライト",
+  "Turn pages": "ページをめくる",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "ページの左端または右端をタップまたはスワイプしてページを移動します。",
+  "Show or hide controls": "コントロールの表示・非表示",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "ページ中央をタップするとツールバーが表示され、もう一度タップすると非表示になります。",
+  "Make it yours": "自分好みにカスタマイズ",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "設定を開いて、フォント、テーマ、レイアウトをお好みに変更できます。",
+  "Start reading": "読書を始める"
 }

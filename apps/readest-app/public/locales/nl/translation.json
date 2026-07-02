@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "Boekbestand is niet lokaal beschikbaar",
   "Failed to send book": "Verzenden van boek mislukt",
   "Send": "Verzenden",
-  "Highlight Current Sentence": "Huidige zin markeren"
+  "Highlight Current Sentence": "Huidige zin markeren",
+  "Turn pages": "Pagina's omslaan",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Tik of veeg bij de linker- of rechterrand van de pagina om tussen pagina's te bewegen.",
+  "Show or hide controls": "Bedieningselementen tonen of verbergen",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Tik op het midden van de pagina om de werkbalk te tonen, en nogmaals om deze te verbergen.",
+  "Make it yours": "Maak het van jou",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Open Instellingen om lettertype, thema en indeling naar wens aan te passen.",
+  "Start reading": "Begin met lezen"
 }
