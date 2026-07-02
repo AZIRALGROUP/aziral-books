@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "Το αρχείο του βιβλίου δεν είναι διαθέσιμο τοπικά",
   "Failed to send book": "Αποτυχία αποστολής βιβλίου",
   "Send": "Αποστολή",
-  "Highlight Current Sentence": "Επισήμανση τρέχουσας πρότασης"
+  "Highlight Current Sentence": "Επισήμανση τρέχουσας πρότασης",
+  "Turn pages": "Γύρισμα σελίδων",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Πατήστε ή σύρετε κοντά στην αριστερή ή δεξιά άκρη της σελίδας για μετάβαση μεταξύ σελίδων.",
+  "Show or hide controls": "Εμφάνιση ή απόκρυψη στοιχείων ελέγχου",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Πατήστε στο κέντρο της σελίδας για να εμφανιστεί η γραμμή εργαλείων και ξανά για να αποκρυφτεί.",
+  "Make it yours": "Προσαρμόστε το στα μέτρα σας",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Ανοίξτε τις Ρυθμίσεις για να αλλάξετε τη γραμματοσειρά, το θέμα και τη διάταξη όπως σας αρέσει.",
+  "Start reading": "Έναρξη ανάγνωσης"
 }

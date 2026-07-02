@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "বইয়ের ফাইলটি স্থানীয়ভাবে উপলব্ধ নয়",
   "Failed to send book": "বই পাঠাতে ব্যর্থ হয়েছে",
   "Send": "পাঠান",
-  "Highlight Current Sentence": "বর্তমান বাক্য হাইলাইট করুন"
+  "Highlight Current Sentence": "বর্তমান বাক্য হাইলাইট করুন",
+  "Turn pages": "পাতা উল্টানো",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "পাতা পরিবর্তন করতে পাতার বাম বা ডান প্রান্তের কাছে ট্যাপ করুন বা সোয়াইপ করুন।",
+  "Show or hide controls": "নিয়ন্ত্রণ দেখান বা লুকান",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "টুলবার দেখাতে পাতার মাঝখানে ট্যাপ করুন, লুকাতে আবার ট্যাপ করুন।",
+  "Make it yours": "নিজের মতো করে সাজান",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "ফন্ট, থিম এবং লেআউট আপনার পছন্দমতো পরিবর্তন করতে সেটিংস খুলুন।",
+  "Start reading": "পড়া শুরু করুন"
 }

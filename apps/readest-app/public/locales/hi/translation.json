@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "पुस्तक फ़ाइल स्थानीय रूप से उपलब्ध नहीं है",
   "Failed to send book": "पुस्तक भेजने में विफल",
   "Send": "भेजें",
-  "Highlight Current Sentence": "वर्तमान वाक्य को हाइलाइट करें"
+  "Highlight Current Sentence": "वर्तमान वाक्य को हाइलाइट करें",
+  "Turn pages": "पन्ने पलटना",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "पेज बदलने के लिए पेज के बाएँ या दाएँ किनारे के पास टैप करें या स्वाइप करें।",
+  "Show or hide controls": "नियंत्रण दिखाएँ या छिपाएँ",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "टूलबार दिखाने के लिए पेज के बीच में टैप करें, और छिपाने के लिए फिर से टैप करें।",
+  "Make it yours": "इसे अपने अनुसार बनाएं",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "फ़ॉन्ट, थीम और लेआउट को अपनी पसंद के अनुसार बदलने के लिए सेटिंग्स खोलें।",
+  "Start reading": "पढ़ना शुरू करें"
 }

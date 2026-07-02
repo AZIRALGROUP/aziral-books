@@ -1666,5 +1666,12 @@
   "Book file is not available locally": "Tệp sách không có sẵn trên thiết bị",
   "Failed to send book": "Gửi sách thất bại",
   "Send": "Gửi",
-  "Highlight Current Sentence": "Tô sáng câu hiện tại"
+  "Highlight Current Sentence": "Tô sáng câu hiện tại",
+  "Turn pages": "Lật trang",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Chạm hoặc vuốt gần mép trái hoặc phải của trang để chuyển trang.",
+  "Show or hide controls": "Hiện hoặc ẩn thanh điều khiển",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Chạm vào giữa trang để hiện thanh công cụ, chạm lại để ẩn đi.",
+  "Make it yours": "Tùy chỉnh theo ý bạn",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Mở Cài đặt để thay đổi phông chữ, giao diện và bố cục theo sở thích đọc của bạn.",
+  "Start reading": "Bắt đầu đọc"
 }

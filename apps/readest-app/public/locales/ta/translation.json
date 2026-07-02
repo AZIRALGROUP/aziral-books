@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "புத்தக கோப்பு உள்ளூரில் கிடைக்கவில்லை",
   "Failed to send book": "புத்தகத்தை அனுப்ப முடியவில்லை",
   "Send": "அனுப்பு",
-  "Highlight Current Sentence": "தற்போதைய வாக்கியத்தை தனிப்படுத்து"
+  "Highlight Current Sentence": "தற்போதைய வாக்கியத்தை தனிப்படுத்து",
+  "Turn pages": "பக்கங்களைப் புரட்டுதல்",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "பக்கங்களுக்கு இடையே செல்ல பக்கத்தின் இடது அல்லது வலது ஓரத்தில் தட்டவும் அல்லது ஸ்வைப் செய்யவும்.",
+  "Show or hide controls": "கட்டுப்பாடுகளைக் காட்டு அல்லது மறை",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "கருவிப்பட்டியைக் காட்ட பக்கத்தின் நடுவில் தட்டவும், மறைக்க மீண்டும் தட்டவும்.",
+  "Make it yours": "உங்களுக்கு ஏற்றவாறு மாற்றுங்கள்",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "எழுத்துரு, தீம் மற்றும் தளவமைப்பை உங்கள் விருப்பப்படி மாற்ற அமைப்புகளைத் திறக்கவும்.",
+  "Start reading": "படிக்கத் தொடங்கு"
 }

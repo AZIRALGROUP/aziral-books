@@ -1765,5 +1765,12 @@
   "Book file is not available locally": "Файл книги недоступний локально",
   "Failed to send book": "Не вдалося надіслати книгу",
   "Send": "Надіслати",
-  "Highlight Current Sentence": "Виділяти поточне речення"
+  "Highlight Current Sentence": "Виділяти поточне речення",
+  "Turn pages": "Гортання сторінок",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Торкніться або проведіть пальцем біля лівого чи правого краю сторінки, щоб перейти на іншу сторінку.",
+  "Show or hide controls": "Показати або сховати елементи керування",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Торкніться центру сторінки, щоб відкрити панель інструментів, і ще раз, щоб приховати її.",
+  "Make it yours": "Налаштуйте під себе",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Відкрийте Налаштування, щоб змінити шрифт, тему та вигляд сторінки на свій смак.",
+  "Start reading": "Почати читання"
 }

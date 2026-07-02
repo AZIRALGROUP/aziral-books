@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "Bokfilen är inte tillgänglig lokalt",
   "Failed to send book": "Det gick inte att skicka boken",
   "Send": "Skicka",
-  "Highlight Current Sentence": "Markera aktuell mening"
+  "Highlight Current Sentence": "Markera aktuell mening",
+  "Turn pages": "Bläddra bland sidor",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Tryck eller svep nära vänster eller höger kant av sidan för att byta sida.",
+  "Show or hide controls": "Visa eller dölj kontroller",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Tryck mitt på sidan för att visa verktygsfältet, tryck igen för att dölja det.",
+  "Make it yours": "Gör den till din egen",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Öppna Inställningar för att ändra typsnitt, tema och layout som du vill läsa.",
+  "Start reading": "Börja läsa"
 }

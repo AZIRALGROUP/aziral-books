@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "Buchdatei ist nicht lokal verfügbar",
   "Failed to send book": "Senden des Buchs fehlgeschlagen",
   "Send": "Senden",
-  "Highlight Current Sentence": "Aktuellen Satz hervorheben"
+  "Highlight Current Sentence": "Aktuellen Satz hervorheben",
+  "Turn pages": "Seiten umblättern",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Tippen oder wischen Sie am linken oder rechten Rand der Seite, um zwischen den Seiten zu wechseln.",
+  "Show or hide controls": "Steuerelemente ein-/ausblenden",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Tippen Sie auf die Mitte der Seite, um die Symbolleiste anzuzeigen, und erneut, um sie auszublenden.",
+  "Make it yours": "Passen Sie es an",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Öffnen Sie die Einstellungen, um Schriftart, Design und Layout nach Ihrem Geschmack anzupassen.",
+  "Start reading": "Lesen beginnen"
 }

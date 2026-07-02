@@ -1732,5 +1732,12 @@
   "Book file is not available locally": "קובץ הספר אינו זמין באופן מקומי",
   "Failed to send book": "שליחת הספר נכשלה",
   "Send": "שליחה",
-  "Highlight Current Sentence": "הדגשת המשפט הנוכחי"
+  "Highlight Current Sentence": "הדגשת המשפט הנוכחי",
+  "Turn pages": "דפדוף בין עמודים",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "הקישו או החליקו ליד הקצה השמאלי או הימני של העמוד כדי לעבור בין עמודים.",
+  "Show or hide controls": "הצגה או הסתרה של הפקדים",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "הקישו במרכז העמוד כדי להציג את סרגל הכלים, והקישו שוב כדי להסתיר אותו.",
+  "Make it yours": "התאימו אותה לעצמכם",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "פתחו את ההגדרות כדי לשנות את הגופן, ערכת הנושא והפריסה לטעמכם.",
+  "Start reading": "התחילו לקרוא"
 }

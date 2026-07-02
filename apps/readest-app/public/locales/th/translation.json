@@ -1666,5 +1666,12 @@
   "Book file is not available locally": "ไม่มีไฟล์หนังสือในเครื่อง",
   "Failed to send book": "ส่งหนังสือไม่สำเร็จ",
   "Send": "ส่ง",
-  "Highlight Current Sentence": "ไฮไลต์ประโยคปัจจุบัน"
+  "Highlight Current Sentence": "ไฮไลต์ประโยคปัจจุบัน",
+  "Turn pages": "การพลิกหน้า",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "แตะหรือปัดใกล้ขอบซ้ายหรือขวาของหน้าเพื่อเปลี่ยนหน้า",
+  "Show or hide controls": "แสดงหรือซ่อนแถบควบคุม",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "แตะกลางหน้าเพื่อแสดงแถบเครื่องมือ แล้วแตะอีกครั้งเพื่อซ่อน",
+  "Make it yours": "ปรับให้เป็นสไตล์ของคุณ",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "เปิดการตั้งค่าเพื่อเปลี่ยนแบบอักษร ธีม และเค้าโครงตามที่คุณชอบอ่าน",
+  "Start reading": "เริ่มอ่าน"
 }

@@ -1732,5 +1732,12 @@
   "Book file is not available locally": "Le fichier du livre n'est pas disponible localement",
   "Failed to send book": "Échec de l'envoi du livre",
   "Send": "Envoyer",
-  "Highlight Current Sentence": "Surligner la phrase actuelle"
+  "Highlight Current Sentence": "Surligner la phrase actuelle",
+  "Turn pages": "Tourner les pages",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Touchez ou balayez près du bord gauche ou droit de la page pour changer de page.",
+  "Show or hide controls": "Afficher ou masquer les commandes",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Touchez le centre de la page pour afficher la barre d'outils, puis touchez à nouveau pour la masquer.",
+  "Make it yours": "Personnalisez votre lecture",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Ouvrez les Paramètres pour modifier la police, le thème et la mise en page selon vos goûts.",
+  "Start reading": "Commencer la lecture"
 }

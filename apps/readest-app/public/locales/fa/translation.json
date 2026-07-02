@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "فایل کتاب به صورت محلی در دسترس نیست",
   "Failed to send book": "ارسال کتاب ناموفق بود",
   "Send": "ارسال",
-  "Highlight Current Sentence": "برجسته‌سازی جملهٔ فعلی"
+  "Highlight Current Sentence": "برجسته‌سازی جملهٔ فعلی",
+  "Turn pages": "ورق زدن صفحات",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "برای رفتن بین صفحات، نزدیک لبه چپ یا راست صفحه ضربه بزنید یا بکشید.",
+  "Show or hide controls": "نمایش یا پنهان‌کردن کنترل‌ها",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "وسط صفحه را لمس کنید تا نوار ابزار نمایش داده شود؛ دوباره لمس کنید تا پنهان شود.",
+  "Make it yours": "آن را مطابق سلیقه خود کنید",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "تنظیمات را باز کنید تا فونت، پوسته و چیدمان را طبق سلیقه‌تان تغییر دهید.",
+  "Start reading": "شروع مطالعه"
 }

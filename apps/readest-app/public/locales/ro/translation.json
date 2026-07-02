@@ -1732,5 +1732,12 @@
   "Book file is not available locally": "Fișierul cărții nu este disponibil local",
   "Failed to send book": "Trimiterea cărții a eșuat",
   "Send": "Trimite",
-  "Highlight Current Sentence": "Evidențiază propoziția curentă"
+  "Highlight Current Sentence": "Evidențiază propoziția curentă",
+  "Turn pages": "Întoarcerea paginilor",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Atinge sau glisează lângă marginea stângă sau dreaptă a paginii pentru a trece la altă pagină.",
+  "Show or hide controls": "Afișează sau ascunde comenzile",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Atinge mijlocul paginii pentru a afișa bara de instrumente, apoi atinge din nou pentru a o ascunde.",
+  "Make it yours": "Personalizeaz-o",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Deschide Setări pentru a schimba fontul, tema și aspectul după cum îți place să citești.",
+  "Start reading": "Începe lectura"
 }

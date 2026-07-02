@@ -1699,5 +1699,12 @@
   "Book file is not available locally": "Kitob fayli mahalliy tarzda mavjud emas",
   "Failed to send book": "Kitobni yuborib bo'lmadi",
   "Send": "Yuborish",
-  "Highlight Current Sentence": "Joriy jumlani ajratib ko'rsatish"
+  "Highlight Current Sentence": "Joriy jumlani ajratib ko'rsatish",
+  "Turn pages": "Sahifalarni varaqlash",
+  "Tap or swipe near the left or right edge of the page to move between pages.": "Sahifalar orasida o'tish uchun sahifaning chap yoki o'ng chetiga yaqin joyni bosing yoki suring.",
+  "Show or hide controls": "Boshqaruv elementlarini ko'rsatish yoki yashirish",
+  "Tap the middle of the page to bring up the toolbar, then tap again to hide it.": "Asboblar panelini ko'rsatish uchun sahifa markazini bosing, yashirish uchun yana bosing.",
+  "Make it yours": "O'zingizga moslashtiring",
+  "Open Settings to change the font, theme, and layout to how you like to read.": "Shrift, mavzu va joylashuvni o'zingizga moslashtirish uchun Sozlamalarni oching.",
+  "Start reading": "O'qishni boshlash"
 }
