@@ -26,6 +26,7 @@ import {
   navigateToLibrary,
 } from '@/utils/nav';
 import { clearDiscordPresence } from '@/utils/discord';
+import { recordReadingSession } from '@/utils/readingStats';
 import { BOOK_IDS_SEPARATOR } from '@/services/constants';
 import { BookDetailModal } from '@/components/metadata';
 import ShareBookDialog from '@/app/library/components/ShareBookDialog';
@@ -60,6 +61,11 @@ const ReaderContent: React.FC<{ ids?: string; settings: SystemSettings }> = ({ i
   const isInitiating = useRef(false);
   const [loading, setLoading] = useState(false);
   const [errorLoading, setErrorLoading] = useState(false);
+  // Start of the current reader session, for streak/time-spent tracking.
+  // Reset after each finalize so a later close handler firing again for the
+  // same visit (e.g. saveSettingsAndGoToLibrary followed by a stray
+  // beforeunload) only counts the leftover seconds, not double.
+  const sessionStartedAtRef = useRef(Date.now());
 
   useBookShortcuts({ sideBarBookKey, bookKeys });
   useGamepad();
@@ -162,6 +168,12 @@ const ReaderContent: React.FC<{ ids?: string; settings: SystemSettings }> = ({ i
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookKeys]);
 
+  const finalizeReadingSession = (current: SystemSettings): SystemSettings => {
+    const readingStats = recordReadingSession(current.readingStats, sessionStartedAtRef.current);
+    sessionStartedAtRef.current = Date.now();
+    return { ...current, readingStats };
+  };
+
   const saveBookConfig = async (bookKey: string) => {
     const config = getConfig(bookKey);
     const { book } = getBookData(bookKey) || {};
@@ -198,12 +210,12 @@ const ReaderContent: React.FC<{ ids?: string; settings: SystemSettings }> = ({ i
   };
 
   const saveSettingsAndGoToLibrary = () => {
-    saveSettings(envConfig, settings);
+    saveSettings(envConfig, finalizeReadingSession(settings));
     navigateBackToLibrary();
   };
 
   const handleCloseBooks = throttle(async () => {
-    const settings = useSettingsStore.getState().settings;
+    const settings = finalizeReadingSession(useSettingsStore.getState().settings);
     await Promise.all(bookKeys.map(async (key) => await saveConfigAndCloseBook(key)));
     await saveSettings(envConfig, settings);
   }, 200);

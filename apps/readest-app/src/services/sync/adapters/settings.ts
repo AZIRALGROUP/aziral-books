@@ -55,6 +55,15 @@ export const SETTINGS_WHITELIST = [
   'readwise.baseUrl',
   'readwise.accessToken',
   'hardcover.accessToken',
+  // Reading streak + time. Whole-field LWW per path — two devices finishing
+  // sessions before either has synced will have one update clobber the
+  // other (last write wins) rather than merge. Same tolerance as the
+  // dictionary prefs above: acceptable because concurrent same-day reading
+  // on two offline devices is rare, not because it's actually merged.
+  'readingStats.currentStreak',
+  'readingStats.longestStreak',
+  'readingStats.lastReadDate',
+  'readingStats.totalMinutesRead',
 ] as const;
 
 /**
